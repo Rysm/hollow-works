@@ -1,8 +1,0 @@
-/*canvas drawing
-
-*/
-
-function draw(){
-
-
-};
