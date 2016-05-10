@@ -11,13 +11,6 @@ Input Section
 
 /*
 Canvas draw
-*/
-
-
-
-
-
-/*
 Main game loop stuff
 */
 
