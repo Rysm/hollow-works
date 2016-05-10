@@ -1,4 +1,7 @@
-//canvas drawing
+/*canvas drawing
+
+*/
+
 function draw(){
 
 

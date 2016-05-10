@@ -1,1 +1,3 @@
-//Mouse input handling
+/*
+Mouse input handling
+*/
