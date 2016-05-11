@@ -12,6 +12,7 @@ Values correspond to the type of character
 2 : Ranged (High dmg, squishy)
 3 : Gatherer (Low dmg, used for gathering resources during daytime)
 */
+
 var type = [1,2,3]; //may be unnecessary
 
 //character prototypes
@@ -27,10 +28,12 @@ function character(name, type){
     this.hp = 0;
   }
   //if it's gatherer
+  /*NOT IN MONDAY PROTOTYPE
   if (type==3){
     this.name = "gatherer";
     this.hp = 0;
   }
+  */
 }
 
 

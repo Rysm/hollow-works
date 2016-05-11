@@ -29,7 +29,6 @@ function update(){
 
 }
 
-
 //Show the player what they need to see
 function draw(){
   canvas.width = canvas.width;
