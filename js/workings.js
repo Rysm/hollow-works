@@ -4,6 +4,8 @@ Contains:
   - combat and health
 */
 
+var level = 1; //current game level NOT PLAYER'S
+
 var water = 0; //resource count
 
 /*
@@ -15,30 +17,63 @@ Values correspond to the type of character
 
 var type = [1,2,3]; //may be unnecessary
 
+/*
+PLAYER'S
+Empty array that holds three indices also
+0 = # of melee
+1 = # of ranged
+2 = # of gatherer
+Initialize with 0 units each
+*/
+var friendlies = [level, level,0];
+
+/*
+AI'S
+Empty array that holds three indices also
+0 = # of melee
+1 = # of ranged
+2 = # of gatherer
+Initialize with 0 units each
+*/
+var baddies = [level,level,0];
+
+
 //character prototypes
 function character(name, type){
   //if it's melee
   if (type == 1){
     this.name = "melee"
-    this.hp = 0;
+    this.hp = 100;
+    this.dmg = 10;
   }
   //if it's ranged
   if (type ==2){
     this.name = "ranged";
-    this.hp = 0;
+    this.hp = 50;
+    this.dmg = 30;
   }
   //if it's gatherer
   /*NOT IN MONDAY PROTOTYPE
   if (type==3){
     this.name = "gatherer";
     this.hp = 0;
+    this.dmg =0;
   }
   */
 }
 
+//friendly unit generating
+function spawnFriend(){
+
+}
+
+//enemy generating
+function spawnEnemy(){
+
+}
 
 //check collisions to see if people are fighting
-function checkCombat(){
+function checkCollision(){
   combat();
 }
 
@@ -48,7 +83,7 @@ function combat(){
 
 }
 
-//enemy generating
-function spawnEnemy(){
+//check if enemies are taking water
+function takeWater(){
 
 }
