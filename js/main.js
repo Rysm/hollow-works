@@ -7,7 +7,29 @@ var ctx = canvas.getContext("2d");
 /*
 Input Section
 */
+//Using this method while I educate myself on Jquery
+canvas.addEventListener("click", handleClick);//when click happens call handleClick
+var mouseXpos;
+var mouseYpos;
 
+function handleClick(eventParams){
+  //Mouse coordinates! 
+  mouseXpos = eventParams.clientX;
+  mouseYpos = eventParams.clientY;
+
+  if(checkBounds(button, eventParams.clientX, eventParams.clientY)){
+      //character activate location
+      //turns on a switch to enable player object/particle movement
+  }
+}
+//checkboundsfunction for handleclick
+function checkBounds(button, clickX, clickY){
+	if(((button.width+button.X)>=(clickX)&&(clickX)>=(button.X))&&((button.height+button.Y)>=(clickY)&&(clickY)>=(button.Y))){
+  	return true;
+  }else{
+  	return false;
+  }
+}
 
 /* Image variables */
 //bg image and properties
