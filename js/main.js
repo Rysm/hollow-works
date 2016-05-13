@@ -18,11 +18,10 @@ var bg = new Image();
 bg.src = "art/bg.png";
 
 //base image and properties
-var floor = new Image();
-floor.src = "art/build.png";
-floor.width= 400;
-floor.height= 250;
-
+var base = new Image();
+base.src = "art/build.png";
+base.width= 400;
+base.height= 250;
 
 /*
 Main game loop stuff
@@ -42,7 +41,7 @@ function draw(){
   //water container
   ctx.drawImage(waterCont, canvas.width-waterCont.width, canvas.height-waterCont.height, waterCont.width, waterCont.height);
   //player's base
-  ctx.drawImage(floor, canvas.width-floor.width-waterCont.width, canvas.height-floor.height-waterCont.width, floor.width, floor.height);
+  ctx.drawImage(base, canvas.width-base.width-waterCont.width, canvas.height-base.height-waterCont.width, base.width, base.height);
 }
 
 function main(){
