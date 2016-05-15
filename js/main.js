@@ -12,8 +12,6 @@ canvas.addEventListener("click", handleClick);//when click happens call handleCl
 var mouseXpos;
 var mouseYpos;
 
-var eRangedActive = false;
-
 //button is the object we specificy
 function handleClick(eventParams){
   //Mouse coordinates!
@@ -25,8 +23,8 @@ function handleClick(eventParams){
       //turns on a switch to enable player object/particle movement
       pMelee.Y = canvas.height-waterCont.height-50;
       pMelee.act=true;
-
-      eRangedActive = true;
+      eMelee.act = true;
+      eRanged.act = true;
 
   }
 
@@ -35,6 +33,8 @@ function handleClick(eventParams){
       //turns on a switch to enable player object/particle movement
       pRanged.Y = canvas.height-waterCont.height-50;
       pRanged.act=true;
+      eMelee.act = true;
+      eRanged.act = true;
   }
 
 }
@@ -79,14 +79,19 @@ pRanged.act = false;
 
 var eMelee = new Image();
 eMelee.src = "art/square.png";
+eMelee.width = 100;
+eMelee.height = 150;
+eMelee.X = 110;
+eMelee.Y = 10;
+eMelee.act = false;
 
 //enemy ranged
 var eRanged = new Image();
 eRanged.src = "art/ranged.png";
 eRanged.width = 100;
 eRanged.height = 150;
-eRanged.X = eRanged.width;
-eRanged.Y = pMelee.Y;
+eRanged.X = 0;
+eRanged.Y = eMelee.Y;
 eRanged.act = false;
 
 
@@ -138,7 +143,9 @@ Main game loop stuff
 //Should call stuff from the working.js to grab functions that calculate damage and resource.
 function update(){
 
-  bullet.update();
+  if (pRanged.act){
+    bullet.update();
+  }
 
   takeWater();
 
@@ -153,7 +160,7 @@ function update(){
 
   //combat
   //checkCombat (friendly, enemy)
-  if (pMelee.act && eRangedActive){
+  if (pMelee.act && eRanged.act){
     checkCombat(pMelee, eRanged); //melee vs ranged
   }
 
@@ -161,7 +168,7 @@ function update(){
 
   //checkCombat(pRanged, eMelee); //ranged vs melee
 
-  if (pRanged.act && eRangedActive){
+  if (pRanged.act && eRanged.act){
     checkCombat(pRanged, eRanged); //ranged vs ranged
   }
 }
@@ -174,7 +181,9 @@ function draw(){
   //main background
   ctx.drawImage(bg,0,0, canvas.width, canvas.height);
 
-  bullet.draw();
+  if (pRanged.act){
+    bullet.draw();
+  }
 
   //text
   ctx.font="20px Georgia";
@@ -188,8 +197,13 @@ function draw(){
   //summon ranged
   ctx.drawImage(pRanged, pRanged.X, pRanged.Y, pRanged.width, pRanged.height);
 
+  //summon enemy melee
+  if (eMelee.act){
+    ctx.drawImage(eMelee, eMelee.X, eMelee.Y, eMelee.width, eMelee.height);
+  }
+
   //summon enemy ranged
-  if(eRangedActive){
+  if(eRanged.act){
     ctx.drawImage(eRanged, eRanged.X, eRanged.Y, eRanged.width, eRanged.height);
   }
 
