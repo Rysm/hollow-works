@@ -88,10 +88,39 @@ eRanged.X = eRanged.width;
 eRanged.Y = pMelee.Y;
 eRanged.act = false;
 
-var bullet = new Image();
-bullet.vel = 0;
-bullet.src = "art/arrow.png";
-bullet.act = false;
+
+//bullet
+function Bullet(ally, enemy, width, height, xSpeed, color) {
+    this.x = ally.X + ally.width/2;;
+    this.y = ally.Y + ally.height/2;
+    this.width = width;
+    this.height = height;
+    this.color = color;
+    this.xSpeed = xSpeed;
+
+    this.draw = function() {
+        ctx.fillRect(this.x, this.y, this.width, this.height);
+    };
+
+    this.reset = function() {
+        this.x = ally.X + ally.width/2;
+        this.y = ally.Y + ally.height/2;
+        this.width = 20;
+        this.height = 10;
+        this.color = '#ffff99';
+    };
+
+    this.update = function() {
+        if (this.x < 0 || this.x < enemy.X + enemy.width) {
+            this.x = ally.X + ally.width / 2;
+            this.y = ally.Y + ally.height / 2;
+        } else {
+            this.x -= this.xSpeed;
+        }
+    };
+}
+
+var bullet = new Bullet(pRanged, eRanged, 20, 10, 12, '#ffff99');
 
 //base image and properties
 /*
@@ -107,6 +136,9 @@ Main game loop stuff
 
 //Should call stuff from the working.js to grab functions that calculate damage and resource.
 function update(){
+
+  bullet.update();
+
   takeWater();
 
   //unit movement
@@ -135,10 +167,13 @@ function update(){
 
 //Show the player what they need to see
 function draw(){
+
   canvas.width = canvas.width;
 
   //main background
   ctx.drawImage(bg,0,0, canvas.width, canvas.height);
+
+  bullet.draw();
 
   //text
   ctx.font="20px Georgia";
