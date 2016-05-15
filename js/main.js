@@ -40,10 +40,16 @@ waterCont.height = 130;
 
 var bg = new Image();
 bg.src = "art/bg.png";
-bg
 
-var playerMelee = new Image();
-playerMelee.src = "art/square.png";
+var pMelee = new Image();
+pMelee.src = "art/square.png";
+pMelee.width = 100;
+pMelee.height = 150;
+
+var pRanged = new Image();
+pRanged.src = "art/ranged.png";
+pRanged.width = 80;
+pRanged.height = 180;
 
 //base image and properties
 /*
@@ -71,7 +77,10 @@ function draw(){
   ctx.drawImage(bg,0,0, canvas.width, canvas.height);
 
   //summon melee
-  ctx.drawImage(playerMelee,0,0);
+  ctx.drawImage(pMelee,0,0, pMelee.width, pMelee.height);
+
+  //summon ranged
+  ctx.drawImage(pRanged,0,0, pRanged.width, pRanged.height);
 
   //water container
   ctx.drawImage(waterCont, canvas.width-waterCont.width, canvas.height-waterCont.height-20, waterCont.width, waterCont.height);
