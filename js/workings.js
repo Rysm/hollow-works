@@ -62,11 +62,6 @@ function character(name, type){
   */
 }
 
-//friendly unit generating
-function spawnFriend(){
-
-}
-
 //enemy generating
 function spawnEnemy(){
 

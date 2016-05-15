@@ -22,12 +22,14 @@ function handleClick(eventParams){
       //character activate location
       //turns on a switch to enable player object/particle movement
       pMelee.Y = canvas.height-waterCont.height-50;
+      pMelee.act=true;
   }
 
   if (checkBounds(pRanged, eventParams.clientX, eventParams.clientY)){
       //character activate location
       //turns on a switch to enable player object/particle movement
       pRanged.Y = canvas.height-waterCont.height-50;
+      pRanged.act=true;
   }
 
 }
@@ -48,6 +50,7 @@ waterCont.src = "art/waterCont.png";
 waterCont.width = 100;
 waterCont.height = 130;
 
+//background
 var bg = new Image();
 bg.src = "art/bg.png";
 
@@ -58,6 +61,7 @@ pMelee.width = 100;
 pMelee.height = 150;
 pMelee.X = 1000;
 pMelee.Y = 10;
+pMelee.act = false;
 
 //player ranged
 var pRanged = new Image();
@@ -66,6 +70,7 @@ pRanged.width = 100;
 pRanged.height = 150;
 pRanged.X = 1000 + pRanged.width;
 pRanged.Y = pMelee.Y;
+pRanged.act = false;
 
 //base image and properties
 /*
@@ -83,6 +88,15 @@ Main game loop stuff
 function update(){
   checkCollision();
   takeWater();
+
+  //unit movement
+  if (pMelee.act){
+    pMelee.X-=5;
+  }
+
+  if (pRanged.act){
+    pRanged.X-=5;
+  }
 }
 
 //Show the player what they need to see
