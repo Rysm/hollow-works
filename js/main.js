@@ -71,6 +71,7 @@ pMelee.height = 150;
 pMelee.X = 1000;
 pMelee.Y = 10;
 pMelee.act = false;
+pMelee.dead = false;
 
 //player ranged
 var pRanged = new Image();
@@ -80,6 +81,7 @@ pRanged.height = 150;
 pRanged.X = 1000 + pRanged.width;
 pRanged.Y = pMelee.Y;
 pRanged.act = false;
+pRanged.dead = false;
 
 var eMelee = new Image();
 eMelee.src = "art/square.png";
@@ -88,6 +90,7 @@ eMelee.height = 150;
 eMelee.X = 110;
 eMelee.Y = 10;
 eMelee.act = false;
+eMelee.dead = false;
 
 //enemy ranged
 var eRanged = new Image();
@@ -97,6 +100,7 @@ eRanged.height = 150;
 eRanged.X = 0;
 eRanged.Y = eMelee.Y;
 eRanged.act = false;
+eRanged.dead = false;
 
 
 //bullet
@@ -154,20 +158,20 @@ function update(){
   takeWater();
 
   //friendly unit movement
-  if (pMelee.act){
+  if (pMelee.act && pMelee.dead == false){
     pMelee.X-=5;
   }
 
-  if (pRanged.act && pRanged.X > 700){
+  if (pRanged.act && pRanged.X > 700 && pRanged.dead == false){
     pRanged.X-=5;
   }
 
   //enemy unit movement
-  if (eMelee.act){
+  if (eMelee.act && eMelee.dead == false){
     eMelee.X+=5;
   }
 
-  if (eRanged.act && eRanged.X < 400){
+  if (eRanged.act && eRanged.X < 400 && eRanged.dead == false){
     eRanged.X+=5;
   }
 
@@ -179,7 +183,7 @@ function update(){
   if (pMelee.act && eMelee.act){
     checkCombat(pMelee, eMelee); //melee vs melee
   }
-  if (pMelee.act && eRanged.act){
+  if (pRanged.act && eMelee.act){
     checkCombat(pMelee, eRanged); //ranged vs melee
   }
   if (pRanged.act && eRanged.act){
