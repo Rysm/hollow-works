@@ -13,7 +13,7 @@ var mouseXpos;
 var mouseYpos;
 
 function handleClick(eventParams){
-  //Mouse coordinates! 
+  //Mouse coordinates!
   mouseXpos = eventParams.clientX;
   mouseYpos = eventParams.clientY;
 
