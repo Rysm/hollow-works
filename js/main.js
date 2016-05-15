@@ -94,7 +94,7 @@ function update(){
     pMelee.X-=5;
   }
 
-  if (pRanged.act){
+  if (pRanged.act && pRanged.X > 700){
     pRanged.X-=5;
   }
 }
