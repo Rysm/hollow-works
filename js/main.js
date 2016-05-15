@@ -12,16 +12,26 @@ canvas.addEventListener("click", handleClick);//when click happens call handleCl
 var mouseXpos;
 var mouseYpos;
 
-function handleClick(button, eventParams){
+//button is the object we specificy
+function handleClick(eventParams){
   //Mouse coordinates!
   mouseXpos = eventParams.clientX;
   mouseYpos = eventParams.clientY;
 
-  if(checkBounds(button, eventParams.clientX, eventParams.clientY)){
+  if(checkBounds(pMelee, eventParams.clientX, eventParams.clientY)){
       //character activate location
       //turns on a switch to enable player object/particle movement
+      pMelee.Y = canvas.height-waterCont.height-20;
   }
+
+  if (checkBounds(pRanged, eventParams.clientX, eventParams.clientY)){
+      //character activate location
+      //turns on a switch to enable player object/particle movement
+      pRanged.Y = canvas.height-waterCont.height-20;
+  }
+
 }
+
 //checkboundsfunction for handleclick
 function checkBounds(button, clickX, clickY){
 	if(((button.width+button.X)>=(clickX)&&(clickX)>=(button.X))&&((button.height+button.Y)>=(clickY)&&(clickY)>=(button.Y))){
@@ -43,11 +53,13 @@ bg.src = "art/bg.png";
 
 var pMelee = new Image();
 pMelee.src = "art/square.png";
+pMelee.Y = 10;
 pMelee.width = 100;
 pMelee.height = 150;
 
 var pRanged = new Image();
 pRanged.src = "art/ranged.png";
+pRanged.Y = pMelee.Y;
 pRanged.width = 100;
 pRanged.height = 150;
 
@@ -76,11 +88,17 @@ function draw(){
   //main background
   ctx.drawImage(bg,0,0, canvas.width, canvas.height);
 
+  //text
+  ctx.font="20px Georgia";
+  ctx.fillStyle="black";
+  ctx.fillText(mouseXpos, 100, 200);
+  ctx.fillText(mouseYpos, 400, 200);
+
   //summon melee
-  ctx.drawImage(pMelee,1000,10, pMelee.width, pMelee.height);
+  ctx.drawImage(pMelee,1000, pMelee.Y, pMelee.width, pMelee.height);
 
   //summon ranged
-  ctx.drawImage(pRanged,1000 + pRanged.width, pMelee.height-pRanged.height, pRanged.width, pRanged.height);
+  ctx.drawImage(pRanged,1000 + pRanged.width, pRanged.Y, pRanged.width, pRanged.height);
 
   //water container
   ctx.drawImage(waterCont, canvas.width-waterCont.width, canvas.height-waterCont.height-20, waterCont.width, waterCont.height);
