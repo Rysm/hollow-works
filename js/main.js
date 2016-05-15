@@ -35,8 +35,8 @@ function checkBounds(button, clickX, clickY){
 //bg image and properties
 var waterCont = new Image();
 waterCont.src = "art/waterCont.png";
-waterCont.width = 200;
-waterCont.height = 300;
+waterCont.width = 100;
+waterCont.height = 130;
 
 var bg = new Image();
 bg.src = "art/bg.png";
@@ -65,7 +65,7 @@ function draw(){
   //water container
   ctx.drawImage(waterCont, canvas.width-waterCont.width, canvas.height-waterCont.height, waterCont.width, waterCont.height);
   //player's base
-  ctx.drawImage(base, canvas.width-base.width-waterCont.width, canvas.height-base.height-waterCont.width, base.width, base.height);
+  //ctx.drawImage(base, canvas.width-base.width-waterCont.width, canvas.height-base.height-waterCont.width, base.width, base.height);
 }
 
 function main(){
