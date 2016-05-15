@@ -37,6 +37,15 @@ Initialize with 0 units each
 */
 var baddies = [level,level,0];
 
+//bullet
+var Bullet = function(velocity, rectangle) {
+    this.vx = velocity;
+    this.rect = rectangle;
+
+    this.Update = function() {
+        this.rect += this.vx;
+    }
+};
 
 //character prototypes
 function character(name, type){
@@ -68,14 +77,12 @@ function spawnEnemy(){
 }
 
 //check collisions to see if people are fighting
-function checkCollision(){
-  combat();
-}
-
-// calculate combat stuff
-// range of attacks depending on character type?
-function combat(){
-
+function checkCombat(friendly, enemy){
+  if(((friendly.X)>=(enemy.X)&&(enemy.X)>=(friendly.X))){
+    friendly.Y = 2000;
+    enemy.Y = 2000;
+  	return true;
+  }
 }
 
 //check if enemies are taking water

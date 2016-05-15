@@ -77,6 +77,9 @@ pRanged.X = 1000 + pRanged.width;
 pRanged.Y = pMelee.Y;
 pRanged.act = false;
 
+var eMelee = new Image();
+
+//enemy ranged
 var eRanged = new Image();
 eRanged.src = "art/ranged.png";
 eRanged.width = 100;
@@ -84,6 +87,11 @@ eRanged.height = 150;
 eRanged.X = eRanged.width;
 eRanged.Y = pMelee.Y;
 eRanged.act = false;
+
+var bullet = new Image();
+bullet.vel = 0;
+bullet.src = "art/arrow.png";
+bullet.act = false;
 
 //base image and properties
 /*
@@ -99,7 +107,6 @@ Main game loop stuff
 
 //Should call stuff from the working.js to grab functions that calculate damage and resource.
 function update(){
-  checkCollision();
   takeWater();
 
   //unit movement
@@ -109,6 +116,20 @@ function update(){
 
   if (pRanged.act && pRanged.X > 700){
     pRanged.X-=5;
+  }
+
+  //combat
+  //checkCombat (friendly, enemy)
+  if (pMelee.act && eRangedActive){
+    checkCombat(pMelee, eRanged); //melee vs ranged
+  }
+
+  //checkCombat(pMelee, eMelee); //melee vs melee
+
+  //checkCombat(pRanged, eMelee); //ranged vs melee
+
+  if (pRanged.act && eRangedActive){
+    checkCombat(pRanged, eRanged); //ranged vs ranged
   }
 }
 
