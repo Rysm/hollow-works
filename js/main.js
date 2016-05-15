@@ -12,7 +12,7 @@ canvas.addEventListener("click", handleClick);//when click happens call handleCl
 var mouseXpos;
 var mouseYpos;
 
-function handleClick(eventParams){
+function handleClick(button, eventParams){
   //Mouse coordinates!
   mouseXpos = eventParams.clientX;
   mouseYpos = eventParams.clientY;
