@@ -35,6 +35,8 @@ function checkBounds(button, clickX, clickY){
 //bg image and properties
 var waterCont = new Image();
 waterCont.src = "art/waterCont.png";
+waterCont.width = 200;
+waterCont.height = 300;
 
 var bg = new Image();
 bg.src = "art/bg.png";
