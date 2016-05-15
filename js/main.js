@@ -78,6 +78,7 @@ pRanged.Y = pMelee.Y;
 pRanged.act = false;
 
 var eMelee = new Image();
+eMelee.src = "art/square.png";
 
 //enemy ranged
 var eRanged = new Image();
@@ -204,4 +205,4 @@ function main(){
   draw();
 }
 
-setInterval(main, 300); //(function to repeat, milliseconds)
+setInterval(main, 30); //(function to repeat, milliseconds)
