@@ -112,7 +112,7 @@ function Bullet(ally, enemy, width, height, xSpeed, color) {
     this.xSpeed = xSpeed;
     var bullet = new Image();
     bullet.src = "art/arrow.png";
-    
+
     this.draw = function() {
         //ctx.fillRect(this.x, this.y, this.width, this.height);
         ctx.drawImage(bullet, this.x, this.y, this.width, this.height);
@@ -239,4 +239,4 @@ function main(){
   draw();
 }
 
-setInterval(main, 30); //(function to repeat, milliseconds)
+setInterval(main, 50); //(function to repeat, milliseconds)
