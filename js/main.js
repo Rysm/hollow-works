@@ -51,14 +51,18 @@ waterCont.height = 130;
 var bg = new Image();
 bg.src = "art/bg.png";
 
+//Named as playerMelee
 var pMelee = new Image();
 pMelee.src = "art/square.png";
+pMelee.X = 1000;
 pMelee.Y = 10;
 pMelee.width = 100;
 pMelee.height = 150;
 
+//player ranged
 var pRanged = new Image();
 pRanged.src = "art/ranged.png";
+pRanged.X = 1000 + pRanged.width;
 pRanged.Y = pMelee.Y;
 pRanged.width = 100;
 pRanged.height = 150;
@@ -95,10 +99,10 @@ function draw(){
   ctx.fillText(mouseYpos, 400, 200);
 
   //summon melee
-  ctx.drawImage(pMelee,1000, pMelee.Y, pMelee.width, pMelee.height);
+  ctx.drawImage(pMelee, pMelee.X, pMelee.Y, pMelee.width, pMelee.height);
 
   //summon ranged
-  ctx.drawImage(pRanged,1000 + pRanged.width, pRanged.Y, pRanged.width, pRanged.height);
+  ctx.drawImage(pRanged, pRanged.X, pRanged.Y, pRanged.width, pRanged.height);
 
   //water container
   ctx.drawImage(waterCont, canvas.width-waterCont.width, canvas.height-waterCont.height-20, waterCont.width, waterCont.height);
