@@ -12,6 +12,8 @@ canvas.addEventListener("click", handleClick);//when click happens call handleCl
 var mouseXpos;
 var mouseYpos;
 
+var eRangedActive = false;
+
 //button is the object we specificy
 function handleClick(eventParams){
   //Mouse coordinates!
@@ -23,6 +25,9 @@ function handleClick(eventParams){
       //turns on a switch to enable player object/particle movement
       pMelee.Y = canvas.height-waterCont.height-50;
       pMelee.act=true;
+
+      eRangedActive = true;
+
   }
 
   if (checkBounds(pRanged, eventParams.clientX, eventParams.clientY)){
@@ -72,6 +77,14 @@ pRanged.X = 1000 + pRanged.width;
 pRanged.Y = pMelee.Y;
 pRanged.act = false;
 
+var eRanged = new Image();
+eRanged.src = "art/ranged.png";
+eRanged.width = 100;
+eRanged.height = 150;
+eRanged.X = eRanged.width;
+eRanged.Y = pMelee.Y;
+eRanged.act = false;
+
 //base image and properties
 /*
 var base = new Image();
@@ -117,6 +130,11 @@ function draw(){
 
   //summon ranged
   ctx.drawImage(pRanged, pRanged.X, pRanged.Y, pRanged.width, pRanged.height);
+
+  //summon enemy ranged
+  if(eRangedActive){
+    ctx.drawImage(eRanged, eRanged.X, eRanged.Y, eRanged.width, eRanged.height);
+  }
 
   //water container
   ctx.drawImage(waterCont, canvas.width-waterCont.width, canvas.height-waterCont.height-20, waterCont.width, waterCont.height);
