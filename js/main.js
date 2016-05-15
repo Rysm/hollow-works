@@ -21,13 +21,13 @@ function handleClick(eventParams){
   if(checkBounds(pMelee, eventParams.clientX, eventParams.clientY)){
       //character activate location
       //turns on a switch to enable player object/particle movement
-      pMelee.Y = canvas.height-waterCont.height-20;
+      pMelee.Y = canvas.height-waterCont.height-50;
   }
 
   if (checkBounds(pRanged, eventParams.clientX, eventParams.clientY)){
       //character activate location
       //turns on a switch to enable player object/particle movement
-      pRanged.Y = canvas.height-waterCont.height-20;
+      pRanged.Y = canvas.height-waterCont.height-50;
   }
 
 }
@@ -54,18 +54,18 @@ bg.src = "art/bg.png";
 //Named as playerMelee
 var pMelee = new Image();
 pMelee.src = "art/square.png";
-pMelee.X = 1000;
-pMelee.Y = 10;
 pMelee.width = 100;
 pMelee.height = 150;
+pMelee.X = 1000;
+pMelee.Y = 10;
 
 //player ranged
 var pRanged = new Image();
 pRanged.src = "art/ranged.png";
-pRanged.X = 1000 + pRanged.width;
-pRanged.Y = pMelee.Y;
 pRanged.width = 100;
 pRanged.height = 150;
+pRanged.X = 1000 + pRanged.width;
+pRanged.Y = pMelee.Y;
 
 //base image and properties
 /*
