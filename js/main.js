@@ -102,7 +102,6 @@ eRanged.Y = eMelee.Y;
 eRanged.act = false;
 eRanged.dead = false;
 
-
 //bullet
 function Bullet(ally, enemy, width, height, xSpeed, color) {
     this.x = ally.X + ally.width/2;;
@@ -111,9 +110,12 @@ function Bullet(ally, enemy, width, height, xSpeed, color) {
     this.height = height;
     this.color = color;
     this.xSpeed = xSpeed;
-
+    var bullet = new Image();
+    bullet.src = "art/arrow.png";
+    
     this.draw = function() {
-        ctx.fillRect(this.x, this.y, this.width, this.height);
+        //ctx.fillRect(this.x, this.y, this.width, this.height);
+        ctx.drawImage(bullet, this.x, this.y, this.width, this.height);
     };
 
     this.reset = function() {
