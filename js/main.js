@@ -40,12 +40,16 @@ waterCont.height = 130;
 
 var bg = new Image();
 bg.src = "art/bg.png";
+bg.width = 1280;
+bg.height = 720;
 
 //base image and properties
+/*
 var base = new Image();
 base.src = "art/build.png";
 base.width= 400;
 base.height= 250;
+*/
 
 /*
 Main game loop stuff
