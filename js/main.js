@@ -22,6 +22,8 @@ function handleClick(eventParams){
       //character activate location
       //turns on a switch to enable player object/particle movement
       pMelee.Y = canvas.height-waterCont.height-50;
+      eMelee.Y = canvas.height-waterCont.height-50;
+      eRanged.Y = canvas.height-waterCont.height-50;
       pMelee.act=true;
       eMelee.act = true;
       eRanged.act = true;
@@ -32,6 +34,8 @@ function handleClick(eventParams){
       //character activate location
       //turns on a switch to enable player object/particle movement
       pRanged.Y = canvas.height-waterCont.height-50;
+      eMelee.Y = canvas.height-waterCont.height-50;
+      eRanged.Y = canvas.height-waterCont.height-50;
       pRanged.act=true;
       eMelee.act = true;
       eRanged.act = true;
@@ -149,7 +153,7 @@ function update(){
 
   takeWater();
 
-  //unit movement
+  //friendly unit movement
   if (pMelee.act){
     pMelee.X-=5;
   }
@@ -158,16 +162,26 @@ function update(){
     pRanged.X-=5;
   }
 
+  //enemy unit movement
+  if (eMelee.act){
+    eMelee.X+=5;
+  }
+
+  if (eRanged.act && eRanged.X < 400){
+    eRanged.X+=5;
+  }
+
   //combat
   //checkCombat (friendly, enemy)
   if (pMelee.act && eRanged.act){
     checkCombat(pMelee, eRanged); //melee vs ranged
   }
-
-  //checkCombat(pMelee, eMelee); //melee vs melee
-
-  //checkCombat(pRanged, eMelee); //ranged vs melee
-
+  if (pMelee.act && eMelee.act){
+    checkCombat(pMelee, eMelee); //melee vs melee
+  }
+  if (pMelee.act && eRanged.act){
+    checkCombat(pMelee, eRanged); //ranged vs melee
+  }
   if (pRanged.act && eRanged.act){
     checkCombat(pRanged, eRanged); //ranged vs ranged
   }
