@@ -79,7 +79,7 @@ function spawnEnemy(){
 
 //check collisions to see if people are fighting
 function checkCombat(friendly, enemy){
-  if((friendly.X)<=(enemy.X) && friendly.act == true){ //idk wtf
+  if((friendly.X)<=(enemy.X + enemy.width) && friendly.act == true){ //idk wtf
     friendly.act = false;
     enemy.act = false;
     friendly.X = 128937432857362;

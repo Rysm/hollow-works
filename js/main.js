@@ -257,7 +257,7 @@ function draw(){
   ctx.drawImage(waterCont, waterCont.X, waterCont.Y, waterCont.width, waterCont.height);
 
   //Projectile drawing
-  if (pRanged.act){
+  if (pRanged.act && pRanged.Y > canvas.height-waterCont.height-50){
     pArrow.draw();
   }
 
