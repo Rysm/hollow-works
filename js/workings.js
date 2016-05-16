@@ -72,6 +72,7 @@ function character(name, type){
 }
 
 //enemy generating
+//Not implemented in prototype
 function spawnEnemy(){
 
 }
@@ -79,6 +80,7 @@ function spawnEnemy(){
 //check collisions to see if people are fighting
 function checkCombat(friendly, enemy){
   if(((friendly.X)>=(enemy.X)&&(enemy.X)>=(friendly.X))){
+    friendly.X = -500;
     friendly.Y = 2000;
     enemy.Y = 2000;
     enemy.X = -500;
@@ -88,8 +90,12 @@ function checkCombat(friendly, enemy){
 }
 
 //check arrow collision
-function checkProj(){
-
+function hitProj(projectile, target){
+  if(((projectile.X)>=(target.X)&&(target.X)>=(projectile.X))){
+    target.X = -500;
+    target.Y = 2000;
+    target.dead = true;
+  }
 }
 
 //check if enemies are taking water
