@@ -115,13 +115,10 @@ function Bullet(from, enemy, enemy2, width, height, xSpeed) {
     this.width = width;
     this.height = height;
     this.xSpeed = xSpeed;
-<<<<<<< HEAD
     var bulletImg = new Image();
     bulletImg.src = "art/arrow.png";
-=======
     var bullet = new Image();
     bullet.src = "art/arrow.png";
->>>>>>> origin/master
 
     this.draw = function() {
         ctx.drawImage(bulletImg, this.x, this.y, this.width, this.height);
