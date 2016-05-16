@@ -176,9 +176,10 @@ var eArrow = eRanged.createBullet();
 function update(){
 
   if (pRanged.act){
-    pArrow.y -= pRanged.height/2
+    pArrow.y = pRanged.Y + pRanged.height/2
     pArrow.update();
   }
+
   if (eRanged.act){
     eArrow.update();
   }
