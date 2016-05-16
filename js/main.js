@@ -106,7 +106,6 @@ eRanged.Y = canvas.height-waterCont.height-50;
 eRanged.act = true;
 eRanged.dead = false;
 eRanged.createBullet = function() {
-    console.log("bad guy");
     return new Bullet(eRanged, pMelee, pRanged, 20, 10, -7);
 }
 
@@ -169,8 +168,6 @@ function update(){
   }
   if (eRanged.act){
     eArrow.update();
-    console.log(eArrow.x);
-    console.log(eArrow.y);
   }
 
   takeWater(waterCont, eMelee);
