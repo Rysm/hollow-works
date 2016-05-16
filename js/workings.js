@@ -81,9 +81,9 @@ function spawnEnemy(){
 function checkCombat(friendly, enemy){
   if((friendly.X)<=(enemy.X + enemy.width) && friendly.act == true){ //idk wtf
     friendly.act = false;
+    enemy.act = false;
     friendly.X = 2000;
     friendly.Y = 2000;
-    enemy.act = false;
     enemy.X = -500;
     enemy.Y = 2000;
     friendly.dead = true; //wasted
@@ -96,7 +96,7 @@ function hitProj(projectile, target){
   //conditions for hitting friendlies
   //enemy projectile left to right
   if (target.name === "pRanged" || target.name === "pMelee"){
-    if (projectile.x >= target.X && target.act == true){
+    if (projectile.x >= target.X){
       target.act = false;
       target.X = 2000;
       target.Y = 2000;
@@ -108,7 +108,7 @@ function hitProj(projectile, target){
   //conditions for hitting enemies
   //right to left
   else if (target.name === "eRanged" || target.name === "eMelee"){
-    if (projectile.x <= target.X+target.width && target.act == true){
+    if (projectile.x <= target.X+target.width){
       target.act = false;
       target.X = -500;
       target.Y = 2000;
