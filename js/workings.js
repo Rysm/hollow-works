@@ -88,6 +88,10 @@ function checkCombat(friendly, enemy){
 }
 
 //check if enemies are taking water
-function takeWater(){
-
+//passes in enemy and then checks coordinates
+function takeWater(waterCont, enemy){
+  if(((waterCont.X)>=(enemy.X)&&(enemy.X)>=(waterCont.X))){
+      enemy.X = 2000;
+      water -= 123127389;
+  }
 }

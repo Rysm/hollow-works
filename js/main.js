@@ -27,7 +27,6 @@ function handleClick(eventParams){
       pMelee.act=true;
       eMelee.act = true;
       eRanged.act = true;
-
   }
 
   if (checkBounds(pRanged, eventParams.clientX, eventParams.clientY)){
@@ -58,6 +57,8 @@ var waterCont = new Image();
 waterCont.src = "art/waterCont.png";
 waterCont.width = 100;
 waterCont.height = 130;
+waterCont.X = canvas.width-waterCont.width;
+waterCont.Y = canvas.height-waterCont.height-20;
 
 //background
 var bg = new Image();
@@ -117,8 +118,6 @@ function Bullet(from, enemy, enemy2, width, height, xSpeed) {
     this.xSpeed = xSpeed;
     var bulletImg = new Image();
     bulletImg.src = "art/arrow.png";
-    var bullet = new Image();
-    bullet.src = "art/arrow.png";
 
     this.draw = function() {
         ctx.drawImage(bulletImg, this.x, this.y, this.width, this.height);
@@ -168,7 +167,7 @@ function update(){
     eArrow.update();
   }
 
-  takeWater();
+  takeWater(waterCont, eMelee);
 
   //friendly unit movement
   if (pMelee.act && pMelee.dead == false){
@@ -236,10 +235,7 @@ function draw(){
   ctx.drawImage(eRanged, eRanged.X, eRanged.Y, eRanged.width, eRanged.height);
 
   //water container
-  ctx.drawImage(waterCont, canvas.width-waterCont.width, canvas.height-waterCont.height-20, waterCont.width, waterCont.height);
-
-  //player's base
-  //ctx.drawImage(base, canvas.width-base.width-waterCont.width, canvas.height-base.height-waterCont.width, base.width, base.height);
+  ctx.drawImage(waterCont, waterCont.X, waterCont.Y, waterCont.width, waterCont.height);
 }
 
 function main(){
