@@ -67,6 +67,7 @@ bg.src = "art/bg.png";
 //Named as playerMelee
 var pMelee = new Image();
 pMelee.src = "art/square.png";
+pMelee.name = "pMelee";
 pMelee.width = 100;
 pMelee.height = 150;
 pMelee.X = 1000;
@@ -77,6 +78,7 @@ pMelee.dead = false;
 //player ranged
 var pRanged = new Image();
 pRanged.src = "art/ranged.png";
+pRanged.name = "pRanged";
 pRanged.width = 100;
 pRanged.height = 150;
 pRanged.X = 1000 + pRanged.width;
@@ -89,6 +91,7 @@ pRanged.createBullet = function() {
 
 var eMelee = new Image();
 eMelee.src = "art/square.png";
+eMelee.name = "eMelee";
 eMelee.width = 100;
 eMelee.height = 150;
 eMelee.X = 110;
@@ -98,6 +101,7 @@ eMelee.dead = false;
 
 //enemy ranged
 var eRanged = new Image();
+eRanged.name = "eRanged";
 eRanged.src = "art/ranged.png";
 eRanged.width = 100;
 eRanged.height = 150;
@@ -219,7 +223,7 @@ function update(){
   hitProj(pArrow, eRanged);
   hitProj(eArrow, pMelee);
   hitProj(eArrow, pRanged);
-  
+
 }
 
 //Show the player what they need to see
