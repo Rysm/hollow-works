@@ -92,13 +92,12 @@ function checkCombat(friendly, enemy){
   }
 }
 
-/*
+
 //check arrow collision
 function hitProj(projectile, target){
   //conditions for hitting friendlies
   //enemy projectile left to right
-  //rip
-  if (target == pRanged || target == pMelee){
+  if (target == "pRanged" || target == "pMelee"){
     if(projectile.X<=target.X){
       target.X = -500;
       target.Y = 2000;
@@ -108,7 +107,7 @@ function hitProj(projectile, target){
 
   //conditions for hitting enemies
   //right to left
-  if (target == eRanged || target == eMelee){
+  if (target == "eRanged" || target == "eMelee"){
     if(projectile.X>=target.X){
       target.X = -500;
       target.Y = 2000;
@@ -116,7 +115,7 @@ function hitProj(projectile, target){
     }
   }
 }
-*/
+
 
 //check if enemies are taking water
 //passes in enemy and then checks coordinates

@@ -180,15 +180,6 @@ function update(){
   //call this to check if we're losing water
   takeWater(waterCont, eMelee);
 
-  //call these to check if arrows are hitting
-  //hitProj(bullet, target dood)
-  /*
-  hitProj(pArrow, eMelee);
-  hitProj(pArrow, eRanged);
-  hitProj(eArrow, pMelee);
-  hitProj(eArrow, pRanged);
-  */
-
   //friendly unit movement
   if (pMelee.act && pMelee.dead == false){
     pMelee.X-=5;
@@ -221,6 +212,14 @@ function update(){
   if (pRanged.act && eRanged.act){
     checkCombat(pRanged, eRanged); //ranged vs ranged
   }
+
+  //call these to check if arrows are hitting
+  //hitProj(bullet, target dood)
+  hitProj(pArrow, eMelee);
+  hitProj(pArrow, eRanged);
+  hitProj(eArrow, pMelee);
+  hitProj(eArrow, pRanged);
+  
 }
 
 //Show the player what they need to see
