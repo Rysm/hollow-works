@@ -212,6 +212,7 @@ function draw(){
   //main background
   ctx.drawImage(bg,0,0, canvas.width, canvas.height);
 
+  //Projectile drawing
   if (pRanged.act){
     pArrow.draw();
   }
@@ -222,21 +223,17 @@ function draw(){
   ctx.fillStyle="black";
   ctx.fillText("Water: " + water, 100, 200);
 
-  //summon melee
+  //Summon melee
   ctx.drawImage(pMelee, pMelee.X, pMelee.Y, pMelee.width, pMelee.height);
 
-  //summon ranged
+  //Summon ranged
   ctx.drawImage(pRanged, pRanged.X, pRanged.Y, pRanged.width, pRanged.height);
 
-  //summon enemy melee
-  //if (eMelee.act){
+  //Summon enemy melee
   ctx.drawImage(eMelee, eMelee.X, eMelee.Y, eMelee.width, eMelee.height);
-  //}
 
   //summon enemy ranged
-  //if(eRanged.act){
   ctx.drawImage(eRanged, eRanged.X, eRanged.Y, eRanged.width, eRanged.height);
-  //}
 
   //water container
   ctx.drawImage(waterCont, canvas.width-waterCont.width, canvas.height-waterCont.height-20, waterCont.width, waterCont.height);
