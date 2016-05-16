@@ -176,7 +176,7 @@ var eArrow = eRanged.createBullet();
 function update(){
 
   if (pRanged.act){
-    pArrow.y = pRanged.Y + pRanged.height/2
+    pArrow.y = pRanged.Y + pRanged.height/2;
     pArrow.update();
   }
 
@@ -260,7 +260,8 @@ function draw(){
   ctx.drawImage(waterCont, waterCont.X, waterCont.Y, waterCont.width, waterCont.height);
 
   //Projectile drawing
-  if (pRanged.act && pRanged.Y > canvas.height-waterCont.height-50){
+  if (pRanged.act){
+    pArrow.y = pRanged.Y + pRanged.height/2;
     pArrow.draw();
   }
 
