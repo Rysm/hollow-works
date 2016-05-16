@@ -1,3 +1,4 @@
+
 /*
 Initiate canvas
 */
@@ -189,14 +190,13 @@ function update(){
 
   //call this to check if we're losing water
   takeWater(waterCont, eMelee);
-  takeWater(waterCont, eRanged);
 
   //friendly unit movement
   if (pMelee.act && pMelee.dead == false){
     pMelee.X-=5;
   }
 
-  if (pRanged.act && pRanged.dead == false){
+  if (pRanged.act && pRanged.X > 700 && pRanged.dead == false){
     pRanged.X-=5;
   }
 
@@ -205,7 +205,7 @@ function update(){
     eMelee.X+=5;
   }
 
-  if (eRanged.act && pRanged.X < 400 && eRanged.dead == false){
+  if (eRanged.act && eRanged.X < 400 && eRanged.dead == false){
     eRanged.X+=5;
   }
 
@@ -232,6 +232,7 @@ function update(){
   if (pRanged.act && eRanged.act){
     checkCombat(pRanged, eRanged); //ranged vs ranged
   }
+
 
 
 }
