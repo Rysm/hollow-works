@@ -220,7 +220,7 @@ function draw(){
   //Draw the amount of water the player has
   ctx.font="20px Georgia";
   ctx.fillStyle="black";
-  ctx.fillText(water, 100, 200);
+  ctx.fillText("Water: " + water, 100, 200);
 
   //summon melee
   ctx.drawImage(pMelee, pMelee.X, pMelee.Y, pMelee.width, pMelee.height);
