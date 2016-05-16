@@ -180,7 +180,7 @@ function update(){
     pArrow.update();
   }
 
-  if (!eRanged.dead){
+  if (eRanged.act){
     eArrow.update();
   }
 
@@ -265,7 +265,7 @@ function draw(){
     pArrow.draw();
   }
 
-  if(!eRanged.dead){
+  if(eRanged.act){
     eArrow.draw();
   }
 

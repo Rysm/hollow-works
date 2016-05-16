@@ -98,7 +98,7 @@ function hitProj(projectile, target){
   //enemy projectile left to right
   if (target.name == "pRanged" || target.name == "pMelee"){
     if (projectile.x >= target.X){
-      target.act = false;
+      //target.act = false;
       target.X = -500;
       target.Y = 2000;
       target.dead = true;
