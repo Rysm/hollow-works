@@ -6,7 +6,7 @@ Contains:
 
 var level = 1; //current game level NOT PLAYER'S
 
-var water = 0; //resource count
+var water = 100; //resource count
 
 /*
 Values correspond to the type of character
