@@ -174,7 +174,7 @@ var eArrow = eRanged.createBullet();
 
 function update(){
 
-  if (pRanged.act){
+  if (pRanged.act && pRanged.Y > canvas.height-waterCont.height-50){
     pArrow.update();
   }
   if (eRanged.act){
