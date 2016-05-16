@@ -209,26 +209,30 @@ function update(){
   }
 
   //combat
-  //checkCombat (friendly, enemy)
-  if (pMelee.act && eRanged.act){
-    checkCombat(pMelee, eRanged); //melee vs ranged
-    hitProj(eArrow, pRanged);
-  }
-  if (pMelee.act && eMelee.act){
-    checkCombat(pMelee, eMelee); //melee vs melee
-    hitProj(eArrow, pMelee);
-  }
-  if (pRanged.act && eMelee.act){
-    checkCombat(pRanged, eMelee); //ranged vs melee
-    hitProj(pArrow, eMelee);
-  }
-  if (pRanged.act && eRanged.act){
-    checkCombat(pRanged, eRanged); //ranged vs ranged
-    hitProj(pArrow, eRanged);
-  }
 
   //call these to check if arrows are hitting
   //hitProj(bullet, target dood)
+  hitProj(eArrow, pRanged);
+  hitProj(eArrow, pMelee);
+  hitProj(pArrow, eMelee);
+  hitProj(pArrow, eRanged);
+
+  //melee shit
+  //checkCombat (friendly, enemy)
+  if (pMelee.act && eRanged.act){
+    checkCombat(pMelee, eRanged); //melee vs ranged
+  }
+  if (pMelee.act && eMelee.act){
+    checkCombat(pMelee, eMelee); //melee vs melee
+  }
+  if (pRanged.act && eMelee.act){
+    checkCombat(pRanged, eMelee); //ranged vs melee
+  }
+  if (pRanged.act && eRanged.act){
+    checkCombat(pRanged, eRanged); //ranged vs ranged
+  }
+
+
 
 }
 
