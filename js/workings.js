@@ -81,6 +81,7 @@ function checkCombat(friendly, enemy){
   if(((friendly.X)>=(enemy.X)&&(enemy.X)>=(friendly.X))){
     friendly.Y = 2000;
     enemy.Y = 2000;
+    enemy.X = -50;
     friendly.dead = true;
     enemy.dead = true;
   }
