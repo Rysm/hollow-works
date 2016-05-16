@@ -91,8 +91,8 @@ eMelee.src = "art/square.png";
 eMelee.width = 100;
 eMelee.height = 150;
 eMelee.X = 110;
-eMelee.Y = 10;
-eMelee.act = false;
+eMelee.Y = canvas.height-waterCont.height-50;
+eMelee.act = true;
 eMelee.dead = false;
 
 //enemy ranged
@@ -101,8 +101,8 @@ eRanged.src = "art/ranged.png";
 eRanged.width = 100;
 eRanged.height = 150;
 eRanged.X = 0;
-eRanged.Y = eMelee.Y;
-eRanged.act = false;
+eRanged.Y = canvas.height-waterCont.height-50;
+eRanged.act = true;
 eRanged.dead = false;
 eRanged.createBullet = function() {
     return new Bullet(eRanged, pMelee, pRanged, 20, 10, 7);
@@ -164,7 +164,9 @@ function update(){
   if (pRanged.act){
     pArrow.update();
   }
+  if (eRanged.act){
     eArrow.update();
+  }
 
   takeWater();
 
@@ -228,14 +230,14 @@ function draw(){
   ctx.drawImage(pRanged, pRanged.X, pRanged.Y, pRanged.width, pRanged.height);
 
   //summon enemy melee
-  if (eMelee.act){
-    ctx.drawImage(eMelee, eMelee.X, eMelee.Y, eMelee.width, eMelee.height);
-  }
+  //if (eMelee.act){
+  ctx.drawImage(eMelee, eMelee.X, eMelee.Y, eMelee.width, eMelee.height);
+  //}
 
   //summon enemy ranged
-  if(eRanged.act){
-    ctx.drawImage(eRanged, eRanged.X, eRanged.Y, eRanged.width, eRanged.height);
-  }
+  //if(eRanged.act){
+  ctx.drawImage(eRanged, eRanged.X, eRanged.Y, eRanged.width, eRanged.height);
+  //}
 
   //water container
   ctx.drawImage(waterCont, canvas.width-waterCont.width, canvas.height-waterCont.height-20, waterCont.width, waterCont.height);
