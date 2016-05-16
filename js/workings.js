@@ -102,6 +102,7 @@ function hitProj(projectile, target){
       target.X = -500;
       target.Y = 2000;
       target.dead = true;
+      projectile.reset();
     }
   }
 
@@ -112,6 +113,7 @@ function hitProj(projectile, target){
       target.X = -500;
       target.Y = 2000;
       target.dead = true;//rekt
+      projectile.reset();
     }
   }
 }
