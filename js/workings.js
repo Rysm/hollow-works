@@ -79,30 +79,50 @@ function spawnEnemy(){
 
 //check collisions to see if people are fighting
 function checkCombat(friendly, enemy){
-  if(((friendly.X)>=(enemy.X)&&(enemy.X)>=(friendly.X))){
-    friendly.X = -500;
+  if((friendly.X)<=(enemy.X) && friendly.act == true){ //idk wtf
+    friendly.act = false;
+    enemy.act = false;
+    friendly.X = 128937432857362;
     friendly.Y = 2000;
-    enemy.Y = 2000;
     enemy.X = -500;
-    friendly.dead = true;
+    enemy.Y = 2000;
+
+    friendly.dead = true; //wasted
     enemy.dead = true;
   }
 }
 
+/*
 //check arrow collision
 function hitProj(projectile, target){
-  if(((projectile.X)>=(target.X)&&(target.X)>=(projectile.X))){
-    target.X = -500;
-    target.Y = 2000;
-    target.dead = true;
+  //conditions for hitting friendlies
+  //enemy projectile left to right
+  //rip
+  if (target == pRanged || target == pMelee){
+    if(projectile.X<=target.X){
+      target.X = -500;
+      target.Y = 2000;
+      target.dead = true;
+    }
+  }
+
+  //conditions for hitting enemies
+  //right to left
+  if (target == eRanged || target == eMelee){
+    if(projectile.X>=target.X){
+      target.X = -500;
+      target.Y = 2000;
+      target.dead = true;//rekt
+    }
   }
 }
+*/
 
 //check if enemies are taking water
 //passes in enemy and then checks coordinates
 function takeWater(waterCont, enemy){
-  if(((waterCont.X)>=(enemy.X)&&(enemy.X)>=(waterCont.X))){
+  if(((waterCont.X)>=(enemy.X+enemy.width)&&(enemy.X+enemy.width)>=(waterCont.X))){
       enemy.X = 2000;
-      water -= 123127389;
+      water -= 90;
   }
 }

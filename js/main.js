@@ -177,7 +177,17 @@ function update(){
     eArrow.update();
   }
 
+  //call this to check if we're losing water
   takeWater(waterCont, eMelee);
+
+  //call these to check if arrows are hitting
+  //hitProj(bullet, target dood)
+  /*
+  hitProj(pArrow, eMelee);
+  hitProj(pArrow, eRanged);
+  hitProj(eArrow, pMelee);
+  hitProj(eArrow, pRanged);
+  */
 
   //friendly unit movement
   if (pMelee.act && pMelee.dead == false){
@@ -206,7 +216,7 @@ function update(){
     checkCombat(pMelee, eMelee); //melee vs melee
   }
   if (pRanged.act && eMelee.act){
-    checkCombat(pMelee, eRanged); //ranged vs melee
+    checkCombat(pRanged, eMelee); //ranged vs melee
   }
   if (pRanged.act && eRanged.act){
     checkCombat(pRanged, eRanged); //ranged vs ranged
@@ -225,6 +235,7 @@ function draw(){
   //Draw the amount of water the player has
   ctx.font="20px Georgia";
   ctx.fillStyle="black";
+
   ctx.fillText("Water: " + water, 100, 200);
 
   //Summon melee
