@@ -116,8 +116,15 @@ function Bullet(from, enemy, enemy2, width, height, xSpeed) {
     this.width = width;
     this.height = height;
     this.xSpeed = xSpeed;
-    var bulletImg = new Image();
-    bulletImg.src = "art/arrow.png";
+
+    if (from == pRanged){
+      var bulletImg = new Image();
+      bulletImg.src = "art/arrow.png";
+    }
+    if (from == eRanged){
+      var bulletImg = new Image();
+      bulletImg.src = "art/fliprow.png";
+    }
 
     this.draw = function() {
         ctx.drawImage(bulletImg, this.x, this.y, this.width, this.height);
