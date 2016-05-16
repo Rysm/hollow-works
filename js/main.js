@@ -196,7 +196,7 @@ function update(){
     pMelee.X-=5;
   }
 
-  if (pRanged.act && pRanged.X > 700 && pRanged.dead == false){
+  if (pRanged.act && pRanged.dead == false){
     pRanged.X-=5;
   }
 
@@ -205,7 +205,7 @@ function update(){
     eMelee.X+=5;
   }
 
-  if (eRanged.act && eRanged.dead == false){
+  if (eRanged.act && pRanged.X < 400 && eRanged.dead == false){
     eRanged.X+=5;
   }
 
@@ -232,7 +232,6 @@ function update(){
   if (pRanged.act && eRanged.act){
     checkCombat(pRanged, eRanged); //ranged vs ranged
   }
-
 
 
 }
