@@ -151,8 +151,8 @@ function Bullet(from, enemy, enemy2, width, height, xSpeed) {
       }
       //if fired from hostile enemy
       if (from == eRanged){
-        if (this.x > canvas.width || this.x > enemy.X + enemy.width ||
-            this.x > enemy2.X + enemy2.width) {
+        if (this.x > canvas.width || this.x > enemy.X ||
+            this.x > enemy2.X) {
             this.x = from.X + from.width / 2;
             this.y = from.Y + from.height / 2;
         }
