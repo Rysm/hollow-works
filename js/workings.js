@@ -82,7 +82,7 @@ function checkCombat(friendly, enemy){
   if((friendly.X)<=(enemy.X + enemy.width) && friendly.act == true){ //idk wtf
     friendly.act = false;
     enemy.act = false;
-    friendly.X = 2000;
+    friendly.X = 128937432857362;
     friendly.Y = 2000;
     enemy.X = -500;
     enemy.Y = 2000;
@@ -123,7 +123,7 @@ function hitProj(projectile, target){
 //passes in enemy and then checks coordinates
 function takeWater(waterCont, enemy){
   if(((waterCont.X)>=(enemy.X+enemy.width)&&(enemy.X+enemy.width)>=(waterCont.X))){
-      //enemy.X = 2000;
+      enemy.X = 2000;
       water -= 90;
   }
 }
