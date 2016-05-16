@@ -82,6 +82,9 @@ pRanged.X = 1000 + pRanged.width;
 pRanged.Y = pMelee.Y;
 pRanged.act = false;
 pRanged.dead = false;
+pRanged.createBullet = function() {
+    return new Bullet(pRanged, eMelee, eRanged, 20, 10, 12);
+}
 
 var eMelee = new Image();
 eMelee.src = "art/square.png";
@@ -101,42 +104,43 @@ eRanged.X = 0;
 eRanged.Y = eMelee.Y;
 eRanged.act = false;
 eRanged.dead = false;
+eRanged.createBullet = function() {
+    return new Bullet(eRanged, pMelee, pRanged, 20, 10, 7);
+}
 
 //bullet
-function Bullet(ally, enemy, width, height, xSpeed, color) {
-    this.x = ally.X + ally.width/2;;
-    this.y = ally.Y + ally.height/2;
+function Bullet(from, enemy, enemy2, width, height, xSpeed) {
+    this.x = from.X + from.width/2;
+    this.y = from.Y + from.height/2;
     this.width = width;
     this.height = height;
-    this.color = color;
     this.xSpeed = xSpeed;
-    var bullet = new Image();
-    bullet.src = "art/arrow.png";
-    
+    var bulletImg = new Image();
+    bulletImg.src = "art/arrow.png";
+
     this.draw = function() {
-        //ctx.fillRect(this.x, this.y, this.width, this.height);
-        ctx.drawImage(bullet, this.x, this.y, this.width, this.height);
+        ctx.drawImage(bulletImg, this.x, this.y, this.width, this.height);
     };
 
     this.reset = function() {
-        this.x = ally.X + ally.width/2;
-        this.y = ally.Y + ally.height/2;
+        this.x = from.X + from.width/2;
+        this.y = from.Y + from.height/2;
         this.width = 20;
         this.height = 10;
-        this.color = '#ffff99';
     };
 
     this.update = function() {
-        if (this.x < 0 || this.x < enemy.X + enemy.width) {
-            this.x = ally.X + ally.width / 2;
-            this.y = ally.Y + ally.height / 2;
+        if (this.x < 0 || this.x < enemy.X + enemy.width ||
+            this.x < enemy2.X + enemy2.width) {
+            this.x = from.X + from.width / 2;
+            this.y = from.Y + from.height / 2;
         } else {
             this.x -= this.xSpeed;
         }
     };
 }
 
-var bullet = new Bullet(pRanged, eRanged, 20, 10, 12, '#ffff99');
+//var bullet = new Bullet(pRanged, eRanged, 20, 10, 12, '#ffff99');
 
 //base image and properties
 /*
@@ -151,11 +155,14 @@ Main game loop stuff
 */
 
 //Should call stuff from the working.js to grab functions that calculate damage and resource.
+var pArrow = pRanged.createBullet();
+var eArrow = eRanged.createBullet();
 function update(){
 
   if (pRanged.act){
-    bullet.update();
+    pArrow.update();
   }
+    eArrow.update();
 
   takeWater();
 
@@ -202,8 +209,9 @@ function draw(){
   ctx.drawImage(bg,0,0, canvas.width, canvas.height);
 
   if (pRanged.act){
-    bullet.draw();
+    pArrow.draw();
   }
+  eArrow.draw();
 
   //text
   ctx.font="20px Georgia";
