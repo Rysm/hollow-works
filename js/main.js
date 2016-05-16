@@ -189,6 +189,7 @@ function update(){
 
   //call this to check if we're losing water
   takeWater(waterCont, eMelee);
+  takeWater(waterCont, eRanged);
 
   //friendly unit movement
   if (pMelee.act && pMelee.dead == false){
@@ -204,7 +205,7 @@ function update(){
     eMelee.X+=5;
   }
 
-  if (eRanged.act && eRanged.X < 400 && eRanged.dead == false){
+  if (eRanged.act && eRanged.dead == false){
     eRanged.X+=5;
   }
 
