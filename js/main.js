@@ -106,7 +106,8 @@ eRanged.Y = canvas.height-waterCont.height-50;
 eRanged.act = true;
 eRanged.dead = false;
 eRanged.createBullet = function() {
-    return new Bullet(eRanged, pMelee, pRanged, 20, 10, 7);
+    console.log("bad guy");
+    return new Bullet(eRanged, pMelee, pRanged, 20, 10, -7);
 }
 
 //bullet
@@ -131,33 +132,36 @@ function Bullet(from, enemy, enemy2, width, height, xSpeed) {
     };
 
     this.update = function() {
+      //if fired from friendly unit
+      if (from == pRanged){
         if (this.x < 0 || this.x < enemy.X + enemy.width ||
             this.x < enemy2.X + enemy2.width) {
             this.x = from.X + from.width / 2;
             this.y = from.Y + from.height / 2;
-        } else {
+        }
+        else {
             this.x -= this.xSpeed;
         }
+      }
+      //if fired from hostile enemy
+      if (from == eRanged){
+        if (this.x > canvas.width || this.x > enemy.X + enemy.width ||
+            this.x > enemy2.X + enemy2.width) {
+            this.x = from.X + from.width / 2;
+            this.y = from.Y + from.height / 2;
+        }
+        else {
+            this.x -= this.xSpeed;
+        }
+      }
+
     };
 }
-
-//var bullet = new Bullet(pRanged, eRanged, 20, 10, 12, '#ffff99');
-
-//base image and properties
-/*
-var base = new Image();
-base.src = "art/build.png";
-base.width= 400;
-base.height= 250;
-*/
-
-/*
-Main game loop stuff
-*/
 
 //Should call stuff from the working.js to grab functions that calculate damage and resource.
 var pArrow = pRanged.createBullet();
 var eArrow = eRanged.createBullet();
+
 function update(){
 
   if (pRanged.act){
@@ -165,6 +169,8 @@ function update(){
   }
   if (eRanged.act){
     eArrow.update();
+    console.log(eArrow.x);
+    console.log(eArrow.y);
   }
 
   takeWater(waterCont, eMelee);
@@ -206,16 +212,11 @@ function update(){
 //Show the player what they need to see
 function draw(){
 
+  //clear the canvas
   canvas.width = canvas.width;
 
   //main background
   ctx.drawImage(bg,0,0, canvas.width, canvas.height);
-
-  //Projectile drawing
-  if (pRanged.act){
-    pArrow.draw();
-  }
-  eArrow.draw();
 
   //Draw the amount of water the player has
   ctx.font="20px Georgia";
@@ -236,6 +237,16 @@ function draw(){
 
   //water container
   ctx.drawImage(waterCont, waterCont.X, waterCont.Y, waterCont.width, waterCont.height);
+
+  //Projectile drawing
+  if (pRanged.act){
+    pArrow.draw();
+  }
+
+  if(eRanged.act){
+    eArrow.draw();
+  }
+
 }
 
 function main(){

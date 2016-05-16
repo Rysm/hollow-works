@@ -87,6 +87,11 @@ function checkCombat(friendly, enemy){
   }
 }
 
+//check arrow collision
+function checkProj(){
+
+}
+
 //check if enemies are taking water
 //passes in enemy and then checks coordinates
 function takeWater(waterCont, enemy){
