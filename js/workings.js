@@ -98,7 +98,8 @@ function hitProj(projectile, target){
   //conditions for hitting friendlies
   //enemy projectile left to right
   if (target.name == "pRanged" || target.name == "pMelee"){
-    if (projectile.X >= target.X){
+    if (projectile.x >= target.X){
+      target.act = false;
       target.X = -500;
       target.Y = 2000;
       target.dead = true;
@@ -108,7 +109,7 @@ function hitProj(projectile, target){
   //conditions for hitting enemies
   //right to left
   if (target.name == "eRanged" || target.name == "eMelee"){
-    if (projectile.X <= target.X){
+    if (projectile.x <= target.X+target.width){
       target.X = -500;
       target.Y = 2000;
       target.dead = true;//rekt
