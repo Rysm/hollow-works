@@ -115,6 +115,7 @@ eRanged.createBullet = function() {
 
 //bullet
 function Bullet(from, enemy, enemy2, width, height, xSpeed) {
+
     this.x = from.X + from.width/2;
     this.y = from.Y + from.height/2;
     this.width = width;
@@ -175,6 +176,7 @@ var eArrow = eRanged.createBullet();
 function update(){
 
   if (pRanged.act && pRanged.Y == canvas.height-waterCont.height-50){
+    pArrow.y -= pRanged.height/2
     pArrow.update();
   }
   if (eRanged.act){
@@ -257,7 +259,7 @@ function draw(){
   ctx.drawImage(waterCont, waterCont.X, waterCont.Y, waterCont.width, waterCont.height);
 
   //Projectile drawing
-  if (pRanged.act && pRanged.Y == canvas.height-waterCont.height-50){
+  if (pRanged.act && pRanged.Y > canvas.height-waterCont.height-50){
     pArrow.draw();
   }
 
