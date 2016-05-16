@@ -156,8 +156,8 @@ function Bullet(from, enemy, enemy2, width, height, xSpeed) {
       }
       //if fired from hostile enemy
       if (from == eRanged){
-        if (this.x > canvas.width || this.x > enemy.X ||
-            this.x > enemy2.X) {
+        if (this.x > canvas.width || this.x > enemy.X+ enemy.width ||
+            this.x > enemy2.X+enemy2.width) {
             this.x = from.X + from.width / 2;
             this.y = from.Y + from.height / 2;
         }
@@ -174,6 +174,9 @@ var pArrow = pRanged.createBullet();
 var eArrow = eRanged.createBullet();
 
 function update(){
+
+  //console.log(eRanged.act);
+  //console.log(eRanged.dead);
 
   if (pRanged.act){
     pArrow.y = pRanged.Y + pRanged.height/2;
@@ -209,23 +212,23 @@ function update(){
   //checkCombat (friendly, enemy)
   if (pMelee.act && eRanged.act){
     checkCombat(pMelee, eRanged); //melee vs ranged
+    hitProj(eArrow, pRanged);
   }
   if (pMelee.act && eMelee.act){
     checkCombat(pMelee, eMelee); //melee vs melee
+    hitProj(eArrow, pMelee);
   }
   if (pRanged.act && eMelee.act){
     checkCombat(pRanged, eMelee); //ranged vs melee
+    hitProj(pArrow, eMelee);
   }
   if (pRanged.act && eRanged.act){
     checkCombat(pRanged, eRanged); //ranged vs ranged
+    hitProj(pArrow, eRanged);
   }
 
   //call these to check if arrows are hitting
   //hitProj(bullet, target dood)
-  hitProj(pArrow, eMelee);
-  hitProj(pArrow, eRanged);
-  hitProj(eArrow, pMelee);
-  hitProj(eArrow, pRanged);
 
 }
 
