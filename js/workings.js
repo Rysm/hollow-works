@@ -92,7 +92,6 @@ function checkCombat(friendly, enemy){
   }
 }
 
-
 //check arrow collision
 function hitProj(projectile, target){
   //conditions for hitting friendlies
