@@ -125,8 +125,9 @@ function hitProj(projectile, target){
 //passes in enemy and then checks coordinates
 function takeWater(waterCont, enemy){
   if(((waterCont.X)>=(enemy.X+enemy.width)&&(enemy.X+enemy.width)>=(waterCont.X))){
-      enemy.X = 2000;
+      console.log("took water");
       water -= 90;
+      enemy.X = 2000;
   }
 }
 
