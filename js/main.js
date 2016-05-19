@@ -92,7 +92,7 @@ pRanged.Y = pMelee.Y;
 pRanged.act = false;
 pRanged.dead = false;
 pRanged.createBullet = function() {
-    return new Bullet(pRanged, eMelee, eRanged, 20, 10, 12);
+    return new Bullet(pRanged, eMelee, eRanged, 80, 20, 12);
 }
 
 var eMelee = new Image();
@@ -116,7 +116,7 @@ eRanged.Y = canvas.height-waterCont.height-50;
 eRanged.act = true;
 eRanged.dead = false;
 eRanged.createBullet = function() {
-    return new Bullet(eRanged, pMelee, pRanged, 20, 10, -7);
+    return new Bullet(eRanged, pMelee, pRanged, 80, 20, -7);
 }
 
 //bullet
