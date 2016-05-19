@@ -132,8 +132,9 @@ function takeWater(waterCont, enemy){
 //pass in unit to check forward range
 //(unit attacking, target getting hit)
 function checkEnemyRange(unit, target){
-  if (unit.x-400 >= target.x && target.act){
+  if (unit.x+400 >= target.x && target.act){
      unit.advance = false;
+     console.log("enemy spotted");
   }
   else {
     unit.advance = true;

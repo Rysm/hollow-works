@@ -193,9 +193,6 @@ var eArrow = eRanged.createBullet();
 
 function update(){
 
-  //console.log(eRanged.act);
-  //console.log(eRanged.dead);
-
   if (pRanged.act){
     pArrow.y = pRanged.Y + pRanged.height/2;
     pArrow.update();
