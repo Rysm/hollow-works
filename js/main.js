@@ -63,7 +63,7 @@ var waterCont = new Image();
 waterCont.src = "art/waterCont.png";
 waterCont.width = 100;
 waterCont.height = 130;
-waterCont.X = canvas.width-waterCont.width;
+waterCont.X = canvas.width-waterCont.width-50;
 waterCont.Y = canvas.height-waterCont.height-20;
 
 //background
