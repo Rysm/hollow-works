@@ -130,6 +130,12 @@ eRanged.createBullet = function() {
     return new Bullet(eRanged, pMelee, pRanged, 80, 20, -7);
 }
 
+//Water bar
+var waterbar = new Image();
+waterbar.src = "art/bar.png";
+waterbar.X = 0;
+waterbar.Y = 0;
+
 //bullet
 function Bullet(from, enemy, enemy2, width, height, xSpeed) {
 
@@ -267,6 +273,10 @@ function draw(){
   ctx.font="20px Georgia";
   ctx.fillStyle="black";
 
+  //waterbar
+  ctx.drawImage(waterbar, waterbar.X, waterbar.Y);
+
+  //water
   ctx.fillText("Water: " + water, 100, 200);
 
   //Summon melee
