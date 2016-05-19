@@ -70,6 +70,15 @@ waterCont.Y = canvas.height-waterCont.height-20;
 var bg = new Image();
 bg.src = "art/bg.png";
 
+//water icon
+var waterIcon = new Image();
+waterIcon.src = "art/water icon.png";
+waterIcon.width = 100;
+waterIcon.height = 100;
+waterIcon.X = 75;
+waterIcon.Y = 25;
+
+
 //Named as playerMelee
 var pMelee = new Image();
 pMelee.src = "art/allymeleeF.png";
@@ -254,6 +263,7 @@ function draw(){
   ctx.drawImage(bg,0,0, canvas.width, canvas.height);
 
   //Draw the amount of water the player has
+  ctx.drawImage(waterIcon, waterIcon.X, waterIcon.Y, waterIcon.width, waterIcon.height);
   ctx.font="20px Georgia";
   ctx.fillStyle="black";
 
