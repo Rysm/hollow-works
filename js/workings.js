@@ -142,5 +142,4 @@ function checkEnemyRange(unit, target){
   else {
     unit.advance = true;
   }
-
 }
