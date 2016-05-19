@@ -202,6 +202,10 @@ function update(){
     eArrow.update();
   }
 
+  //call this to check if we're losing water
+  takeWater(waterCont, eMelee);
+  takeWater(waterCont, eRanged);
+
   //friendly unit movement
   if (pMelee.act && pMelee.dead == false){
     pMelee.X-=5;
@@ -213,8 +217,6 @@ function update(){
 
   //enemy unit movement
   if (eMelee.act && eMelee.dead == false){
-    //call this to check if we're losing water
-    takeWater(waterCont, eMelee);
     eMelee.X+=5;
   }
 
@@ -222,7 +224,6 @@ function update(){
     checkEnemyRange(eRanged,pMelee);
     checkEnemyRange(eRanged,pRanged);
     if (eRanged.advance){
-      //call this to check water loss
       eRanged.X+=5;
     }
   }
