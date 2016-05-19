@@ -74,6 +74,8 @@ bg.src = "art/bg.png";
 var pMelee = new Image();
 pMelee.src = "art/allymeleeF.png";
 pMelee.name = "pMelee";
+pMelee.health = 100;
+pMelee.dmg = 30;
 pMelee.width = 80;
 pMelee.height = 160;
 pMelee.X = 1000;
@@ -144,8 +146,8 @@ function Bullet(from, enemy, enemy2, width, height, xSpeed) {
     this.reset = function() {
         this.x = from.X + from.width/2;
         this.y = from.Y + from.height/2;
-        this.width = 20;
-        this.height = 10;
+        this.width = width;
+        this.height = height;
     };
 
     this.update = function() {
