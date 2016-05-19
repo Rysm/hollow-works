@@ -271,7 +271,7 @@ function draw(){
 
   //amount of water rectangle
   ctx.fillStyle = "blue";
-  ctx.rect(waterIcon.X+waterIcon.width, waterIcon.Y, water*200, 25);
+  ctx.fillRect(waterIcon.X+waterIcon.width, waterIcon.Y+(waterIcon.height/2), water*2, 25);
 
   //Summon melee
   ctx.drawImage(pMelee, pMelee.X, pMelee.Y, pMelee.width, pMelee.height);
