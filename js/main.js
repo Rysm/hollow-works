@@ -6,6 +6,11 @@ var canvas = document.getElementById("game");
 var ctx = canvas.getContext("2d");
 
 /*
+Game Menu
+*/
+
+
+/*
 Input Section
 */
 //Using this method while I educate myself on Jquery
@@ -67,10 +72,10 @@ bg.src = "art/bg.png";
 
 //Named as playerMelee
 var pMelee = new Image();
-pMelee.src = "art/square.png";
+pMelee.src = "art/allymeleeF.png";
 pMelee.name = "pMelee";
-pMelee.width = 100;
-pMelee.height = 150;
+pMelee.width = 80;
+pMelee.height = 160;
 pMelee.X = 1000;
 pMelee.Y = 10;
 pMelee.act = false;
@@ -78,10 +83,10 @@ pMelee.dead = false;
 
 //player ranged
 var pRanged = new Image();
-pRanged.src = "art/ranged.png";
+pRanged.src = "art/allyrangeM.png";
 pRanged.name = "pRanged";
-pRanged.width = 100;
-pRanged.height = 150;
+pRanged.width = 90;
+pRanged.height = 160;
 pRanged.X = 1000 + pRanged.width;
 pRanged.Y = pMelee.Y;
 pRanged.act = false;
@@ -91,10 +96,10 @@ pRanged.createBullet = function() {
 }
 
 var eMelee = new Image();
-eMelee.src = "art/square.png";
 eMelee.name = "eMelee";
-eMelee.width = 100;
-eMelee.height = 150;
+eMelee.src = "art/badmeleeF.png";
+eMelee.width = 80;
+eMelee.height = 160;
 eMelee.X = 110;
 eMelee.Y = canvas.height-waterCont.height-50;
 eMelee.act = true;
@@ -103,9 +108,9 @@ eMelee.dead = false;
 //enemy ranged
 var eRanged = new Image();
 eRanged.name = "eRanged";
-eRanged.src = "art/ranged.png";
-eRanged.width = 100;
-eRanged.height = 150;
+eRanged.src = "art/badrangeF.png";
+eRanged.width = 90;
+eRanged.height = 160;
 eRanged.X = 0;
 eRanged.Y = canvas.height-waterCont.height-50;
 eRanged.act = true;
