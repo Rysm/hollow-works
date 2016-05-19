@@ -127,3 +127,16 @@ function takeWater(waterCont, enemy){
       water -= 90;
   }
 }
+
+//check range option
+//pass in unit to check forward range
+//(unit attacking, target getting hit)
+function checkEnemyRange(unit, target){
+  if (unit.x-400 >= target.x && target.act){
+     unit.advance = false;
+  }
+  else {
+    unit.advance = true;
+  }
+
+}

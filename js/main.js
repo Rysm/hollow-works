@@ -126,6 +126,7 @@ eRanged.X = 0;
 eRanged.Y = canvas.height-waterCont.height-50;
 eRanged.act = true;
 eRanged.dead = false;
+eRanged.advance = true;
 eRanged.createBullet = function() {
     return new Bullet(eRanged, pMelee, pRanged, 80, 20, -7);
 }
@@ -206,6 +207,7 @@ function update(){
 
   //call this to check if we're losing water
   takeWater(waterCont, eMelee);
+  takeWater(waterCont, eRanged);
 
   //friendly unit movement
   if (pMelee.act && pMelee.dead == false){
@@ -221,8 +223,12 @@ function update(){
     eMelee.X+=5;
   }
 
-  if (eRanged.act && eRanged.X < 400 && eRanged.dead == false){
-    eRanged.X+=5;
+  if (eRanged.act && eRanged.dead == false){
+    checkEnemyRange(eRanged,pMelee);
+    checkEnemyRange(eRanged,pRanged);
+    if (eRanged.advance){
+      eRanged.X+=5;
+    }
   }
 
   //combat
@@ -248,8 +254,6 @@ function update(){
   if (pRanged.act && eRanged.act){
     checkCombat(pRanged, eRanged); //ranged vs ranged
   }
-
-
 
 }
 
