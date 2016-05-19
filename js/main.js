@@ -192,6 +192,9 @@ var pArrow = pRanged.createBullet();
 var eArrow = eRanged.createBullet();
 
 function update(){
+  //call this to check if we're losing water
+  takeWater(waterCont, eMelee);
+  takeWater(waterCont, eRanged);
 
   if (pRanged.act){
     pArrow.y = pRanged.Y + pRanged.height/2;
@@ -201,10 +204,6 @@ function update(){
   if (eRanged.act){
     eArrow.update();
   }
-
-  //call this to check if we're losing water
-  takeWater(waterCont, eMelee);
-  takeWater(waterCont, eRanged);
 
   //friendly unit movement
   if (pMelee.act && pMelee.dead == false){
