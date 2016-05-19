@@ -95,26 +95,28 @@ function checkCombat(friendly, enemy){
 function hitProj(projectile, target){
   //conditions for hitting friendlies
   //enemy projectile left to right
-  if (target.name === "pRanged" || target.name === "pMelee"){
-    if (projectile.x >= target.X){
-      target.act = false;
-      target.X = 2000;
-      target.Y = 2000;
-      target.dead = true;
-      projectile.reset();
-    }
-  }
+  if (target.act){
+        if (target.name === "pRanged" || target.name === "pMelee"){
+          if (projectile.x >= target.X){
+            target.act = false;
+            target.X = 2000;
+            target.Y = 2000;
+            target.dead = true;
+            projectile.reset();
+          }
+        }
 
-  //conditions for hitting enemies
-  //right to left
-  else if (target.name === "eRanged" || target.name === "eMelee"){
-    if (projectile.x <= target.X+target.width){
-      target.act = false;
-      target.X = -500;
-      target.Y = 2000;
-      target.dead = true;//rekt
-      projectile.reset();
-    }
+        //conditions for hitting enemies
+        //right to left
+        else if (target.name === "eRanged" || target.name === "eMelee"){
+          if (projectile.x <= target.X+target.width){
+            target.act = false;
+            target.X = -500;
+            target.Y = 2000;
+            target.dead = true;//rekt
+            projectile.reset();
+          }
+        }
   }
 }
 
