@@ -264,10 +264,14 @@ function draw(){
 
   //Draw the amount of water the player has
   ctx.drawImage(waterIcon, waterIcon.X, waterIcon.Y, waterIcon.width, waterIcon.height);
-  ctx.font="20px Georgia";
-  ctx.fillStyle="black";
+  //ctx.font="20px Georgia";
+  //ctx.fillStyle="black";
 
-  ctx.fillText("Water: " + water, 100, 200);
+  //ctx.fillText("Water: " + water, 100, 200);
+
+  //amount of water rectangle
+  ctx.fillStyle = "blue";
+  ctx.rect(waterIcon.X+waterIcon.width, waterIcon.Y, water*200, 25);
 
   //Summon melee
   ctx.drawImage(pMelee, pMelee.X, pMelee.Y, pMelee.width, pMelee.height);
