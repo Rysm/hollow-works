@@ -19,8 +19,9 @@ function side_update(){
 
 //draw function()
 function side_draw(){
-  sidectx.drawImage(basicUI,0,0, sidevas.width,sidevas.height);
-  console.log("heyim supposed to be drawing");
+  if (menu == false){
+      sidectx.drawImage(basicUI,0,0, sidevas.width,sidevas.height);
+  }
 }
 
 //main function

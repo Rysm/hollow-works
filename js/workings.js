@@ -99,6 +99,7 @@ function hitProj(projectile, target){
         if (target.name === "pRanged" || target.name === "pMelee"){
           if (projectile.x >= target.X){
             target.act = false;
+            console.log(target.name + "is" + target.act);
             target.X = 2000;
             target.Y = 2000;
             target.dead = true;
@@ -111,6 +112,7 @@ function hitProj(projectile, target){
         else if (target.name === "eRanged" || target.name === "eMelee"){
           if (projectile.x <= target.X+target.width){
             target.act = false;
+            console.log(target.name + " is " + target.act);
             target.X = -500;
             target.Y = 2000;
             target.dead = true;//rekt
@@ -125,7 +127,6 @@ function hitProj(projectile, target){
 //passes in enemy and then checks coordinates
 function takeWater(waterCont, enemy){
   if(((waterCont.X)>=(enemy.X+enemy.width)&&(enemy.X+enemy.width)>=(waterCont.X))){
-      console.log("took water");
       water -= 90;
       enemy.X = 2000;
   }
@@ -137,7 +138,6 @@ function takeWater(waterCont, enemy){
 function checkEnemyRange(unit, target){
   if (unit.x+400 >= target.x && target.act){
      unit.advance = false;
-     console.log("enemy spotted");
   }
   else {
     unit.advance = true;

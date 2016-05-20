@@ -6,17 +6,17 @@ var canvas = document.getElementById("game");
 var ctx = canvas.getContext("2d");
 
 /*
-Game Menu
-*/
-
-
-/*
 Input Section
 */
 //Using this method while I educate myself on Jquery
 canvas.addEventListener("click", handleClick);//when click happens call handleClick
 var mouseXpos;
 var mouseYpos;
+
+/*
+game state variables
+*/
+var menu = true;
 
 //button is the object we specificy
 function handleClick(eventParams){
@@ -44,6 +44,10 @@ function handleClick(eventParams){
       pRanged.act=true;
       eMelee.act = true;
       eRanged.act = true;
+  }
+
+  if (checkBounds(playBut, eventParams.clientX, eventParams.clientY)){
+    menu = false;
   }
 
 }
@@ -131,6 +135,15 @@ eRanged.createBullet = function() {
     return new Bullet(eRanged, pMelee, pRanged, 80, 20, -7);
 }
 
+/*
+Menu button parameters
+*/
+var playBut = new Image();
+playBut.width = 164;
+playBut.height = 69;
+playBut.X = 565;
+playBut.Y = 360;
+
 //bullet
 function Bullet(from, enemy, enemy2, width, height, xSpeed) {
 
@@ -192,63 +205,70 @@ var pArrow = pRanged.createBullet();
 var eArrow = eRanged.createBullet();
 
 function update(){
-  //call this to check if we're losing water
-  takeWater(waterCont, eMelee);
-  takeWater(waterCont, eRanged);
 
-  if (pRanged.act){
-    pArrow.y = pRanged.Y + pRanged.height/2;
-    pArrow.update();
-  }
+//filler
+if (menu == true){
+}
 
-  if (eRanged.act){
-    eArrow.update();
-  }
+//game state disabled from messing with menu
+if (menu == false){
+        //call this to check if we're losing water
+        takeWater(waterCont, eMelee);
+        takeWater(waterCont, eRanged);
 
-  //friendly unit movement
-  if (pMelee.act && pMelee.dead == false){
-    pMelee.X-=5;
-  }
+        //combat
+        //call these to check if arrows are hitting
+        //hitProj(bullet, target dood)
+        hitProj(eArrow, pRanged);
+        hitProj(eArrow, pMelee);
+        hitProj(pArrow, eMelee);
+        hitProj(pArrow, eRanged);
 
-  if (pRanged.act && pRanged.X > 700 && pRanged.dead == false){
-    pRanged.X-=5;
-  }
+        if (pRanged.act){
+          pArrow.y = pRanged.Y + pRanged.height/2;
+          pArrow.update();
+        }
 
-  //enemy unit movement
-  if (eMelee.act && eMelee.dead == false){
-    eMelee.X+=5;
-  }
+        if (eRanged.act){
+          eArrow.update();
+        }
 
-  if (eRanged.act && eRanged.dead == false){
-    checkEnemyRange(eRanged,pMelee);
-    checkEnemyRange(eRanged,pRanged);
-    if (eRanged.advance){
-      eRanged.X+=5;
-    }
-  }
+        //friendly unit movement
+        if (pMelee.act && pMelee.dead == false){
+          pMelee.X-=5;
+        }
 
-  //combat
+        if (pRanged.act && pRanged.X > 700 && pRanged.dead == false){
+          pRanged.X-=5;
+        }
 
-  //call these to check if arrows are hitting
-  //hitProj(bullet, target dood)
-  hitProj(eArrow, pRanged);
-  hitProj(eArrow, pMelee);
-  hitProj(pArrow, eMelee);
-  hitProj(pArrow, eRanged);
+        //enemy unit movement
+        if (eMelee.act && eMelee.dead == false){
+          eMelee.X+=5;
+        }
 
-  //melee shit
-  //checkCombat (friendly, enemy)
-  if (pMelee.act && eRanged.act){
-    checkCombat(pMelee, eRanged); //melee vs ranged
-  }
-  if (pMelee.act && eMelee.act){
-    checkCombat(pMelee, eMelee); //melee vs melee
-  }
-  if (pRanged.act && eMelee.act){
-    checkCombat(pRanged, eMelee); //ranged vs melee
-  }
-  if (pRanged.act && eRanged.act){
-    checkCombat(pRanged, eRanged); //ranged vs ranged
+        if (eRanged.act && eRanged.dead == false){
+          checkEnemyRange(eRanged,pMelee);
+          checkEnemyRange(eRanged,pRanged);
+          if (eRanged.advance){
+            eRanged.X+=5;
+          }
+        }
+
+        //melee shit
+        //checkCombat (friendly, enemy)
+        if (pMelee.act && eRanged.act){
+          checkCombat(pMelee, eRanged); //melee vs ranged
+        }
+        if (pMelee.act && eMelee.act){
+          checkCombat(pMelee, eMelee); //melee vs melee
+        }
+        if (pRanged.act && eMelee.act){
+          checkCombat(pRanged, eMelee); //ranged vs melee
+        }
+        if (pRanged.act && eRanged.act){
+          checkCombat(pRanged, eRanged); //ranged vs ranged
+        }
   }
 
 }
@@ -259,44 +279,70 @@ function draw(){
   //clear the canvas
   canvas.width = canvas.width;
 
-  //main background
-  ctx.drawImage(bg,0,0, canvas.width, canvas.height);
+if (menu == true){
 
-  //Draw the amount of water the player has
-  ctx.drawImage(waterIcon, waterIcon.X, waterIcon.Y, waterIcon.width, waterIcon.height);
-
-  //amount of water rectangle
+  //draw menu background
+  //current placeholder a rectangle
   ctx.fillStyle = "#33ccff";
-  ctx.fillRect(waterIcon.X+waterIcon.width, waterIcon.Y+(waterIcon.height/2), water*2, 25);
+  ctx.fillRect(0,0, canvas.width, canvas.height);
 
-  //white text
-  ctx.font="20px Georgia";
+  //Title
+  ctx.font="200px Georgia";
   ctx.fillStyle="white";
-  ctx.fillText(water, waterIcon.X+170, waterIcon.Y+(waterIcon.height-30));
+  ctx.fillText("Last Drop", canvas.width/2-420, canvas.height/2-100);
 
-  //Summon melee
-  ctx.drawImage(pMelee, pMelee.X, pMelee.Y, pMelee.width, pMelee.height);
+  //Play
+  ctx.font="80px Georgia";
+  ctx.fillText("Play", canvas.width/2-80, canvas.height/2+50);
+  ctx.fillText("Options", canvas.width/2-80, canvas.height/2+140);
+  ctx.fillText("Exit", canvas.width/2-80, canvas.height/2+230);
+}
 
-  //Summon ranged
-  ctx.drawImage(pRanged, pRanged.X, pRanged.Y, pRanged.width, pRanged.height);
+/*
+Updates are in progress at the moment
+*/
+else if (menu == false){
+      //main background
+      ctx.drawImage(bg,0,0, canvas.width, canvas.height);
 
-  //Summon enemy melee
-  ctx.drawImage(eMelee, eMelee.X, eMelee.Y, eMelee.width, eMelee.height);
+      //Draw the amount of water the player has
+      ctx.drawImage(waterIcon, waterIcon.X, waterIcon.Y, waterIcon.width, waterIcon.height);
 
-  //summon enemy ranged
-  ctx.drawImage(eRanged, eRanged.X, eRanged.Y, eRanged.width, eRanged.height);
+      //amount of water rectangle
+      ctx.fillStyle = "#33ccff";
+      ctx.fillRect(waterIcon.X+waterIcon.width, waterIcon.Y+(waterIcon.height/2), water*2, 25);
 
-  //water container
-  ctx.drawImage(waterCont, waterCont.X, waterCont.Y, waterCont.width, waterCont.height);
+      //white text
+      ctx.font="20px Georgia";
+      ctx.fillStyle="white";
+      ctx.fillText(water, waterIcon.X+170, waterIcon.Y+(waterIcon.height-30));
 
-  //Projectile drawing
-  if (pRanged.act){
-    pArrow.y = pRanged.Y + pRanged.height/2;
-    pArrow.draw();
-  }
+      //Summon melee
+      ctx.drawImage(pMelee, pMelee.X, pMelee.Y, pMelee.width, pMelee.height);
 
-  if(eRanged.act){
-    eArrow.draw();
+      //Summon ranged
+      ctx.drawImage(pRanged, pRanged.X, pRanged.Y, pRanged.width, pRanged.height);
+
+      //Summon enemy melee
+      ctx.drawImage(eMelee, eMelee.X, eMelee.Y, eMelee.width, eMelee.height);
+
+      //summon enemy ranged
+      ctx.drawImage(eRanged, eRanged.X, eRanged.Y, eRanged.width, eRanged.height);
+
+      //water container
+      ctx.drawImage(waterCont, waterCont.X, waterCont.Y, waterCont.width, waterCont.height);
+
+      //Projectile drawing
+      //Friendly
+      if (pRanged.act){
+        pArrow.y = pRanged.Y + pRanged.height/2;
+        pArrow.draw();
+      }
+
+      //Enemy
+      if(eRanged.act){
+        eArrow.draw();
+      }
   }
 
 }
