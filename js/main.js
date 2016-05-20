@@ -76,7 +76,7 @@ bg.src = "art/bg.png";
 
 //water icon
 var waterIcon = new Image();
-waterIcon.src = "art/water icon.png";
+waterIcon.src = "art/watericon2.png";
 waterIcon.width = 100;
 waterIcon.height = 100;
 waterIcon.X = 75;
@@ -306,7 +306,7 @@ else if (menu == false){
       ctx.drawImage(bg,0,0, canvas.width, canvas.height);
 
       //Draw the amount of water the player has
-      ctx.drawImage(waterIcon, waterIcon.X, waterIcon.Y, waterIcon.width, waterIcon.height);
+      ctx.drawImage(waterIcon, waterIcon.X, waterIcon.Y+10, waterIcon.width, waterIcon.height);
 
       //amount of water rectangle
       ctx.fillStyle = "#33ccff";
