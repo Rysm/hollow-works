@@ -8,35 +8,6 @@ var level = 1; //current game level NOT PLAYER'S
 
 var water = 100; //resource count
 
-/*
-Values correspond to the type of character
-1 : Melee (Tanky, okay dmg)
-2 : Ranged (High dmg, squishy)
-3 : Gatherer (Low dmg, used for gathering resources during daytime)
-*/
-
-var type = [1,2,3]; //may be unnecessary
-
-/*
-PLAYER'S
-Empty array that holds three indices also
-0 = # of melee
-1 = # of ranged
-2 = # of gatherer
-Initialize with 0 units each
-*/
-var friendlies = [level, level,0];
-
-/*
-AI'S
-Empty array that holds three indices also
-0 = # of melee
-1 = # of ranged
-2 = # of gatherer
-Initialize with 0 units each
-*/
-var baddies = [level,level,0];
-
 //bullet
 var Bullet = function(velocity, rectangle) {
     this.vx = velocity;
