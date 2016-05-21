@@ -18,36 +18,6 @@ var Bullet = function(velocity, rectangle) {
     }
 };
 
-//character prototypes
-function character(name, type){
-  //if it's melee
-  if (type == 1){
-    this.name = "melee"
-    this.hp = 100;
-    this.dmg = 10;
-  }
-  //if it's ranged
-  if (type ==2){
-    this.name = "ranged";
-    this.hp = 50;
-    this.dmg = 30;
-  }
-  //if it's gatherer
-  /*NOT IN MONDAY PROTOTYPE
-  if (type==3){
-    this.name = "gatherer";
-    this.hp = 0;
-    this.dmg =0;
-  }
-  */
-}
-
-//enemy generating
-//Not implemented in prototype
-function spawnEnemy(){
-
-}
-
 //check collisions to see if people are fighting
 function checkCombat(friendly, enemy){
   if((friendly.X)<=(enemy.X + enemy.width) && friendly.act == true){ //idk wtf
