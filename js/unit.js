@@ -7,6 +7,8 @@ Values correspond to the type of character
 
 var type = [1,2,3]; //may be unnecessary
 
+var makeMelee, makeRanged, makeGatherer = false;
+
 /*
 PLAYER'S
 Empty array that holds three indices also
@@ -15,6 +17,7 @@ Empty array that holds three indices also
 2 = # of gatherer
 Initialize with 0 units each
 */
+
 var playerMelees = [];
 var playerRanged = [];
 var playerGathers = [];
@@ -32,6 +35,10 @@ var badMelees = [];
 var badRanged = [];
 var baddies = [badMelees, badRanged];
 
+//Coordinate variables for combat
+var spawnX = 1000;
+var spawnY = 540;
+
 //player's unit object class
 //define the basics of an object's parameter
 //pass in type to generate unit based on num value
@@ -43,10 +50,12 @@ function unit(type){
       this.hp = 100;
       this.dmg = 10;
       this.speed = 5;
+      this.width = 80;
+      this.height = 160;
       this.X = 0;
       this.Y = 0;
       this.src = "art/allymeleeF.png";
-      this.act = true;
+      this.act = false;
       this.dead = false;
     }
 
@@ -55,10 +64,12 @@ function unit(type){
       this.hp = 50;
       this.dmg = 30;
       this.speed = 5;
+      this.width = 90;
+      this.height = 160;
       this.X = 0;
       this.Y = 0;
       this.src = "art/allyrangeM.png"
-      this.act = true;
+      this.act = false;
       this.dead = false;
     }
 
@@ -69,6 +80,7 @@ function unit(type){
       this.speed = 5;
       this.X = 0;
       this.Y = 0;
+      this.act = false;
       this.src = "";
     }
 }
@@ -80,15 +92,32 @@ function spawnUnit(unitArray){
   //summon melee dude
   if (makeMelee){
     if (playerMelees!=null){
+      makeMelee = false;
+      playerMelees[0].X = spawnX;
+      playerMelees[0].Y = spawnY;
+      playerMelees[0].act = true;
+      //delete the unit from the array
       playerMelees.splice(0,1);
     }
   }
 
   else if (makeRanged){
-      playerRanged.splice(0,1);
+      if (playerRanged!=null){
+        makeRanged = false;
+        playerRanged[0].X = spawnX;
+        playerRanged[0].Y = spawnY;
+        playerRanged[0].act = true;
+        //delete the unit from the array
+        playerRanged.splice(0,1);
+      }
   }
 
   else if (makeGatherer){
-      playerGathers.splice(0,1);
+      if (playerGathers){
+        makeGatherer = false;
+        //delete the unit from the array
+        playerGathers[0].act = true;
+        playerGathers.splice(0,1);
+      }
   }
 }

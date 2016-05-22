@@ -24,6 +24,7 @@ function handleClick(eventParams){
   mouseXpos = eventParams.clientX;
   mouseYpos = eventParams.clientY;
 
+  //spawn melee dude
   if(checkBounds(pMelee, eventParams.clientX, eventParams.clientY)){
       //character activate location
       //turns on a switch to enable player object/particle movement
@@ -35,6 +36,7 @@ function handleClick(eventParams){
       eRanged.act = true;
   }
 
+  //spawn ranged dude
   if (checkBounds(pRanged, eventParams.clientX, eventParams.clientY)){
       //character activate location
       //turns on a switch to enable player object/particle movement
@@ -46,8 +48,18 @@ function handleClick(eventParams){
       eRanged.act = true;
   }
 
+  /*
+  Menu navigation
+  */
   if (checkBounds(playBut, eventParams.clientX, eventParams.clientY)){
     menu = false;
+  }
+
+  /*
+  Spawn player new checked
+  */
+  if (null){
+
   }
 
 }
@@ -106,8 +118,8 @@ pRanged.X = 1000 + pRanged.width;
 pRanged.Y = pMelee.Y;
 pRanged.act = false;
 pRanged.dead = false;
-pRanged.createBullet = function() {
-    return new Bullet(pRanged, eMelee, eRanged, 80, 20, 12);
+pRanged.createArrow = function() {
+    return new Arrow(pRanged, eMelee, eRanged, 80, 20, 12);
 }
 
 var eMelee = new Image();
@@ -131,8 +143,8 @@ eRanged.Y = canvas.height-waterCont.height-50;
 eRanged.act = true;
 eRanged.dead = false;
 eRanged.advance = true;
-eRanged.createBullet = function() {
-    return new Bullet(eRanged, pMelee, pRanged, 80, 20, -7);
+eRanged.createArrow = function() {
+    return new Arrow(eRanged, pMelee, pRanged, 80, 20, -7);
 }
 
 /*
@@ -145,7 +157,7 @@ playBut.X = 565;
 playBut.Y = 360;
 
 //bullet
-function Bullet(from, enemy, enemy2, width, height, xSpeed) {
+function Arrow(from, enemy, enemy2, width, height, xSpeed) {
 
     this.x = from.X + from.width/2;
     this.y = from.Y + from.height/2;
@@ -201,8 +213,8 @@ function Bullet(from, enemy, enemy2, width, height, xSpeed) {
 }
 
 //Should call stuff from the working.js to grab functions that calculate damage and resource.
-var pArrow = pRanged.createBullet();
-var eArrow = eRanged.createBullet();
+var pArrow = pRanged.createArrow();
+var eArrow = eRanged.createArrow();
 
 function update(){
 
@@ -319,6 +331,7 @@ else if (menu == false){
 
       //Summon melee
       ctx.drawImage(pMelee, pMelee.X, pMelee.Y, pMelee.width, pMelee.height);
+      console.log(pMelee.Y);
 
       //Summon ranged
       ctx.drawImage(pRanged, pRanged.X, pRanged.Y, pRanged.width, pRanged.height);
