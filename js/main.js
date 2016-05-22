@@ -24,6 +24,16 @@ function handleClick(eventParams){
   mouseXpos = eventParams.clientX;
   mouseYpos = eventParams.clientY;
 
+  //spawn gatherer dude
+  if(checkBounds(pGatherer, eventParams.clientX, eventParams.clientY)){
+      pGatherer.X = 1300;
+      pGatherer.Y = 200;
+      pGatherer.width = 20;
+      pGatherer.height = 40;
+      pGatherer.act = true;
+
+  }
+
   //spawn melee dude
   if(checkBounds(pMelee, eventParams.clientX, eventParams.clientY)){
       //character activate location
@@ -94,6 +104,16 @@ waterIcon.height = 100;
 waterIcon.X = 75;
 waterIcon.Y = 25;
 
+
+//playerGather
+var pGatherer = new Image();
+pGatherer.X = 920;
+pGatherer.Y = 10;
+pGatherer.width = 80;
+pGatherer.height = 160;
+pGatherer.name = "pGatherer";
+pGatherer.src = "art/ally_gatherer_female.png";
+pGatherer.act = false;
 
 //Named as playerMelee
 var pMelee = new Image();
@@ -236,6 +256,7 @@ if (menu == false){
         hitProj(pArrow, eMelee);
         hitProj(pArrow, eRanged);
 
+
         if (pRanged.act){
           pArrow.y = pRanged.Y + pRanged.height/2;
           pArrow.update();
@@ -246,6 +267,10 @@ if (menu == false){
         }
 
         //friendly unit movement
+        if(pGatherer.act){
+          pGatherer.X-=3;
+        }
+
         if (pMelee.act && pMelee.dead == false){
           pMelee.X-=5;
         }
@@ -330,6 +355,10 @@ else if (menu == false){
       ctx.fillText(water, waterIcon.X+170, waterIcon.Y+(waterIcon.height-30));
 
 
+
+      //Summon Gatherer
+      ctx.fillStyle = "green";
+      ctx.drawImage(pGatherer, pGatherer.X, pGatherer.Y, pGatherer.width, pGatherer.height);
 
       //Summon melee
       ctx.drawImage(pMelee, pMelee.X, pMelee.Y, pMelee.width, pMelee.height);
