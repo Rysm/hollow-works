@@ -336,7 +336,7 @@ else if (menu == false){
 
       //Filler health
       ctx.fillStyle = "red";
-      ctx.fillRect(pMelee.X, pMelee.Y+pMelee.height, pMelee.health, 30);
+      ctx.fillRect(pMelee.X, pMelee.Y+pMelee.height, pMelee.health, 15);
       console.log()
 
       //Summon ranged
