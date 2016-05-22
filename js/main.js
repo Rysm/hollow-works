@@ -329,9 +329,15 @@ else if (menu == false){
       ctx.fillStyle="white";
       ctx.fillText(water, waterIcon.X+170, waterIcon.Y+(waterIcon.height-30));
 
+
+
       //Summon melee
       ctx.drawImage(pMelee, pMelee.X, pMelee.Y, pMelee.width, pMelee.height);
-      console.log(pMelee.Y);
+
+      //Filler health
+      ctx.fillStyle = "red";
+      ctx.fillRect(pMelee.X, pMelee.Y+pMelee.height, pMelee.health, 30);
+      console.log()
 
       //Summon ranged
       ctx.drawImage(pRanged, pRanged.X, pRanged.Y, pRanged.width, pRanged.height);
