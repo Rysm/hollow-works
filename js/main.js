@@ -25,17 +25,20 @@ function handleClick(eventParams){
   mouseYpos = eventParams.clientY;
 
   //spawn gatherer dude
-  if(checkBounds(pGatherer, eventParams.clientX, eventParams.clientY)){
+  if(checkBounds(bGatherer, eventParams.clientX, eventParams.clientY)){
       pGatherer.X = 1300;
-      pGatherer.Y = 200;
-      pGatherer.width = 20;
-      pGatherer.height = 40;
+      pGatherer.Y = 275;
+      pGatherer.width = 40;
+      pGatherer.height = 80;
       pGatherer.act = true;
+      if(bGatherer.count > 0){
+        bGatherer.count-=1;
+      }
 
   }
 
   //spawn melee dude
-  if(checkBounds(pMelee, eventParams.clientX, eventParams.clientY)){
+  if(checkBounds(bMelee, eventParams.clientX, eventParams.clientY)){
       //character activate location
       //turns on a switch to enable player object/particle movement
       pMelee.Y = canvas.height-waterCont.height-50;
@@ -44,10 +47,13 @@ function handleClick(eventParams){
       pMelee.act=true;
       eMelee.act = true;
       eRanged.act = true;
+      if(bMelee.count > 0){
+        bMelee.count-=1;
+      }
   }
 
   //spawn ranged dude
-  if (checkBounds(pRanged, eventParams.clientX, eventParams.clientY)){
+  if (checkBounds(bRanged, eventParams.clientX, eventParams.clientY)){
       //character activate location
       //turns on a switch to enable player object/particle movement
       pRanged.Y = canvas.height-waterCont.height-50;
@@ -56,6 +62,9 @@ function handleClick(eventParams){
       pRanged.act=true;
       eMelee.act = true;
       eRanged.act = true;
+      if(bRanged.count > 0){
+        bRanged.count-=1;
+      }
   }
 
   /*
@@ -104,11 +113,42 @@ waterIcon.height = 100;
 waterIcon.X = 75;
 waterIcon.Y = 25;
 
+//TOP RIGHT CHARACTER BUTTONS
+var bGatherer = new Image();
+bGatherer.X = 890;
+bGatherer.Y = 10;
+bGatherer.width = 100;
+bGatherer.height = 100;
+bGatherer.name = "bGatherer";
+bGatherer.src = "art/gatherericon.png";
+bGatherer.act = false;
+bGatherer.count = 1;
+
+var bMelee = new Image();
+bMelee.src = "art/swordicon.png";
+bMelee.width = 100;
+bMelee.height = 100;
+bMelee.X = 1000;
+bMelee.Y = 10;
+bMelee.act = false;
+bMelee.dead = false;
+bMelee.count = 1;
+
+var bRanged = new Image();
+bRanged.src = "art/bowicon.png";
+bRanged.width = 100;
+bRanged.height = 100;
+bRanged.X = 1110
+bRanged.Y = 10;
+bRanged.act = false;
+bRanged.dead = false;
+bRanged.count = 1;
+
 
 //playerGather
 var pGatherer = new Image();
 pGatherer.X = 920;
-pGatherer.Y = 10;
+pGatherer.Y = 200;
 pGatherer.width = 80;
 pGatherer.height = 160;
 pGatherer.name = "pGatherer";
@@ -124,7 +164,7 @@ pMelee.dmg = 30;
 pMelee.width = 80;
 pMelee.height = 160;
 pMelee.X = 1000;
-pMelee.Y = 10;
+pMelee.Y = 200;
 pMelee.act = false;
 pMelee.dead = false;
 
@@ -355,9 +395,16 @@ else if (menu == false){
       ctx.fillText(water, waterIcon.X+170, waterIcon.Y+(waterIcon.height-30));
 
 
-
+      //character icons
+      ctx.drawImage(bGatherer, bGatherer.X, bGatherer.Y, bGatherer.width, bGatherer.height);
+      ctx.drawImage(bMelee, bMelee.X, bMelee.Y, bMelee.width, bMelee.height);
+      ctx.drawImage(bRanged, bRanged.X, bRanged.Y, bMelee.width, bMelee.height);
+      ctx.font="32px Georgia";
+      ctx.fillStyle="black";
+      ctx.fillText(bGatherer.count, bGatherer.X+73, bGatherer.Y+91);
+      ctx.fillText(bMelee.count, bMelee.X+73, bMelee.Y+91);
+      ctx.fillText(bRanged.count, bRanged.X+73, bRanged.Y+91);
       //Summon Gatherer
-      ctx.fillStyle = "green";
       ctx.drawImage(pGatherer, pGatherer.X, pGatherer.Y, pGatherer.width, pGatherer.height);
 
       //Summon melee
