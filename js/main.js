@@ -281,6 +281,11 @@ var eArrow = eRanged.createArrow();
 
 function update(){
 
+//water stuck lowest as 0
+if (water < 0){
+  water = 0;
+}
+
 //filler
 if (menu == true){
 }
