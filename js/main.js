@@ -114,16 +114,6 @@ waterIcon.X = 75;
 waterIcon.Y = 25;
 
 //TOP RIGHT CHARACTER BUTTONS
-var bGatherer = new Image();
-bGatherer.X = 890;
-bGatherer.Y = 10;
-bGatherer.width = 100;
-bGatherer.height = 100;
-bGatherer.name = "bGatherer";
-bGatherer.src = "art/gatherericon.png";
-bGatherer.act = false;
-bGatherer.count = 1;
-
 var bMelee = new Image();
 bMelee.src = "art/swordicon.png";
 bMelee.width = 100;
@@ -144,6 +134,15 @@ bRanged.act = false;
 bRanged.dead = false;
 bRanged.count = 1;
 
+var bGatherer = new Image();
+bGatherer.X = 890;
+bGatherer.Y = 10;
+bGatherer.width = 100;
+bGatherer.height = 100;
+bGatherer.name = "bGatherer";
+bGatherer.src = "art/gatherericon.png";
+bGatherer.act = false;
+bGatherer.count = 1;
 
 //playerGather
 var pGatherer = new Image();

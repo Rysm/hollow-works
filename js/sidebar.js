@@ -1,6 +1,8 @@
 /*
 Implementation of the sidebar UI for our game on a separate canvas
 I believe separating it provides a cleaner approach
+
+SCRAPPED
 */
 console.log("Wee");
 
@@ -16,6 +18,10 @@ var day = 1;
 //Import the image
 var basicUI = new Image();
 basicUI.src = "art/sidebar.png";
+
+//Sidebar Icons
+
+
 
 //update function()
 function side_update(){
