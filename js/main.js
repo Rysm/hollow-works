@@ -171,6 +171,8 @@ pMelee.dead = false;
 var pRanged = new Image();
 pRanged.src = "art/allyrangeM.png";
 pRanged.name = "pRanged";
+pRanged.health = 70;
+pRanged.dmg = 30;
 pRanged.width = 90;
 pRanged.height = 160;
 pRanged.X = 1000 + pRanged.width;
@@ -184,6 +186,7 @@ pRanged.createArrow = function() {
 var eMelee = new Image();
 eMelee.name = "eMelee";
 eMelee.src = "art/badmeleeF.png";
+eMelee.health = 100;
 eMelee.width = 80;
 eMelee.height = 160;
 eMelee.X = 110;
@@ -195,6 +198,7 @@ eMelee.dead = false;
 var eRanged = new Image();
 eRanged.name = "eRanged";
 eRanged.src = "art/badrangeF.png";
+eRanged.health = 70;
 eRanged.width = 90;
 eRanged.height = 160;
 eRanged.X = 0;
@@ -403,25 +407,42 @@ else if (menu == false){
       ctx.fillText(bGatherer.count, bGatherer.X+73, bGatherer.Y+91);
       ctx.fillText(bMelee.count, bMelee.X+73, bMelee.Y+91);
       ctx.fillText(bRanged.count, bRanged.X+73, bRanged.Y+91);
-      //Summon Gatherer
-      ctx.drawImage(pGatherer, pGatherer.X, pGatherer.Y, pGatherer.width, pGatherer.height);
 
-      //Summon melee
-      ctx.drawImage(pMelee, pMelee.X, pMelee.Y, pMelee.width, pMelee.height);
+      //Melee image and health
+      if (pMelee.dead == false && pMelee.act){
+        ctx.drawImage(pMelee, pMelee.X, pMelee.Y, pMelee.width, pMelee.height);
+        ctx.fillStyle = "red";
+        ctx.fillRect(pMelee.X, pMelee.Y+pMelee.height, pMelee.health*0.75, 15);
+      }
 
-      //Filler health
-      ctx.fillStyle = "red";
-      ctx.fillRect(pMelee.X, pMelee.Y+pMelee.height, pMelee.health, 15);
-      console.log()
+      //Ranged image and health
+      if (pRanged.dead == false && pRanged.act){
+        ctx.drawImage(pRanged, pRanged.X, pRanged.Y, pRanged.width, pRanged.height);
+        pArrow.y = pRanged.Y + pRanged.height/2;
+        pArrow.draw();
+        ctx.fillStyle = "red";
+        ctx.fillRect(pRanged.X, pRanged.Y+pRanged.height, pRanged.health*0.75, 15);
+      }
 
-      //Summon ranged
-      ctx.drawImage(pRanged, pRanged.X, pRanged.Y, pRanged.width, pRanged.height);
+      if (pGatherer.act){
+        //Gatherer image
+        ctx.drawImage(pGatherer, pGatherer.X, pGatherer.Y, pGatherer.width, pGatherer.height);
+      }
 
-      //Summon enemy melee
-      ctx.drawImage(eMelee, eMelee.X, eMelee.Y, eMelee.width, eMelee.height);
+      //Enemy melee image and health
+      if (eMelee.dead == false && eMelee.act){
+        ctx.drawImage(eMelee, eMelee.X, eMelee.Y, eMelee.width, eMelee.height);
+        ctx.fillStyle = "red";
+        ctx.fillRect(eMelee.X, eMelee.Y+eMelee.height, eMelee.health*0.75, 15);
+      }
 
-      //summon enemy ranged
-      ctx.drawImage(eRanged, eRanged.X, eRanged.Y, eRanged.width, eRanged.height);
+      //Enemy ranged image and health
+      if (eRanged.dead == false && eRanged.act){
+        ctx.drawImage(eRanged, eRanged.X, eRanged.Y, eRanged.width, eRanged.height);
+        eArrow.draw();
+        ctx.fillStyle = "red";
+        ctx.fillRect(eRanged.X, eRanged.Y+eRanged.height, eRanged.health*0.75, 15);
+      }
 
       //water container
       ctx.drawImage(waterCont, waterCont.X, waterCont.Y, waterCont.width, waterCont.height);
@@ -429,13 +450,11 @@ else if (menu == false){
       //Projectile drawing
       //Friendly
       if (pRanged.act){
-        pArrow.y = pRanged.Y + pRanged.height/2;
-        pArrow.draw();
       }
 
       //Enemy
       if(eRanged.act){
-        eArrow.draw();
+
       }
   }
 
