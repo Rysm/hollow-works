@@ -33,8 +33,8 @@ function checkCombat(friendly, enemy){
       enemy.dead = true;
     }
 
-    friendly.health -= 10;
-    enemy.health -= 10;
+    friendly.health -= 15;
+    enemy.health -= 15;
 
   }
 }
@@ -53,7 +53,7 @@ function hitProj(projectile, target){
               target.X = 1995;
             }
 
-            target.health -= 10;
+            target.health -= 30;
             projectile.reset();
           }
         }
@@ -67,7 +67,7 @@ function hitProj(projectile, target){
               target.dead = true;
               target.X = -1995;
             }
-            target.health -= 10;
+            target.health -= 30;
             projectile.reset();
           }
         }
@@ -93,5 +93,15 @@ function checkEnemyRange(unit, target){
   }
   else {
     unit.advance = true;
+  }
+}
+
+//Gatherers can now pick up water
+function gatherWater(unit){
+
+  if (unit.X < -20 && unit.act){
+    console.log("we here");
+    water+= Math.floor( (Math.random()*50) +1);
+    unit.act = false;
   }
 }

@@ -159,7 +159,7 @@ var pMelee = new Image();
 pMelee.src = "art/allymeleeF.png";
 pMelee.name = "pMelee";
 pMelee.health = 100;
-pMelee.dmg = 30;
+pMelee.dmg = 15;
 pMelee.width = 80;
 pMelee.height = 160;
 pMelee.X = 1000;
@@ -186,6 +186,7 @@ pRanged.createArrow = function() {
 var eMelee = new Image();
 eMelee.name = "eMelee";
 eMelee.src = "art/badmeleeF.png";
+eMelee.dmg = 15;
 eMelee.health = 100;
 eMelee.width = 80;
 eMelee.height = 160;
@@ -199,6 +200,7 @@ var eRanged = new Image();
 eRanged.name = "eRanged";
 eRanged.src = "art/badrangeF.png";
 eRanged.health = 70;
+pRanged.dmg = 30;
 eRanged.width = 90;
 eRanged.height = 160;
 eRanged.X = 0;
@@ -292,6 +294,7 @@ if (menu == true){
 
 //game state disabled from messing with menu
 if (menu == false){
+
         //call this to check if we're losing water
         takeWater(waterCont, eMelee);
         takeWater(waterCont, eRanged);
@@ -304,13 +307,15 @@ if (menu == false){
         hitProj(pArrow, eMelee);
         hitProj(pArrow, eRanged);
 
+        //call this to get water with gatherer
+        gatherWater(pGatherer);
 
-        if (pRanged.act){
+        if (pRanged.dead == false && pRanged.act){
           pArrow.y = pRanged.Y + pRanged.height/2;
           pArrow.update();
         }
 
-        if (eRanged.act){
+        if (eRanged.dead == false && eRanged.act){
           eArrow.update();
         }
 
