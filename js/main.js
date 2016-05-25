@@ -18,6 +18,14 @@ game state variables
 */
 var menu = true;
 
+/*
+Input Music
+*/
+var backgroundbattle = document.getElementById('backgroundbattle');
+
+backgroundbattle.play(); //plays music
+
+
 //button is the object we specificy
 function handleClick(eventParams){
   //Mouse coordinates!
@@ -360,6 +368,8 @@ if (menu == false){
           checkCombat(pRanged, eRanged); //ranged vs ranged
         }
   }
+
+backgroundbattle.play(); //repeats song
 
 }
 
