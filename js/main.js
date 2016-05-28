@@ -17,6 +17,7 @@ var mouseYpos;
 game state variables
 */
 var menu = true;
+var uiActive = false;
 
 /*
 Input Music
@@ -75,6 +76,15 @@ function handleClick(eventParams){
       }
   }
 
+  if (checkBounds(uiIcon, eventParams.clientX, eventParams.clientY)){
+    if(uiActive == false){
+      uiActive = true;
+    }else{
+      uiActive = false;
+    }
+
+  }
+
   /*
   Menu navigation
   */
@@ -112,6 +122,46 @@ waterCont.Y = canvas.height-waterCont.height-20;
 //background
 var bg = new Image();
 bg.src = "art/bg.png";
+
+//uiIcon
+var uiIcon = new Image();
+uiIcon.X = 1175;
+uiIcon.Y = 200;
+uiIcon.width = 60;
+uiIcon.height = 60;
+
+//uiBackground
+var uiBackground = new Image();
+uiBackground.X = 950;
+uiBackground.Y = 250;
+uiBackground.width = 150;
+uiBackground.height = 200;
+
+//uiButtonOne
+var uiButtonOne = new Image();
+uiButtonOne.X = 955;
+uiButtonOne.Y = 255;
+uiButtonOne.width = 140;
+uiButtonOne.height = 40;
+
+var uiButtonTwo = new Image();
+uiButtonTwo.X = 955;
+uiButtonTwo.Y = 300;
+uiButtonTwo.width = 140;
+uiButtonTwo.height = 40;
+
+var uiButtonThree = new Image();
+uiButtonThree.X = 955;
+uiButtonThree.Y = 345;
+uiButtonThree.width = 140;
+uiButtonThree.height = 40;
+
+var uiButtonFour = new Image();
+uiButtonFour.X = 955;
+uiButtonFour.Y = 390;
+uiButtonFour.width = 140;
+uiButtonFour.height = 40;
+
 
 //water icon
 var waterIcon = new Image();
@@ -373,6 +423,7 @@ backgroundbattle.play(); //repeats song
 
 }
 
+
 //Show the player what they need to see
 function draw(){
 
@@ -462,6 +513,24 @@ else if (menu == false){
         eArrow.draw();
         ctx.fillStyle = "red";
         ctx.fillRect(eRanged.X, eRanged.Y+eRanged.height, eRanged.health*0.75, 15);
+      }
+
+
+      //upgrade UI button
+      ctx.fillStyle = "blue";
+      ctx.fillRect(uiIcon.X, uiIcon.Y, uiIcon.width, uiIcon.height);
+      if(uiActive == false){
+        ctx.fillStyle = "red";
+        ctx.fillRect(uiIcon.X, uiIcon.Y, uiIcon.width, uiIcon.height);
+      }else{
+        ctx.fillStyle = "red";
+        ctx.fillRect(uiBackground.X, uiBackground.Y, uiBackground.width, uiBackground.height);
+
+        ctx.fillStyle = "yellow";
+        ctx.fillRect(uiButtonOne.X,uiButtonOne.Y,uiButtonOne.width,uiButtonOne.height);
+        ctx.fillRect(uiButtonTwo.X,uiButtonTwo.Y,uiButtonTwo.width,uiButtonTwo.height);
+        ctx.fillRect(uiButtonThree.X,uiButtonThree.Y,uiButtonThree.width,uiButtonThree.height);
+        ctx.fillRect(uiButtonFour.X,uiButtonFour.Y,uiButtonFour.width,uiButtonFour.height);
       }
 
       //water container
