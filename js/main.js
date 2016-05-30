@@ -17,7 +17,17 @@ var mouseYpos;
 game state variables
 */
 var menu = true;
+
 var uiActive = false;
+var atkUi = 1;
+var defUi = 1;
+var spdUi = 1;
+var tierUi = 1;
+var nextTier = 50;
+var nextAtk = 10;
+var nextDef = 10;
+var nextSpd = 10;
+
 
 /*
 Input Music
@@ -75,7 +85,7 @@ function handleClick(eventParams){
         bRanged.count-=1;
       }
   }
-
+  //open ui
   if (checkBounds(uiIcon, eventParams.clientX, eventParams.clientY)){
     if(uiActive == false){
       uiActive = true;
@@ -84,6 +94,24 @@ function handleClick(eventParams){
     }
 
   }
+  //upgrade attack
+  if (checkBounds(uiButtonOne, eventParams.clientX, eventParams.clientY)){
+    if(uiActive){
+      atkUi+=1;
+    }
+  }
+  //upgrade defense
+  if (checkBounds(uiButtonTwo, eventParams.clientX, eventParams.clientY)){
+    if(uiActive){
+      defUi+=1;
+    }
+  }
+//upgrade speed
+if (checkBounds(uiButtonThree, eventParams.clientX, eventParams.clientY)){
+  if(uiActive){
+    spdUi+=1;
+  }
+}
 
   /*
   Menu navigation
@@ -132,35 +160,40 @@ uiIcon.height = 60;
 
 //uiBackground
 var uiBackground = new Image();
-uiBackground.X = 950;
-uiBackground.Y = 250;
-uiBackground.width = 150;
-uiBackground.height = 200;
+uiBackground.X = 450;
+uiBackground.Y = 25;
+uiBackground.width = 400;
+uiBackground.height = 500;
+uiBackground.src = "art/uiMenu.png";
 
 //uiButtonOne
 var uiButtonOne = new Image();
-uiButtonOne.X = 955;
-uiButtonOne.Y = 255;
+uiButtonOne.X = 675;
+uiButtonOne.Y = 235;
 uiButtonOne.width = 140;
 uiButtonOne.height = 40;
+uiButtonOne.src = "art/levelOne.png";
 
 var uiButtonTwo = new Image();
-uiButtonTwo.X = 955;
-uiButtonTwo.Y = 300;
+uiButtonTwo.X = 675;
+uiButtonTwo.Y = 340;
 uiButtonTwo.width = 140;
 uiButtonTwo.height = 40;
+uiButtonTwo.src = "art/levelTwo.png";
 
 var uiButtonThree = new Image();
-uiButtonThree.X = 955;
-uiButtonThree.Y = 345;
+uiButtonThree.X = 675;
+uiButtonThree.Y = 460;
 uiButtonThree.width = 140;
 uiButtonThree.height = 40;
+uiButtonThree.src = "art/levelThree.png";
 
 var uiButtonFour = new Image();
-uiButtonFour.X = 955;
-uiButtonFour.Y = 390;
-uiButtonFour.width = 140;
-uiButtonFour.height = 40;
+uiButtonFour.X = 500;
+uiButtonFour.Y = 550;
+uiButtonFour.width = 210;
+uiButtonFour.height = 70;
+uiButtonFour.src = "art/levelFour.png";
 
 
 //water icon
@@ -524,13 +557,44 @@ else if (menu == false){
         ctx.fillRect(uiIcon.X, uiIcon.Y, uiIcon.width, uiIcon.height);
       }else{
         ctx.fillStyle = "red";
-        ctx.fillRect(uiBackground.X, uiBackground.Y, uiBackground.width, uiBackground.height);
+        ctx.drawImage(uiBackground, uiBackground.X, uiBackground.Y, uiBackground.width, uiBackground.height);
+        //drawing the current attack skill level
+        if(atkUi == 1){
+        ctx.drawImage(uiButtonOne, 575, 235, uiButtonOne.width, uiButtonOne.height);
+        }else if(atkUi == 2){
+        ctx.drawImage(uiButtonTwo, 575, 235, uiButtonOne.width, uiButtonOne.height);
+        }else if(atkUi == 3){
+        ctx.drawImage(uiButtonThree, 575, 235, uiButtonOne.width, uiButtonOne.height);
+        }else{
+        ctx.drawImage(uiButtonFour, 575, 235, uiButtonOne.width, uiButtonOne.height);
+        }
+        //drawing the current def skill level
+        if(defUi == 1){
+        ctx.drawImage(uiButtonOne, 575, 345, uiButtonOne.width, uiButtonOne.height);
+        }else if(defUi == 2){
+        ctx.drawImage(uiButtonTwo, 575, 345, uiButtonOne.width, uiButtonOne.height);
+        }else if(defUi == 3){
+        ctx.drawImage(uiButtonThree, 575, 345, uiButtonOne.width, uiButtonOne.height);
+        }else{
+        ctx.drawImage(uiButtonFour, 575, 345, uiButtonOne.width, uiButtonOne.height);
+        }
+        //drawing the current spd skill level
+        if(spdUi == 1){
+        ctx.drawImage(uiButtonOne, 575, 460, uiButtonOne.width, uiButtonOne.height);
+        }else if(spdUi == 2){
+        ctx.drawImage(uiButtonTwo, 575, 460, uiButtonOne.width, uiButtonOne.height);
+        }else if(spdUi == 3){
+        ctx.drawImage(uiButtonThree, 575, 460, uiButtonOne.width, uiButtonOne.height);
+        }else{
+        ctx.drawImage(uiButtonFour, 575, 460, uiButtonOne.width, uiButtonOne.height);
+        }
+        //draw in tier
+        ctx.font="72px Georgia";
+        ctx.fillStyle="black";
+        ctx.fillText(" "+tierUi, 510, 125);
 
-        ctx.fillStyle = "yellow";
-        ctx.fillRect(uiButtonOne.X,uiButtonOne.Y,uiButtonOne.width,uiButtonOne.height);
-        ctx.fillRect(uiButtonTwo.X,uiButtonTwo.Y,uiButtonTwo.width,uiButtonTwo.height);
-        ctx.fillRect(uiButtonThree.X,uiButtonThree.Y,uiButtonThree.width,uiButtonThree.height);
-        ctx.fillRect(uiButtonFour.X,uiButtonFour.Y,uiButtonFour.width,uiButtonFour.height);
+
+
       }
 
       //water container
