@@ -272,9 +272,6 @@ for (var j = 0; j < playerRanged.length; j++){
 }
 
 //Update for projectiles
-for (){
-
-}
 
 //Update for gatherers
 for (var k=0; k<playerGathers.length; k++){
