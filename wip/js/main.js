@@ -35,30 +35,19 @@ function handleClick(eventParams){
 
       makeMelee = true;
 			spawnUnit(playerMelees);
-      if(friendlies[0] > 0){
-        friendlies[0]-=1;
-      }
   }
 
   //spawn ranged dude
   if (checkBounds(bRanged, eventParams.clientX, eventParams.clientY)){
-
 			makeRanged = true;
 			spawnUnit(playerRanged);
-      if(friendlies[1] > 0){
-         friendlies[1]-=1;
-      }
   }
 
   //spawn gatherer dude
   if(checkBounds(bGatherer, eventParams.clientX, eventParams.clientY)){
 
 			makeGatherer = true;
-
 			spawnUnit(playerGathers);
-      if(friendlies[2] > 0){
-        friendlies[2]-=1;
-      }
 
   }
 

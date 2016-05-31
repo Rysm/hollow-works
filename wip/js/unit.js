@@ -24,18 +24,46 @@ var playerMelees = new Array();
 var playerRanged = new Array();
 var playerGathers = new Array();
 
+//unit counts
+meleeCount = 0;
+rangedCount = 0;
+gathererCount = 0;
+
 //count of friendlies
 var friendlies = [0, 0, 0];
 
 //Instantiate three player unit
 playerMelees.push( unit(1) ); //melee
 friendlies[0]+=1;
+playerMelees.push( unit(1) ); //melee
+friendlies[0]+=1;
+playerMelees.push( unit(1) ); //melee
+friendlies[0]+=1;
+playerMelees.push( unit(1) ); //melee
+friendlies[0]+=1;
 
+
+playerRanged.push( unit(2) ); //ranged
+friendlies[1]+=1;
+playerRanged.push( unit(2) ); //ranged
+friendlies[1]+=1;
+playerRanged.push( unit(2) ); //ranged
+friendlies[1]+=1;
+playerRanged.push( unit(2) ); //ranged
+friendlies[1]+=1;
 playerRanged.push( unit(2) ); //ranged
 friendlies[1]+=1;
 
 playerGathers.push( unit(3) ); //gatherer
 friendlies[2]+=1;
+playerGathers.push( unit(3) ); //gatherer
+friendlies[2]+=1;
+playerGathers.push( unit(3) ); //gatherer
+friendlies[2]+=1;
+playerGathers.push( unit(3) ); //gatherer
+friendlies[2]+=1;
+
+
 
 
 /*
@@ -119,33 +147,49 @@ function spawnUnit(unitArray){
   //summon melee dude
   if (makeMelee){
     if (playerMelees!=null){
-			playerMelees[0].act = true;
-      console.log();
-      playerMelees[0].X = spawnX;
-      playerMelees[0].Y = spawnY;
+			playerMelees[meleeCount].act = true;
+      playerMelees[meleeCount].X = spawnX;
+      playerMelees[meleeCount].Y = spawnY;
 			makeMelee = false;
+      if (meleeCount<playerMelees.length){
+        meleeCount+=1;
+      }
+      if(friendlies[0] > 0){
+        friendlies[0]-=1;
+      }
     }
   }
 
 
-  else if (makeRanged){
+  if (makeRanged){
       if (playerRanged!=null){
-        playerRanged[0].X = spawnX;
-        playerRanged[0].Y = spawnY;
-        playerRanged[0].act = true;
+        playerRanged[rangedCount].act = true;
+        playerRanged[rangedCount].X = spawnX;
+        playerRanged[rangedCount].Y = spawnY;
 				makeRanged = false;
+        if (rangedCount<playerRanged.length){
+          rangedCount+=1;
+        }
+        if(friendlies[1] > 0){
+           friendlies[1]-=1;
+        }
       }
   }
 
-  else if (makeGatherer){
+  if (makeGatherer){
       if (playerGathers!=null){
-        //delete the unit from the array
-        playerGathers[0].width = 80;
-        playerGathers[0].height = 160;
-        playerGathers[0].X = 920;
-        playerGathers[0].Y = 200;
-        playerGathers[0].act = true;
+        playerGathers[gathererCount].act = true;
+        playerGathers[gathererCount].width = 80;
+        playerGathers[gathererCount].height = 160;
+        playerGathers[gathererCount].X = 920;
+        playerGathers[gathererCount].Y = 200;
 				makeGatherer = false;
+        if (gathererCount<playerGathers.length){
+          gathererCount+=1;
+        }
+        if(friendlies[2] > 0){
+          friendlies[2]-=1;
+        }
       }
   }
 
