@@ -312,6 +312,9 @@ playBut.height = 69;
 playBut.X = 565;
 playBut.Y = 360;
 
+var titleBG = new Image();
+titleBG.src = "art/title.png";
+
 //bullet
 function Arrow(from, enemy, enemy2, width, height, xSpeed) {
 
@@ -456,7 +459,6 @@ backgroundbattle.play(); //repeats song
 
 }
 
-
 //Show the player what they need to see
 function draw(){
 
@@ -467,19 +469,14 @@ if (menu == true){
 
   //draw menu background
   //current placeholder a rectangle
-  ctx.fillStyle = "#33ccff";
-  ctx.fillRect(0,0, canvas.width, canvas.height);
-
-  //Title
-  ctx.font="200px Georgia";
-  ctx.fillStyle="white";
-  ctx.fillText("Last Drop", canvas.width/2-420, canvas.height/2-100);
+  ctx.drawImage(titleBG, 0,0,canvas.width,canvas.height);
 
   //Play
-  ctx.font="80px Georgia";
-  ctx.fillText("Play", canvas.width/2-80, canvas.height/2+50);
-  ctx.fillText("Options", canvas.width/2-80, canvas.height/2+140);
-  ctx.fillText("Exit", canvas.width/2-80, canvas.height/2+230);
+  ctx.font="50px Georgia";
+  ctx.fillStyle = "white";
+  ctx.fillText("Play", canvas.width/2-80, canvas.height/2+180);
+  ctx.fillText("Options", canvas.width/2-80, canvas.height/2+250);
+  ctx.fillText("Exit", canvas.width/2-80, canvas.height/2+320);
 }
 
 /*
