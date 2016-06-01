@@ -225,10 +225,10 @@ bg.src = "art/bg.png";
 
 //uiIcon
 var uiIcon = new Image();
-uiIcon.X = 1175;
-uiIcon.Y = 200;
-uiIcon.width = 60;
-uiIcon.height = 60;
+uiIcon.X = 200;
+uiIcon.Y = 100;
+uiIcon.width = 110;
+uiIcon.height = 35;
 
 //uiBackground
 var uiBackground = new Image();
@@ -267,14 +267,22 @@ uiButtonFour.width = 210;
 uiButtonFour.height = 70;
 uiButtonFour.src = "art/levelFour.png";
 
+//playerPortrait
+var playerPortrait = new Image();
+playerPortrait.X = 50;
+playerPortrait.Y = 20;
+playerPortrait.width = 300;
+playerPortrait.height = 150;
+playerPortrait.src = "art/hero_gatherer_portrait.png";
+
 
 //water icon
 var waterIcon = new Image();
 waterIcon.src = "art/watericon2.png";
-waterIcon.width = 100;
-waterIcon.height = 100;
-waterIcon.X = 75;
-waterIcon.Y = 25;
+waterIcon.width = 90;
+waterIcon.height = 90;
+waterIcon.X = 180;
+waterIcon.Y = 115;
 
 //TOP RIGHT CHARACTER BUTTONS
 var bMelee = new Image();
@@ -595,8 +603,9 @@ else if (menu == false && hero==true){
       //main background
       ctx.drawImage(bg,0,0, canvas.width, canvas.height);
 
-      //Draw the amount of water the player has
+      //Draw the amount of water the player has and playerPortrait
       ctx.drawImage(waterIcon, waterIcon.X, waterIcon.Y+10, waterIcon.width, waterIcon.height);
+      ctx.drawImage(playerPortrait, playerPortrait.X, playerPortrait.Y, playerPortrait.width, playerPortrait.height);
 
       //amount of water rectangle
       ctx.fillStyle = "#33ccff";
@@ -656,13 +665,17 @@ else if (menu == false && hero==true){
 
 
       //upgrade UI button
-      ctx.fillStyle = "blue";
-      ctx.fillRect(uiIcon.X, uiIcon.Y, uiIcon.width, uiIcon.height);
+
+
+      ctx.font="18px Georgia";
+      ctx.fillStyle="black";
+
+
       if(uiActive == false){
-        ctx.fillStyle = "red";
-        ctx.fillRect(uiIcon.X, uiIcon.Y, uiIcon.width, uiIcon.height);
+        ctx.fillText("Upgrade", uiIcon.X+15, uiIcon.Y+22);
       }else{
-        ctx.fillStyle = "red";
+        ctx.fillText("Close", uiIcon.X+15, uiIcon.Y+22);
+
         ctx.drawImage(uiBackground, uiBackground.X, uiBackground.Y, uiBackground.width, uiBackground.height);
         //drawing the current attack skill level
         if(atkUi == 1){
