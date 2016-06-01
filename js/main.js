@@ -315,6 +315,7 @@ playBut.Y = 360;
 var titleBG = new Image();
 titleBG.src = "art/title.png";
 
+
 //bullet
 function Arrow(from, enemy, enemy2, width, height, xSpeed) {
 
@@ -323,6 +324,13 @@ function Arrow(from, enemy, enemy2, width, height, xSpeed) {
     this.width = width;
     this.height = height;
     this.xSpeed = xSpeed;
+
+//arrow sound effects
+    var arrowpew=document.getElementById('arrowpew'); //input arrow pew sounds
+    var arrowcounter=0; //arrow pew pew counter
+    var arrowpewPlayed = false;
+//
+
 
     if (from == pRanged){
       var bulletImg = new Image();
@@ -334,10 +342,28 @@ function Arrow(from, enemy, enemy2, width, height, xSpeed) {
     }
 
     this.draw = function() {
+
+//arrow shooting sounds in action//
+        if(!arrowpewPlayed){ //plays it if it isn't played just in case
+          arrowpew.currentTime = 0;
+          arrowpew.play();
+          arrowpewPlayed = true;
+        }
+
+        if (arrowpew.ended){
+          arrowcounter+=0.05;
+          if(arrowcounter>=3){ //timer for the arrows to come out
+            arrowpew.play();
+            arrowcounter=0;
+          }
+        }
+//
+
         ctx.drawImage(bulletImg, this.x, this.y, this.width, this.height);
     };
 
     this.reset = function() {
+        arrowpewPlayed = false;
         this.x = from.X + from.width/2;
         this.y = from.Y + from.height/2;
         this.width = width;
