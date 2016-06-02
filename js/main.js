@@ -321,13 +321,10 @@ playBut.Y = 460;
 var titleBG = new Image();
 titleBG.src = "art/title.png";
 
-<<<<<<< HEAD
 var selectBG = new Image();
 selectBG.src = "art/Hero_Screen.png";
 
 var selectBut = new Image();
-=======
->>>>>>> origin/master
 
 //bullet
 function Arrow(from, enemy, enemy2, width, height, xSpeed) {
