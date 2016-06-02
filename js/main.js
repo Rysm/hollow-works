@@ -27,7 +27,7 @@ var nextTier = 50;
 var nextAtk = 10;
 var nextDef = 10;
 var nextSpd = 10;
-
+var hero = false;
 
 /*
 Input Music
@@ -118,7 +118,13 @@ if (checkBounds(uiButtonThree, eventParams.clientX, eventParams.clientY)){
   */
   if (checkBounds(playBut, eventParams.clientX, eventParams.clientY)){
     menu = false;
+    hero=true;
   }
+
+  /*
+  hero selection
+  */
+
 
   /*
   Spawn player new checked
@@ -304,16 +310,21 @@ eRanged.createArrow = function() {
 }
 
 /*
-Menu button parameters
+Menu STUFF
 */
 var playBut = new Image();
-playBut.width = 164;
-playBut.height = 69;
-playBut.X = 565;
-playBut.Y = 360;
+playBut.width = 200;
+playBut.height = 100;
+playBut.X = 538;
+playBut.Y = 460;
 
 var titleBG = new Image();
 titleBG.src = "art/title.png";
+
+var selectBG = new Image();
+selectBG.src = "art/Hero_Screen.png";
+
+var selectBut = new Image();
 
 //bullet
 function Arrow(from, enemy, enemy2, width, height, xSpeed) {
@@ -384,10 +395,13 @@ if (water < 0){
 
 //filler
 if (menu == true){
+//console.log(mouseYpos);
+//console.log(mouseXpos);
 }
 
 //game state disabled from messing with menu
 if (menu == false){
+
 
         //call this to check if we're losing water
         takeWater(waterCont, eMelee);
@@ -465,7 +479,7 @@ function draw(){
   //clear the canvas
   canvas.width = canvas.width;
 
-if (menu == true){
+if (menu == true && hero==false){
 
   //draw menu background
   //current placeholder a rectangle
@@ -479,10 +493,14 @@ if (menu == true){
   ctx.fillText("Exit", canvas.width/2-80, canvas.height/2+320);
 }
 
+if (menu == false && hero==false){
+  ctx.drawImage(selectBG, 0,0,canvas.width,canvas.height);
+}
+
 /*
 Updates are in progress at the moment
 */
-else if (menu == false){
+else if (menu == false && hero==true){
       //main background
       ctx.drawImage(bg,0,0, canvas.width, canvas.height);
 
