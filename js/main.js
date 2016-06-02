@@ -273,7 +273,7 @@ playerPortrait.X = 50;
 playerPortrait.Y = 20;
 playerPortrait.width = 300;
 playerPortrait.height = 150;
-playerPortrait.src = "art/hero_gatherer_portrait.png";
+
 
 
 //water icon
@@ -501,6 +501,17 @@ if (menu == true){
 
 //game state disabled from messing with menu
 if (menu == false){
+
+				//update player playerPortrait
+				if (selectHero == "melee"){
+						playerPortrait.src = "art/meleePortrait.png";
+				}
+				if (selectHero == "gatherer"){
+						playerPortrait.src = "art/gathererPortrait.png";
+				}
+				if (selectHero == "ranged"){
+						playerPortrait.src = "art/rangedPortrait.png";
+				}
 
         //call this to check if we're losing water
         takeWater(waterCont, eMelee);
