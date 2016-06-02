@@ -9,9 +9,14 @@ var ctx = canvas.getContext("2d");
 Input Section
 */
 //Using this method while I educate myself on Jquery
-canvas.addEventListener("click", handleClick);//when click happens call handleClick
+canvas.addEventListener("click", handleClick); //when click happens call handleClick
+canvas.addEventListener("mousemove", handleHover); //for hero selection neatness
+canvas.addEventListener("mouseup", choose); //for getting into the game
+
 var mouseXpos;
 var mouseYpos;
+var hoverX;
+var hoverY;
 
 /*
 game state variables
@@ -27,7 +32,13 @@ var nextTier = 50;
 var nextAtk = 10;
 var nextDef = 10;
 var nextSpd = 10;
+
+//is hero selected
 var hero = false;
+
+//selected hero
+var selectHero = "nothing";
+
 
 /*
 Input Music
@@ -39,99 +50,84 @@ backgroundbattle.play(); //plays music
 
 //button is the object we specificy
 function handleClick(eventParams){
-  //Mouse coordinates!
-  mouseXpos = eventParams.clientX;
-  mouseYpos = eventParams.clientY;
 
-  //spawn gatherer dude
-  if(checkBounds(bGatherer, eventParams.clientX, eventParams.clientY)){
-      pGatherer.X = 1300;
-      pGatherer.Y = 275;
-      pGatherer.width = 40;
-      pGatherer.height = 80;
-      pGatherer.act = true;
-      if(bGatherer.count > 0){
-        bGatherer.count-=1;
-      }
+			  //spawn gatherer dude
+			  if(checkBounds(bGatherer, eventParams.clientX, eventParams.clientY)){
+			      pGatherer.X = 1300;
+			      pGatherer.Y = 275;
+			      pGatherer.width = 40;
+			      pGatherer.height = 80;
+			      pGatherer.act = true;
+			      if(bGatherer.count > 0){
+			        bGatherer.count-=1;
+			      }
 
-  }
+			  }
 
-  //spawn melee dude
-  if(checkBounds(bMelee, eventParams.clientX, eventParams.clientY)){
-      //character activate location
-      //turns on a switch to enable player object/particle movement
-      pMelee.Y = canvas.height-waterCont.height-50;
-      eMelee.Y = canvas.height-waterCont.height-50;
-      eRanged.Y = canvas.height-waterCont.height-50;
-      pMelee.act=true;
-      eMelee.act = true;
-      eRanged.act = true;
-      if(bMelee.count > 0){
-        bMelee.count-=1;
-      }
-  }
+			  //spawn melee dude
+			  if(checkBounds(bMelee, eventParams.clientX, eventParams.clientY)){
+			      //character activate location
+			      //turns on a switch to enable player object/particle movement
+			      pMelee.Y = canvas.height-waterCont.height-50;
+			      eMelee.Y = canvas.height-waterCont.height-50;
+			      eRanged.Y = canvas.height-waterCont.height-50;
+			      pMelee.act=true;
+			      eMelee.act = true;
+			      eRanged.act = true;
+			      if(bMelee.count > 0){
+			        bMelee.count-=1;
+			      }
+			  }
 
-  //spawn ranged dude
-  if (checkBounds(bRanged, eventParams.clientX, eventParams.clientY)){
-      //character activate location
-      //turns on a switch to enable player object/particle movement
-      pRanged.Y = canvas.height-waterCont.height-50;
-      eMelee.Y = canvas.height-waterCont.height-50;
-      eRanged.Y = canvas.height-waterCont.height-50;
-      pRanged.act=true;
-      eMelee.act = true;
-      eRanged.act = true;
-      if(bRanged.count > 0){
-        bRanged.count-=1;
-      }
-  }
-  //open ui
-  if (checkBounds(uiIcon, eventParams.clientX, eventParams.clientY)){
-    if(uiActive == false){
-      uiActive = true;
-    }else{
-      uiActive = false;
-    }
+			  //spawn ranged dude
+			  if (checkBounds(bRanged, eventParams.clientX, eventParams.clientY)){
+			      //character activate location
+			      //turns on a switch to enable player object/particle movement
+			      pRanged.Y = canvas.height-waterCont.height-50;
+			      eMelee.Y = canvas.height-waterCont.height-50;
+			      eRanged.Y = canvas.height-waterCont.height-50;
+			      pRanged.act=true;
+			      eMelee.act = true;
+			      eRanged.act = true;
+			      if(bRanged.count > 0){
+			        bRanged.count-=1;
+			      }
+			  }
+			  //open ui
+			  if (checkBounds(uiIcon, eventParams.clientX, eventParams.clientY)){
+			    if(uiActive == false){
+			      uiActive = true;
+			    }else{
+			      uiActive = false;
+			    }
 
-  }
-  //upgrade attack
-  if (checkBounds(uiButtonOne, eventParams.clientX, eventParams.clientY)){
-    if(uiActive){
-      atkUi+=1;
-    }
-  }
-  //upgrade defense
-  if (checkBounds(uiButtonTwo, eventParams.clientX, eventParams.clientY)){
-    if(uiActive){
-      defUi+=1;
-    }
-  }
-//upgrade speed
-if (checkBounds(uiButtonThree, eventParams.clientX, eventParams.clientY)){
-  if(uiActive){
-    spdUi+=1;
-  }
-}
+			  }
+			  //upgrade attack
+			  if (checkBounds(uiButtonOne, eventParams.clientX, eventParams.clientY)){
+			    if(uiActive){
+			      atkUi+=1;
+			    }
+			  }
+			  //upgrade defense
+			  if (checkBounds(uiButtonTwo, eventParams.clientX, eventParams.clientY)){
+			    if(uiActive){
+			      defUi+=1;
+			    }
+			  }
+			//upgrade speed
+			if (checkBounds(uiButtonThree, eventParams.clientX, eventParams.clientY)){
+			  if(uiActive){
+			    spdUi+=1;
+			  }
+			}
 
-  /*
-  Menu navigation
-  */
-  if (checkBounds(playBut, eventParams.clientX, eventParams.clientY)){
-    menu = false;
-    hero=true;
-  }
-
-  /*
-  hero selection
-  */
-
-
-  /*
-  Spawn player new checked
-  */
-  if (null){
-
-  }
+			  /*
+			  Playbutton stuff
+			  */
+			  if (checkBounds(playBut, eventParams.clientX, eventParams.clientY)){
+			    menu = false;
+			    hero=false;
+			  }
 
 }
 
@@ -142,6 +138,76 @@ function checkBounds(button, clickX, clickY){
   }else{
   	return false;
   }
+}
+
+
+/*
+HERO
+HERO STUFF
+HERO
+*/
+
+//Added something to help make menu look sick
+function handleHover(e){
+			/* x-y coord I recorded for self reference
+			left
+			90 - 49
+			405 - 689
+
+			mid
+			488 - 100
+			832 - 670
+
+			right
+			876 - 56
+			1217 - 680
+			*/
+			if (menu == false){
+					//Hovering over melee hero
+					if ( (e.clientX >= 90 && e.clientX <= 405) && (e.clientY>=49 && e.clientY<=689) ){
+						selectBG.src = "art/heroscreenM.png";
+					}
+
+					//Hovering over gatherer hero
+					else if ( (e.clientX >= 488 && e.clientX <= 832) && (e.clientY>=100 && e.clientY<=670) ){
+						selectBG.src = "art/heroscreenG.png";
+					}
+
+					//Hovering over ranged hero
+					else if ( (e.clientX >= 876 && e.clientX <= 1217) && (e.clientY>=56 && e.clientY<=680) ){
+						selectBG.src = "art/heroscreenR.png";
+					}
+
+					else{
+						selectBG.src = "art/heroscreen.png";
+					}
+			}
+}
+
+function choose(e){
+	/*
+	hero selection
+	hero false means it hasn't been selected
+	*/
+	if (menu==false && hero==false){
+			//select melee
+			if ( (e.clientX >= 90 && e.clientX <= 405) && (e.clientY>=49 && e.clientY<=689) ){
+				selectHero = "melee";
+				hero=true;
+			}
+			//select gatherer
+			else if ( (e.clientX >= 488 && e.clientX <= 832) && (e.clientY>=100 && e.clientY<=670) ){
+				selectHero = "gatherer";
+				hero = true;
+			}
+
+			//Hovering over ranged hero
+			else if ( (e.clientX >= 876 && e.clientX <= 1217) && (e.clientY>=56 && e.clientY<=680) ){
+				selectHero = "ranged";
+				hero = true;
+			}
+
+	}
 }
 
 /* Image variables */
@@ -322,9 +388,10 @@ var titleBG = new Image();
 titleBG.src = "art/title.png";
 
 var selectBG = new Image();
-selectBG.src = "art/Hero_Screen.png";
+selectBG.src = "art/heroscreen.png";
 
 var selectBut = new Image();
+
 
 //bullet
 function Arrow(from, enemy, enemy2, width, height, xSpeed) {
@@ -427,7 +494,6 @@ if (menu == true){
 //game state disabled from messing with menu
 if (menu == false){
 
-
         //call this to check if we're losing water
         takeWater(waterCont, eMelee);
         takeWater(waterCont, eRanged);
@@ -501,8 +567,8 @@ backgroundbattle.play(); //repeats song
 //Show the player what they need to see
 function draw(){
 
-  //clear the canvas
-  canvas.width = canvas.width;
+//clear the canvas
+canvas.width = canvas.width;
 
 if (menu == true && hero==false){
 
@@ -519,7 +585,7 @@ if (menu == true && hero==false){
 }
 
 if (menu == false && hero==false){
-  ctx.drawImage(selectBG, 0,0,canvas.width,canvas.height);
+	ctx.drawImage(selectBG, 0,0,canvas.width,canvas.height);
 }
 
 /*
