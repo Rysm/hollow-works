@@ -168,8 +168,6 @@ function handleClick(eventParams){
 			      eMelee.Y = canvas.height-waterCont.height-50;
 			      eRanged.Y = canvas.height-waterCont.height-50;
 			      pMelee.act=true;
-			      eMelee.act = true;
-			      eRanged.act = true;
 			      if(bMelee.count > 0){
 			        bMelee.count-=1;
 			      }
@@ -183,8 +181,6 @@ function handleClick(eventParams){
 			      eMelee.Y = canvas.height-waterCont.height-50;
 			      eRanged.Y = canvas.height-waterCont.height-50;
 			      pRanged.act=true;
-			      eMelee.act = true;
-			      eRanged.act = true;
 			      if(bRanged.count > 0){
 			        bRanged.count-=1;
 			      }
@@ -459,7 +455,7 @@ eMelee.width = 80;
 eMelee.height = 160;
 eMelee.X = 110;
 eMelee.Y = canvas.height-waterCont.height-50;
-eMelee.act = true;
+eMelee.act = false;
 eMelee.dead = false;
 
 //enemy ranged
@@ -472,7 +468,7 @@ eRanged.width = 90;
 eRanged.height = 160;
 eRanged.X = 0;
 eRanged.Y = canvas.height-waterCont.height-50;
-eRanged.act = true;
+eRanged.act = false;
 eRanged.dead = false;
 eRanged.advance = true;
 eRanged.createArrow = function() {
@@ -590,10 +586,11 @@ var eArrow = eRanged.createArrow();
 function update(){
 
 //water stuck lowest as 0
-if (water < 0){
-  water = 0;
+if (water <= 0){
 	state = "lose";
+	water = 0;
 }
+
 
 if (defeated >= winNum){
 	state = "win";
@@ -607,6 +604,21 @@ if (menu == true){
 
 //game state disabled from messing with menu
 if (menu == false){
+
+				//timer thing
+				countDownValue = currentCountDown();
+
+				//get time in ms and convert to seconds
+				//floor it too
+				nowtime = Math.floor( ((countDownValue/1000) % 60) );
+
+				//Spawn the first wave!
+				//Once timer reaches 0
+				if (nowtime <= 0){
+						nowtime = 0;
+						eMelee.act = true;
+						eRanged.act = true;
+				}
 
 				//update player playerPortrait
 				if (selectHero == "melee"){
@@ -780,13 +792,11 @@ else if (menu == false && hero==true && state == null){
         ctx.fillRect(eRanged.X, eRanged.Y+eRanged.height, eRanged.health*0.75, 15);
       }
 
-
       //upgrade UI button
-
-
       ctx.font="18px Georgia";
       ctx.fillStyle="black";
-
+			//Timer display
+			ctx.fillText("Wave 1 in " + nowtime + "s", uiIcon.X+12, uiIcon.Y-15 );
 
       if(uiActive == false){
         ctx.fillText("Upgrade", uiIcon.X+15, uiIcon.Y+22);
@@ -829,23 +839,12 @@ else if (menu == false && hero==true && state == null){
         ctx.fillStyle="black";
         ctx.fillText(" "+tierUi, 510, 125);
 
-
-
       }
 
       //water container
       ctx.drawImage(waterCont, waterCont.X, waterCont.Y, waterCont.width, waterCont.height);
 
-      //Projectile drawing
-      //Friendly
-      if (pRanged.act){
-      }
-
-      //Enemy
-      if(eRanged.act){
-
-      }
-  }
+}
 
 	//draw win screen
 	else if (state == "win"){

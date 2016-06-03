@@ -54,7 +54,7 @@ function hitProj(projectile, target){
         if (target.name === "pRanged" || target.name === "pMelee"){
           if (projectile.x >= target.X){
             //check if target dead
-            if (target.health <= 10){
+            if (target.health <= 0){
               target.dead = true;
               target.X = 1995;
             }
@@ -69,8 +69,9 @@ function hitProj(projectile, target){
         else if (target.name === "eRanged" || target.name === "eMelee"){
           if (projectile.x <= target.X+target.width){
             //check if target dead
-            if (target.health <= 10){
+            if (target.health <= 0){
               target.dead = true;
+              defeated+=1;
               target.X = -1995;
             }
             target.health -= 30;
@@ -85,7 +86,7 @@ function hitProj(projectile, target){
 //passes in enemy and then checks coordinates
 function takeWater(waterCont, enemy){
   if(((waterCont.X)>=(enemy.X+enemy.width)&&(enemy.X+enemy.width)>=(waterCont.X))){
-      water -= 90;
+      water -= 50;
       enemy.X = 2000;
   }
 }
