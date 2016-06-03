@@ -416,6 +416,7 @@ pGatherer.height = 160;
 pGatherer.name = "pGatherer";
 pGatherer.src = "art/ally_gatherer_female.png";
 pGatherer.act = false;
+pGatherer.state = "go";
 
 //Named as playerMelee
 var pMelee = new Image();
@@ -637,7 +638,7 @@ if (menu == false){
         hitProj(pArrow, eRanged);
 
         //call this to get water with gatherer
-        gatherWater(pGatherer);
+        //gatherWater(pGatherer);
 
         if (pRanged.dead == false && pRanged.act){
           pArrow.y = pRanged.Y + pRanged.height/2;
@@ -650,7 +651,22 @@ if (menu == false){
 
         //friendly unit movement
         if(pGatherer.act){
-          pGatherer.X-=3;
+					    if (pGatherer.state == "go"){
+			            pGatherer.X -= 5;
+			            //call this to get water with gatherer
+			            gatherWater(pGatherer);
+			            //forward
+			            if (pGatherer.X < -20){
+			                pGatherer.state = "back";
+			            }
+			        }
+			        else if (pGatherer.state == "back"){
+			            pGatherer.X += 5;
+			            //state management
+			            if (pGatherer.X > canvas.width + 20){
+			                pGatherer.state = "go";
+			            }
+			        }
         }
 
         if (pMelee.act && pMelee.dead == false){
