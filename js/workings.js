@@ -8,10 +8,6 @@ var level = 1; //current game level NOT PLAYER'S
 
 var water = 100; //resource count
 
-//placeholder sht
-var defeated = 0;
-var winNum = 2;
-
 //bullet
 var Bullet = function(velocity, rectangle) {
     this.vx = velocity;
@@ -34,9 +30,7 @@ function checkCombat(friendly, enemy){
 
     //check if enemy dead
     if (enemy.health <= 0){
-          enemy.dead = true;
-          defeated+=1;
-          console.log(defeated);
+        enemy.dead = true;
     }
 
     friendly.health -= 15;
@@ -71,7 +65,6 @@ function hitProj(projectile, target){
             //check if target dead
             if (target.health <= 0){
               target.dead = true;
-              defeated+=1;
               target.X = -1995;
             }
             target.health -= 30;
@@ -80,7 +73,6 @@ function hitProj(projectile, target){
         }
   }
 }
-
 
 //check if enemies are taking water
 //passes in enemy and then checks coordinates

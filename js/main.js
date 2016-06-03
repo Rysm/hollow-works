@@ -511,8 +511,6 @@ function Arrow(from, enemy, enemy2, width, height, xSpeed) {
     var arrowpew=document.getElementById('arrowpew'); //input arrow pew sounds
     var arrowcounter=0; //arrow pew pew counter
     var arrowpewPlayed = false;
-//
-
 
     if (from == pRanged){
       var bulletImg = new Image();
@@ -589,11 +587,6 @@ function update(){
 if (water <= 0){
 	state = "lose";
 	water = 0;
-}
-
-
-if (defeated >= winNum){
-	state = "win";
 }
 
 //filler
@@ -745,7 +738,6 @@ else if (menu == false && hero==true && state == null){
       ctx.fillStyle="white";
       ctx.fillText(water, waterIcon.X+170, waterIcon.Y+(waterIcon.height-30));
 
-
       //character icons
       ctx.drawImage(bGatherer, bGatherer.X, bGatherer.Y, bGatherer.width, bGatherer.height);
       ctx.drawImage(bMelee, bMelee.X, bMelee.Y, bMelee.width, bMelee.height);
@@ -838,7 +830,6 @@ else if (menu == false && hero==true && state == null){
         ctx.font="72px Georgia";
         ctx.fillStyle="black";
         ctx.fillText(" "+tierUi, 510, 125);
-
       }
 
       //water container
