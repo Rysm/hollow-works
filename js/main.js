@@ -1,4 +1,4 @@
-
+Co
 /*
 Initiate canvas
 */
@@ -501,7 +501,7 @@ var winImg = new Image();
 winImg.src = "art/winscreen.png"
 
 var loseImg = new Image();
-loseImg.src = "art/losescreen.png";
+loseImg.src = "art/gameover.png";
 
 //bullet
 function Arrow(from, enemy, enemy2, width, height, xSpeed) {
@@ -855,7 +855,7 @@ else if (menu == false && hero==true && state == null){
 
 	//draw lose screen
 	else if (state == "lose"){
-			//ctx.drawImage(loseImg, 0,0,canvas.width,canvas.height);
+			ctx.drawImage(loseImg, 0,0,canvas.width,canvas.height);
 	}
 
 }
