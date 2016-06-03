@@ -39,6 +39,8 @@ var hero = false;
 //selected hero
 var selectHero = "nothing";
 
+//will hold win
+var state = null;
 
 /*
 Input Music
@@ -400,6 +402,11 @@ selectBG.src = "art/heroscreen.png";
 
 var selectBut = new Image();
 
+var winImg = new Image();
+winImg.src = "art/winscreen.png"
+
+var loseImg = new Image();
+loseImg.src = "art/losescreen.png";
 
 //bullet
 function Arrow(from, enemy, enemy2, width, height, xSpeed) {
@@ -491,6 +498,11 @@ function update(){
 //water stuck lowest as 0
 if (water < 0){
   water = 0;
+	state = "lose";
+}
+
+if (defeated >= winNum){
+	state = "win";
 }
 
 //filler
@@ -610,7 +622,7 @@ if (menu == false && hero==false){
 /*
 Updates are in progress at the moment
 */
-else if (menu == false && hero==true){
+else if (menu == false && hero==true && state == null){
       //main background
       ctx.drawImage(bg,0,0, canvas.width, canvas.height);
 
@@ -740,6 +752,16 @@ else if (menu == false && hero==true){
 
       }
   }
+
+	//draw win screen
+	else if (state == "win"){
+			ctx.drawImage(winImg, 0,0,canvas.width,canvas.height);
+	}
+
+	//draw lose screen
+	else if (state == "lose"){
+			ctx.drawImage(loseImg, 0,0,canvas.width,canvas.height);
+	}
 
 }
 

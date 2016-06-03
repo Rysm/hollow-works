@@ -8,6 +8,10 @@ var level = 1; //current game level NOT PLAYER'S
 
 var water = 100; //resource count
 
+//placeholder sht
+var defeated = 0;
+var winNum = 2;
+
 //bullet
 var Bullet = function(velocity, rectangle) {
     this.vx = velocity;
@@ -24,13 +28,15 @@ function checkCombat(friendly, enemy){
   if((friendly.X)<=(enemy.X + enemy.width) && friendly.act == true){
 
     //check if friendly dead
-    if (friendly.health <= 10){
+    if (friendly.health <= 0){
       friendly.dead = true;
     }
 
     //check if enemy dead
-    if (enemy.health <= 10){
-      enemy.dead = true;
+    if (enemy.health <= 0){
+          enemy.dead = true;
+          defeated+=1;
+          console.log(defeated);
     }
 
     friendly.health -= 15;
