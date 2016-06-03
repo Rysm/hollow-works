@@ -1,4 +1,3 @@
-Co
 /*
 Initiate canvas
 */
@@ -113,7 +112,7 @@ successMusic.play(); //success music
 //
 
 //clicky sounds//
-        if(!clickySoundsPlayed){ 
+        if(!clickySoundsPlayed){
           clickySounds.currentTime = 0;
           clickySounds.play();
           clickySoundsPlayed = true;
@@ -129,7 +128,7 @@ successMusic.play(); //success music
 //
 
 //successMusic//
-        if(!successMusicPlayed){ 
+        if(!successMusicPlayed){
           successMusic.currentTime = 0;
           successMusic.play();
           successMusic = true;
@@ -137,7 +136,7 @@ successMusic.play(); //success music
 
         if (successMusic.ended){
           successMusicCounter+=0.05;
-          if(successMusicCounter>=4){ 
+          if(successMusicCounter>=4){
             successMusic.play();
             successMusicCounter=0;
           }
@@ -694,10 +693,8 @@ backgroundbattle.play(); //repeats song
 function draw(){
 
 //clear the canvas
-canvas.width = canvas.width;
-
 if (menu == true && hero==false){
-
+	canvas.width = canvas.width;
   //draw menu background
   //current placeholder a rectangle
   ctx.drawImage(titleBG, 0,0,canvas.width,canvas.height);
@@ -718,6 +715,8 @@ if (menu == false && hero==false){
 Updates are in progress at the moment
 */
 else if (menu == false && hero==true && state == null){
+			canvas.width = canvas.width;
+
       //main background
       ctx.drawImage(bg,0,0, canvas.width, canvas.height);
 
