@@ -46,9 +46,19 @@ var state = null;
 Input Music
 */
 var backgroundbattle = document.getElementById('backgroundbattle');
-
-backgroundbattle.play(); //plays music
-
+/* (music working and to be implimented)
+var swordsound = document.getElementById('swordsound');
+var menumusic = document.getElementById('menumusic');
+var clickysounds = document.getElementById('clickysounds');
+var successmusic = document.getElementById('successmusic');
+*/
+backgroundbattle.play(); //plays background music
+/* (the plaaayys)
+swordsound.play(); //sword shing
+menumusic.play(); //menu music (?)
+clickysounds.play(); //click click sounds
+successmusic.play(); //success music
+*/
 
 //button is the object we specificy
 function handleClick(eventParams){
@@ -444,7 +454,7 @@ function Arrow(from, enemy, enemy2, width, height, xSpeed) {
 
         if (arrowpew.ended){
           arrowcounter+=0.05;
-          if(arrowcounter>=3){ //timer for the arrows to come out
+          if(arrowcounter>=4){ //timer for the arrows to come out
             arrowpew.play();
             arrowcounter=0;
           }
