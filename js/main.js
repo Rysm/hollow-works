@@ -760,7 +760,7 @@ else if (menu == false && hero==true && state == null){
 
 	//draw lose screen
 	else if (state == "lose"){
-			ctx.drawImage(loseImg, 0,0,canvas.width,canvas.height);
+			//ctx.drawImage(loseImg, 0,0,canvas.width,canvas.height);
 	}
 
 }
