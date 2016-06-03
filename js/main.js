@@ -674,7 +674,7 @@ if (menu == false){
           }
         }
 
-        //melee shit
+        //melee combat
         //checkCombat (friendly, enemy)
         if (pMelee.act && eRanged.act){
           checkCombat(pMelee, eRanged); //melee vs ranged
@@ -688,6 +688,11 @@ if (menu == false){
         if (pRanged.act && eRanged.act){
           checkCombat(pRanged, eRanged); //ranged vs ranged
         }
+
+				//win condition
+				if (rekt == winNum){
+						state = "win";
+				}
   }
 
 backgroundbattle.play(); //repeats song

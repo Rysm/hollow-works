@@ -8,6 +8,14 @@ var level = 1; //current game level NOT PLAYER'S
 
 var water = 100; //resource count
 
+//win conditions
+var winNum = 2;
+var rekt = 0; //number killed
+
+//check if unit died
+var countM = false;
+var countR = false;
+
 //bullet
 var Bullet = function(velocity, rectangle) {
     this.vx = velocity;
@@ -30,7 +38,19 @@ function checkCombat(friendly, enemy){
 
     //check if enemy dead
     if (enemy.health <= 0){
-        enemy.dead = true;
+            enemy.dead = true;
+
+            //kill melee
+            if (countM == false && enemy.name == "eMelee"){
+                countM = true;
+                rekt += 1;
+            }
+          //kill ranged
+            if (countR == false && enemy.name == "eRanged"){
+                countR = true;
+                rekt += 1;
+            }
+
     }
 
     friendly.health -= 15;
@@ -65,6 +85,17 @@ function hitProj(projectile, target){
             //check if target dead
             if (target.health <= 0){
               target.dead = true;
+
+              //arrow kill melee
+              if (countM == false && target.name == "eMelee"){
+                  countM = true;
+                  rekt += 1;
+              }
+            //arrow kill ranged
+              if (countR == false && target.name == "eRanged"){
+                  countR = true;
+                  rekt += 1;
+              }
               target.X = -1995;
             }
             target.health -= 30;
