@@ -41,6 +41,25 @@ var selectHero = "nothing";
 //will hold win
 var state = null;
 
+
+var particles = [];
+
+function Particle(x, y, speed, lifetime){
+	this.x = x;
+  this.y = y;
+  this.speed = speed;
+  this.lifetime = lifetime;
+  this.radius = Math.random()*10+2;
+}
+
+function particle_system(numParticles){
+	for(var i =0; i < numParticles; i++){
+  	particles.push(new Particle(Math.random() * canvas.width, 0, 2, canvas.height));
+  }
+}
+
+particle_system(6);
+
 /*
 Input Music
 */
@@ -366,7 +385,10 @@ playerPortrait.Y = 20;
 playerPortrait.width = 300;
 playerPortrait.height = 150;
 
-
+//teardropbloop
+var teardropbloop = new Image();
+teardropbloop.src = "art/teardropbloop.png";
+teardropbloop.width = 30;
 
 //water icon
 var waterIcon = new Image();
@@ -584,6 +606,17 @@ var eArrow = eRanged.createArrow();
 
 function update(){
 
+	for(var i = 0; i < particles.length; i++){
+  	var particle = particles[i];
+    particle.y = particle.y+particle.speed;
+
+    if(particle.y > canvas.height){
+    	particle.y = 0;
+      particle.x = Math.random()*canvas.width;
+    }
+    particle.y += particle.radius*0.3;
+  }
+
 //water stuck lowest as 0
 if (water <= 0){
 	state = "lose";
@@ -724,6 +757,11 @@ if (menu == true && hero==false){
   //draw menu background
   //current placeholder a rectangle
   ctx.drawImage(titleBG, 0,0,canvas.width,canvas.height);
+
+	for(var i = 0; i < particles.length; i++){
+  	var particle = particles[i];
+    ctx.drawImage(teardropbloop, particle.x, particle.y, teardropbloop.width, 50);
+  }
 
   //Play
   ctx.font="50px Georgia";
