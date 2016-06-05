@@ -446,6 +446,15 @@ pGatherer.src = "art/ally_gatherer_female.png";
 pGatherer.act = false;
 pGatherer.state = "go";
 
+var gathererObj = Sprite({
+	context: ctx,
+	width: 650,
+	height: 250,
+	image: pGatherer,
+	numFrames: 4,
+	ticksPerFrame: 8
+});
+
 //Named as playerMelee
 var pMelee = new Image();
 pMelee.src = "art/allymeleeF.png";
@@ -693,9 +702,12 @@ function update(){
 		        //friendly unit movement
 		        if(pGatherer.act){
 							    if (pGatherer.state == "go"){
-					            pGatherer.X -= 5;
-					            //call this to get water with gatherer
-					            gatherWater(pGatherer);
+
+									gathererObj.update();
+					            	pGatherer.X -= 5;
+					            	//call this to get water with gatherer
+					            	gatherWater(pGatherer);
+
 					            //forward
 					            if (pGatherer.X < -20){
 					                pGatherer.state = "back";
@@ -835,7 +847,8 @@ function update(){
 
 		      if (pGatherer.act){
 		        //Gatherer image
-		        ctx.drawImage(pGatherer, pGatherer.X, pGatherer.Y, pGatherer.width, pGatherer.height);
+				  gathererObj.draw();
+		        //ctx.drawImage(pGatherer, pGatherer.X, pGatherer.Y, pGatherer.width, pGatherer.height);
 		      }
 
 		      //Enemy melee image and health

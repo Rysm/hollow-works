@@ -144,7 +144,7 @@ function Sprite(opt) {
         ticksPerFrame = opt.ticksPerFrame || 0,
         numFrames = opt.numFrames || 1;
 
-    self.ctx = opt.ctx;
+    self.context = opt.ctx;
     self.width = opt.width;
     self.height = opt.height;
     self.image = opt.image;
