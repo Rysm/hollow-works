@@ -434,7 +434,7 @@ bGatherer.height = 100;
 bGatherer.name = "bGatherer";
 bGatherer.src = "art/gatherericon.png";
 bGatherer.act = false;
-bGatherer.count = playerGathers.length; //how long the array is.
+bGatherer.count = playerGatherers.length; //how long the array is.
 
 
 //UNITS BEGIN HERE
@@ -676,6 +676,15 @@ if (menu == false){
 						playerPortrait.src = "art/rangedPortrait.png";
 				}
 
+
+				//loops that manage every single melee unit
+				for (a = 0; a < playerMelees.length; a++){
+							if (playerMelees[i].act && playerMelees[i].dead == false){
+				          playerMelees[i].X-=5; //movement
+									hitProj(eArrow, playerMelees[i]); //check if damage from arrow
+				      }
+				}
+
         //call this to check if we're losing water
         takeWater(waterCont, eMelee);
         takeWater(waterCont, eRanged);
@@ -684,7 +693,7 @@ if (menu == false){
         //call these to check if arrows are hitting
         //hitProj(bullet, target dood)
         hitProj(eArrow, pRanged);
-        hitProj(eArrow, pMelee);
+
         hitProj(pArrow, eMelee);
         hitProj(pArrow, eRanged);
 
@@ -720,9 +729,6 @@ if (menu == false){
 			        }
         }
 
-        if (pMelee.act && pMelee.dead == false){
-          pMelee.X-=5;
-        }
 
         if (pRanged.act && pRanged.X > 700 && pRanged.dead == false){
           pRanged.X-=5;
