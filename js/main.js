@@ -41,24 +41,27 @@ var selectHero = "nothing";
 //will hold win
 var state = null;
 
+/*
+Menu raining stuff
+*/
 
 var particles = [];
 
 function Particle(x, y, speed, lifetime){
 	this.x = x;
   this.y = y;
-  this.speed = speed;
+  this.speed = Math.random()*speed+2;
   this.lifetime = lifetime;
   this.radius = Math.random()*10+2;
 }
 
 function particle_system(numParticles){
 	for(var i =0; i < numParticles; i++){
-  	particles.push(new Particle(Math.random() * canvas.width, 0, 2, canvas.height));
+  	particles.push(new Particle(Math.random() * canvas.width, -40, 15, canvas.height));
   }
 }
 
-particle_system(6);
+particle_system(100);
 
 /*
 Input Music
@@ -429,6 +432,9 @@ bGatherer.src = "art/gatherericon.png";
 bGatherer.act = false;
 bGatherer.count = 1;
 
+/*
+//UNITS BEGIN HERE
+
 //playerGather
 var pGatherer = new Image();
 pGatherer.X = 920;
@@ -497,6 +503,9 @@ eRanged.advance = true;
 eRanged.createArrow = function() {
     return new Arrow(eRanged, pMelee, pRanged, 80, 20, -7);
 }
+
+// ^^^ UNITS END HERE
+*/
 
 /*
 Menu STUFF
@@ -758,9 +767,10 @@ if (menu == true && hero==false){
   //current placeholder a rectangle
   ctx.drawImage(titleBG, 0,0,canvas.width,canvas.height);
 
+	//water drop
 	for(var i = 0; i < particles.length; i++){
   	var particle = particles[i];
-    ctx.drawImage(teardropbloop, particle.x, particle.y, teardropbloop.width, 50);
+    ctx.drawImage(teardropbloop, particle.x, particle.y, 25, 50);
   }
 
   //Play
@@ -772,6 +782,7 @@ if (menu == true && hero==false){
 }
 
 if (menu == false && hero==false){
+
 	ctx.drawImage(selectBG, 0,0,canvas.width,canvas.height);
 }
 
@@ -846,6 +857,7 @@ else if (menu == false && hero==true && state == null){
       //upgrade UI button
       ctx.font="18px Georgia";
       ctx.fillStyle="black";
+
 			//Timer display
 			ctx.fillText("Wave 1 in " + nowtime + "s", uiIcon.X+12, uiIcon.Y-15 );
 
@@ -877,13 +889,16 @@ else if (menu == false && hero==true && state == null){
         }
         //drawing the current spd skill level
         if(spdUi == 1){
-        ctx.drawImage(uiButtonOne, 575, 460, uiButtonOne.width, uiButtonOne.height);
-        }else if(spdUi == 2){
-        ctx.drawImage(uiButtonTwo, 575, 460, uiButtonOne.width, uiButtonOne.height);
-        }else if(spdUi == 3){
-        ctx.drawImage(uiButtonThree, 575, 460, uiButtonOne.width, uiButtonOne.height);
-        }else{
-        ctx.drawImage(uiButtonFour, 575, 460, uiButtonOne.width, uiButtonOne.height);
+        	ctx.drawImage(uiButtonOne, 575, 460, uiButtonOne.width, uiButtonOne.height);
+        }
+				else if(spdUi == 2){
+        	ctx.drawImage(uiButtonTwo, 575, 460, uiButtonOne.width, uiButtonOne.height);
+        }
+				else if(spdUi == 3){
+        	ctx.drawImage(uiButtonThree, 575, 460, uiButtonOne.width, uiButtonOne.height);
+        }
+				else{
+        	ctx.drawImage(uiButtonFour, 575, 460, uiButtonOne.width, uiButtonOne.height);
         }
         //draw in tier
         ctx.font="72px Georgia";
