@@ -7,9 +7,8 @@ var ctx = canvas.getContext("2d");
 /*
 Input Section
 */
-
 //Using this method while I educate myself on Jquery
-canvas.addEventListener("click", handleClick);//when click happens call handleClick
+canvas.addEventListener("click", handleClick); //when click happens call handleClick
 canvas.addEventListener("mousemove", handleHover); //for hero selection neatness
 canvas.addEventListener("mouseup", choose); //for getting into the game
 
@@ -22,6 +21,7 @@ var hoverY;
 game state variables
 */
 var menu = true;
+
 var uiActive = false;
 var atkUi = 1;
 var defUi = 1;
@@ -31,6 +31,8 @@ var nextTier = 50;
 var nextAtk = 10;
 var nextDef = 10;
 var nextSpd = 10;
+var gamestart = false;
+var currentCountDown =  makeTimer(30000);
 
 //is hero selected
 var hero = false;
@@ -63,13 +65,108 @@ function particle_system(numParticles){
 
 particle_system(100);
 
-
 /*
 Input Music
 */
 var backgroundbattle = document.getElementById('backgroundbattle');
+backgroundbattle.play(); //plays background music
 
-backgroundbattle.play(); //plays music
+/* (music working and to be implimented)
+//melee sword sounds
+var swordSound = document.getElementById('swordSound');
+    var swordSoundCounter=0;
+    var swordSoundPlayed = false;
+
+//menu calm music
+var menuMusic = document.getElementById('menuMusic');
+    var menuMusicCounter=0;
+    var menuMusicPlayed = false;
+
+//mouse click sounds
+var clickySounds = document.getElementById('clickySounds');
+    var clickySoundsCounter=0;
+    var clickySoundsPlayed = false;
+
+//win screen success music I guess
+var successMusic = document.getElementById('successMusic');
+    var successMusicCounter=0;
+    var successMusicPlayed = false;
+*/
+
+/* (the plaaayys) Can be Ignored if use the other thing.
+swordSound.play(); //sword shing
+menuMusic.play(); //menu music (?)
+clickySounds.play(); //click click sounds
+successMusic.play(); //success music
+*/
+
+/* Use this if you plan on having timers I guess
+//they can be placed under draw or update func for the thingies
+
+//sword sounds//
+        if(!swordSoundPlayed){ //plays it if it isn't played just in case
+          swordSound.currentTime = 0;
+          swordSound.play();
+          swordSoundPlayed = true;
+        }
+
+        if (swordSound.ended){
+          swordSoundCounter+=0.05;
+          if(swordSoundCounter>=4){ //sound effect timer, adjust number to whatever
+            swordSound.play();
+            swordSoundCounter=0;
+          }
+        }
+//
+
+//menu music//
+        if(!menuMusicPlayed){
+          menuMusic.currentTime = 0;
+          menuMusic.play();
+          menuMusicPlayed = true;
+        }
+
+        if (menuMusic.ended){
+          menuMusicCounter+=0.05;
+          if(menuMusicCounter>=4){
+            menuMusic.play();
+            menuMusicCounter=0;
+          }
+        }
+//
+
+//clicky sounds//
+        if(!clickySoundsPlayed){
+          clickySounds.currentTime = 0;
+          clickySounds.play();
+          clickySoundsPlayed = true;
+        }
+
+        if (clickySounds.ended){
+          clickySoundsCounter+=0.05;
+          if(clickySoundsCounter>=4){
+            clickySounds.play();
+            clickySoundsCounter=0;
+          }
+        }
+//
+
+//successMusic//
+        if(!successMusicPlayed){
+          successMusic.currentTime = 0;
+          successMusic.play();
+          successMusic = true;
+        }
+
+        if (successMusic.ended){
+          successMusicCounter+=0.05;
+          if(successMusicCounter>=4){
+            successMusic.play();
+            successMusicCounter=0;
+          }
+        }
+//
+*/
 
 //button is the object we specificy
 function handleClick(eventParams){
@@ -159,6 +256,12 @@ function checkBounds(button, clickX, clickY){
   }
 }
 
+/*
+HERO
+HERO STUFF
+HERO
+*/
+
 //Added something to help make menu look sick
 function handleHover(e){
 			/* x-y coord I recorded for self reference
@@ -205,23 +308,25 @@ function choose(e){
 			//select melee
 			if ( (e.clientX >= 90 && e.clientX <= 405) && (e.clientY>=49 && e.clientY<=689) ){
 				selectHero = "melee";
+				gamestart = true;
 				hero=true;
 			}
 			//select gatherer
 			else if ( (e.clientX >= 488 && e.clientX <= 832) && (e.clientY>=100 && e.clientY<=670) ){
 				selectHero = "gatherer";
+				gamestart = true;
 				hero = true;
 			}
 
 			//Hovering over ranged hero
 			else if ( (e.clientX >= 876 && e.clientX <= 1217) && (e.clientY>=56 && e.clientY<=680) ){
 				selectHero = "ranged";
+				gamestart = true;
 				hero = true;
 			}
 
 	}
 }
-
 
 /* Image variables */
 //bg image and properties
@@ -295,10 +400,10 @@ teardropbloop.width = 30;
 //water icon
 var waterIcon = new Image();
 waterIcon.src = "art/watericon2.png";
-waterIcon.width = 100;
-waterIcon.height = 100;
-waterIcon.X = 75;
-waterIcon.Y = 25;
+waterIcon.width = 90;
+waterIcon.height = 90;
+waterIcon.X = 180;
+waterIcon.Y = 115;
 
 //TOP RIGHT CHARACTER BUTTONS
 var bMelee = new Image();
@@ -307,7 +412,9 @@ bMelee.width = 100;
 bMelee.height = 100;
 bMelee.X = 1000;
 bMelee.Y = 10;
+bMelee.act = false;
 bMelee.dead = false;
+bMelee.count = 1;
 
 var bRanged = new Image();
 bRanged.src = "art/bowicon.png";
@@ -315,7 +422,9 @@ bRanged.width = 100;
 bRanged.height = 100;
 bRanged.X = 1110
 bRanged.Y = 10;
+bRanged.act = false;
 bRanged.dead = false;
+bRanged.count = 1;
 
 var bGatherer = new Image();
 bGatherer.X = 890;
@@ -324,6 +433,51 @@ bGatherer.width = 100;
 bGatherer.height = 100;
 bGatherer.name = "bGatherer";
 bGatherer.src = "art/gatherericon.png";
+bGatherer.act = false;
+bGatherer.count = 1;
+
+
+//UNITS BEGIN HERE
+
+//playerGather
+var pGatherer = new Image();
+pGatherer.X = 920;
+pGatherer.Y = 200;
+pGatherer.width = 80;
+pGatherer.height = 160;
+pGatherer.name = "pGatherer";
+pGatherer.src = "art/ally_gatherer_female.png";
+pGatherer.act = false;
+pGatherer.state = "go";
+
+//Named as playerMelee
+var pMelee = new Image();
+pMelee.src = "art/allymeleeF.png";
+pMelee.name = "pMelee";
+pMelee.health = 100;
+pMelee.dmg = 15;
+pMelee.width = 80;
+pMelee.height = 160;
+pMelee.X = 1000;
+pMelee.Y = 200;
+pMelee.act = false;
+pMelee.dead = false;
+
+//player ranged
+var pRanged = new Image();
+pRanged.src = "art/allyrangeM.png";
+pRanged.name = "pRanged";
+pRanged.health = 70;
+pRanged.dmg = 30;
+pRanged.width = 90;
+pRanged.height = 160;
+pRanged.X = 1000 + pRanged.width;
+pRanged.Y = pMelee.Y;
+pRanged.act = false;
+pRanged.dead = false;
+pRanged.createArrow = function() {
+    return new Arrow(pRanged, eMelee, eRanged, 80, 20, 12);
+}
 
 var eMelee = new Image();
 eMelee.name = "eMelee";
@@ -334,7 +488,7 @@ eMelee.width = 80;
 eMelee.height = 160;
 eMelee.X = 110;
 eMelee.Y = canvas.height-waterCont.height-50;
-eMelee.act = true;
+eMelee.act = false;
 eMelee.dead = false;
 
 //enemy ranged
@@ -342,20 +496,23 @@ var eRanged = new Image();
 eRanged.name = "eRanged";
 eRanged.src = "art/badrangeF.png";
 eRanged.health = 70;
-eRanged.dmg = 30;
+pRanged.dmg = 30;
 eRanged.width = 90;
 eRanged.height = 160;
 eRanged.X = 0;
 eRanged.Y = canvas.height-waterCont.height-50;
-eRanged.act = true;
+eRanged.act = false;
 eRanged.dead = false;
 eRanged.advance = true;
-//eRanged.createArrow = function() {
-//    return new Arrow(eRanged, pMelee, pRanged, 80, 20, -7);
-//}
+eRanged.createArrow = function() {
+    return new Arrow(eRanged, pMelee, pRanged, 80, 20, -7);
+}
+
+// ^^^ UNITS END HERE
+
 
 /*
-Menu button parameters
+Menu STUFF
 */
 var playBut = new Image();
 playBut.width = 200;
@@ -363,7 +520,6 @@ playBut.height = 100;
 playBut.X = 538;
 playBut.Y = 460;
 
-//Game state background stuff
 var titleBG = new Image();
 titleBG.src = "art/title.png";
 
@@ -378,7 +534,6 @@ winImg.src = "art/winscreen.png"
 var loseImg = new Image();
 loseImg.src = "art/gameover.png";
 
-
 //bullet
 function Arrow(from, enemy, enemy2, width, height, xSpeed) {
 
@@ -388,22 +543,43 @@ function Arrow(from, enemy, enemy2, width, height, xSpeed) {
     this.height = height;
     this.xSpeed = xSpeed;
 
-    var bulletImg = new Image();
-    bulletImg.src = "art/arrow.png";
+//arrow sound effects
+    var arrowpew=document.getElementById('arrowpew'); //input arrow pew sounds
+    var arrowcounter=0; //arrow pew pew counter
+    var arrowpewPlayed = false;
 
-
-/*
+    if (from == pRanged){
+      var bulletImg = new Image();
+      bulletImg.src = "art/arrow.png";
+    }
     if (from == eRanged){
       var bulletImg = new Image();
       bulletImg.src = "art/fliprow.png";
     }
-*/
 
     this.draw = function() {
+
+//arrow shooting sounds in action//
+        if(!arrowpewPlayed){ //plays it if it isn't played just in case
+          arrowpew.currentTime = 0;
+          arrowpew.play();
+          arrowpewPlayed = true;
+        }
+
+        if (arrowpew.ended){
+          arrowcounter+=0.05;
+          if(arrowcounter>=4){ //timer for the arrows to come out
+            arrowpew.play();
+            arrowcounter=0;
+          }
+        }
+//
+
         ctx.drawImage(bulletImg, this.x, this.y, this.width, this.height);
     };
 
     this.reset = function() {
+        arrowpewPlayed = false;
         this.x = from.X + from.width/2;
         this.y = from.Y + from.height/2;
         this.width = width;
@@ -412,12 +588,15 @@ function Arrow(from, enemy, enemy2, width, height, xSpeed) {
 
     this.update = function() {
       //if fired from friendly unit
+      if (from == pRanged){
         if (this.x < 0 || this.x < enemy.X + enemy.width ||
             this.x < enemy2.X + enemy2.width) {
             this.x = from.X + from.width / 2;
             this.y = from.Y + from.height / 2;
-            //this.x -= this.xSpeed;
-
+        }
+        else {
+            this.x -= this.xSpeed;
+        }
       }
       //if fired from hostile enemy
       if (from == eRanged){
@@ -435,112 +614,118 @@ function Arrow(from, enemy, enemy2, width, height, xSpeed) {
 }
 
 //Should call stuff from the working.js to grab functions that calculate damage and resource.
-
-//var eArrow = eRanged.createArrow();
+var pArrow = pRanged.createArrow();
+var eArrow = eRanged.createArrow();
 
 function update(){
 
-//water particles?
-for(var i = 0; i < particles.length; i++){
-  var particle = particles[i];
-  particle.y = particle.y+particle.speed;
+	for(var i = 0; i < particles.length; i++){
+  	var particle = particles[i];
+    particle.y = particle.y+particle.speed;
 
-  if(particle.y > canvas.height){
-    particle.y = 0;
-    particle.x = Math.random()*canvas.width;
+    if(particle.y > canvas.height){
+    	particle.y = 0;
+      particle.x = Math.random()*canvas.width;
+    }
+    particle.y += particle.radius*0.3;
   }
-  particle.y += particle.radius*0.3;
-}
 
 //water stuck lowest as 0
-if (water < 0){
-  water = 0;
+if (water <= 0){
+	state = "lose";
+	water = 0;
 }
 
 //filler
 if (menu == true){
+//console.log(mouseYpos);
+//console.log(mouseXpos);
 }
 
 //game state disabled from messing with menu
 if (menu == false){
 
-        //timer thing
-        countDownValue = currentCountDown();
+				if (gamestart == true){
+						currentCountDown =  makeTimer(30000);
+						gamestart = false;
+				}
 
-        //get time in ms and convert to seconds
-        //floor it too
-        nowtime = Math.floor( ((countDownValue/1000) % 60) );
+				//timer thing
+				countDownValue = currentCountDown();
 
-        //Spawn the first wave!
-        //Once timer reaches 0
-        if (nowtime <= 0){
-            nowtime = 0;
-            eMelee.act = true;
-            eRanged.act = true;
+				//get time in ms and convert to seconds
+				//floor it too
+				nowtime = Math.floor( ((countDownValue/1000) % 60) );
+
+				//Spawn the first wave!
+				//Once timer reaches 0
+				if (nowtime <= 0){
+						nowtime = 0;
+						eMelee.act = true;
+						eRanged.act = true;
+				}
+
+				//update player playerPortrait
+				if (selectHero == "melee"){
+						playerPortrait.src = "art/meleePortrait.png";
+				}
+				if (selectHero == "gatherer"){
+						playerPortrait.src = "art/gathererPortrait.png";
+				}
+				if (selectHero == "ranged"){
+						playerPortrait.src = "art/rangedPortrait.png";
+				}
+
+        //call this to check if we're losing water
+        takeWater(waterCont, eMelee);
+        takeWater(waterCont, eRanged);
+
+        //combat
+        //call these to check if arrows are hitting
+        //hitProj(bullet, target dood)
+        hitProj(eArrow, pRanged);
+        hitProj(eArrow, pMelee);
+        hitProj(pArrow, eMelee);
+        hitProj(pArrow, eRanged);
+
+        //call this to get water with gatherer
+        //gatherWater(pGatherer);
+
+        if (pRanged.dead == false && pRanged.act){
+          pArrow.y = pRanged.Y + pRanged.height/2;
+          pArrow.update();
         }
 
-        //update player playerPortrait
-        if (selectHero == "melee"){
-            playerPortrait.src = "art/meleePortrait.png";
-        }
-        if (selectHero == "gatherer"){
-            playerPortrait.src = "art/gathererPortrait.png";
-        }
-        if (selectHero == "ranged"){
-            playerPortrait.src = "art/rangedPortrait.png";
+        if (eRanged.dead == false && eRanged.act){
+          eArrow.update();
         }
 
-
-        //Update for melee units
-        for (var i = 0; i < playerMelees.length; i++){
-            if (playerMelees[i].dead == false && playerMelees[i].act){
-                playerMelees[i].X -= 5;
-            }
+        //friendly unit movement
+        if(pGatherer.act){
+					    if (pGatherer.state == "go"){
+			            pGatherer.X -= 5;
+			            //call this to get water with gatherer
+			            gatherWater(pGatherer);
+			            //forward
+			            if (pGatherer.X < -20){
+			                pGatherer.state = "back";
+			            }
+			        }
+			        else if (pGatherer.state == "back"){
+			            pGatherer.X += 5;
+			            //state management
+			            if (pGatherer.X > canvas.width + 20){
+			                pGatherer.state = "go";
+			            }
+			        }
         }
 
-        //Update for ranged units
-        for (var j = 0; j < playerRanged.length; j++){
-
-              pArrow = new Arrow(playerRanged[j], eMelee, eRanged, 80, 20, 12);
-              playerProjs.push(pArrow);
-
-              if (playerRanged[j].dead == false && playerRanged[j].act){
-
-                playerRanged[j].X -= 5;
-                //update arrow
-                playerProjs[j].y = canvas.height-waterCont.height-50 + 80;
-                playerProjs[j].update();
-                playerProjs[j].draw();
-                //arrows
-                //hitProj(pArrow, eMelee);
-                //hitProj(pArrow, eRanged);
-              }
+        if (pMelee.act && pMelee.dead == false){
+          pMelee.X-=5;
         }
 
-        //Update for projectiles
-
-        //Update for gatherers
-        for (var k=0; k<playerGathers.length; k++){
-
-            //movement
-            if (playerGathers[k].act){
-                if (playerGathers[k].state == "go"){
-                    playerGathers[k].X -= 5;
-                    //call this to get water with gatherer
-                    gatherWater(playerGathers[k]);
-                    //forward
-                    if (playerGathers[k].X < -20){
-                        playerGathers[k].state = "back";
-                    }
-                }
-                else if (playerGathers[k].state == "back"){
-                    playerGathers[k].X += 5;
-                    //state management
-                    if (playerGathers[k].X > canvas.width + 20){
-                        playerGathers[k].state = "go";
-                    }
-                }
-            }
+        if (pRanged.act && pRanged.X > 700 && pRanged.dead == false){
+          pRanged.X-=5;
         }
 
         //enemy unit movement
@@ -549,185 +734,201 @@ if (menu == false){
         }
 
         if (eRanged.act && eRanged.dead == false){
-          //checkEnemyRange(eRanged,pMelee);
-          //checkEnemyRange(eRanged,pRanged);
+          checkEnemyRange(eRanged,pMelee);
+          checkEnemyRange(eRanged,pRanged);
           if (eRanged.advance){
             eRanged.X+=5;
           }
         }
 
-          }
+        //melee combat
+        //checkCombat (friendly, enemy)
+        if (pMelee.act && eRanged.act){
+          checkCombat(pMelee, eRanged); //melee vs ranged
+        }
+        if (pMelee.act && eMelee.act){
+          checkCombat(pMelee, eMelee); //melee vs melee
+        }
+        if (pRanged.act && eMelee.act){
+          checkCombat(pRanged, eMelee); //ranged vs melee
+        }
+        if (pRanged.act && eRanged.act){
+          checkCombat(pRanged, eRanged); //ranged vs ranged
+        }
 
-        backgroundbattle.play(); //repeats song
+				//win condition
+				if (rekt == winNum){
+						state = "win";
+				}
+  }
+
+backgroundbattle.play(); //repeats song
 
 }
 
 //Show the player what they need to see
 function draw(){
 
-        //clear the canvas
-        canvas.width = canvas.width;
-
-        if (menu == true && hero==false){
-          canvas.width = canvas.width;
-          //draw menu background
-          //current placeholder a rectangle
-          ctx.drawImage(titleBG, 0,0,canvas.width,canvas.height);
-
-        	//water drop
-        	for(var i = 0; i < particles.length; i++){
-          	var particle = particles[i];
-            ctx.drawImage(teardropbloop, particle.x, particle.y, 25, 50);
-          }
-
-          //Play
-          ctx.font="50px Georgia";
-          ctx.fillStyle = "white";
-          ctx.fillText("Play", canvas.width/2-80, canvas.height/2+180);
-          ctx.fillText("Options", canvas.width/2-80, canvas.height/2+250);
-          ctx.fillText("Exit", canvas.width/2-80, canvas.height/2+320);
-        }
-
-        if (menu == false && hero==false){
-        	ctx.drawImage(selectBG, 0,0,canvas.width,canvas.height);
-        }
-
-/*
-Updates are in progress at the moment
-*/
-else if (menu == false && hero==true && state == null){
+		//clear the canvas
+		if (menu == true && hero==false){
 			canvas.width = canvas.width;
+		  //draw menu background
+		  //current placeholder a rectangle
+		  ctx.drawImage(titleBG, 0,0,canvas.width,canvas.height);
 
-      //main background
-      ctx.drawImage(bg,0,0, canvas.width, canvas.height);
+			//water drop
+			for(var i = 0; i < particles.length; i++){
+		  	var particle = particles[i];
+		    ctx.drawImage(teardropbloop, particle.x, particle.y, 25, 50);
+		  }
 
-      //Draw the amount of water the player has and playerPortrait
-      ctx.drawImage(waterIcon, waterIcon.X, waterIcon.Y+10, waterIcon.width, waterIcon.height);
-      ctx.drawImage(playerPortrait, playerPortrait.X, playerPortrait.Y, playerPortrait.width, playerPortrait.height);
+		  //Play
+		  ctx.font="50px Georgia";
+		  ctx.fillStyle = "white";
+		  ctx.fillText("Play", canvas.width/2-80, canvas.height/2+180);
+		  ctx.fillText("Options", canvas.width/2-80, canvas.height/2+250);
+		  ctx.fillText("Exit", canvas.width/2-80, canvas.height/2+320);
+		}
 
-      //amount of water rectangle
-      ctx.fillStyle = "#33ccff";
-      ctx.fillRect(waterIcon.X+waterIcon.width, waterIcon.Y+(waterIcon.height/2), water*2, 25);
+		if (menu == false && hero==false){
 
-      //white text
-      ctx.font="20px Georgia";
-      ctx.fillStyle="white";
-      ctx.fillText(water, waterIcon.X+170, waterIcon.Y+(waterIcon.height-30));
+			ctx.drawImage(selectBG, 0,0,canvas.width,canvas.height);
+		}
 
-      //character icons
-      ctx.drawImage(bGatherer, bGatherer.X, bGatherer.Y, bGatherer.width, bGatherer.height);
-      ctx.drawImage(bMelee, bMelee.X, bMelee.Y, bMelee.width, bMelee.height);
-      ctx.drawImage(bRanged, bRanged.X, bRanged.Y, bMelee.width, bMelee.height);
-      ctx.font="32px Georgia";
-      ctx.fillStyle="black";
-      ctx.fillText(bGatherer.count, bGatherer.X+73, bGatherer.Y+91);
-      ctx.fillText(bMelee.count, bMelee.X+73, bMelee.Y+91);
-      ctx.fillText(bRanged.count, bRanged.X+73, bRanged.Y+91);
+		/*
+		Updates are in progress at the moment
+		*/
+		else if (menu == false && hero==true && state == null){
+					canvas.width = canvas.width;
 
-      //Uses the new implementation I've added
-			//Melee image and health
-			for (var i = 0; i < playerMelees.length; i++){
-					if (playerMelees[i].dead == false && playerMelees[i].act){
-            var pMelee = new Image();
-            pMelee.src = "art/allymeleeF.png";
-		        ctx.drawImage(pMelee, playerMelees[i].X, playerMelees[i].Y, playerMelees[i].width, playerMelees[i].height);
+		      //main background
+		      ctx.drawImage(bg,0,0, canvas.width, canvas.height);
+
+		      //Draw the amount of water the player has and playerPortrait
+		      ctx.drawImage(waterIcon, waterIcon.X, waterIcon.Y+10, waterIcon.width, waterIcon.height);
+		      ctx.drawImage(playerPortrait, playerPortrait.X, playerPortrait.Y, playerPortrait.width, playerPortrait.height);
+
+		      //amount of water rectangle
+		      ctx.fillStyle = "#33ccff";
+		      ctx.fillRect(waterIcon.X+waterIcon.width, waterIcon.Y+(waterIcon.height/2), water*2, 25);
+
+		      //white text
+		      ctx.font="20px Georgia";
+		      ctx.fillStyle="white";
+		      ctx.fillText(water, waterIcon.X+170, waterIcon.Y+(waterIcon.height-30));
+
+		      //character icons
+		      ctx.drawImage(bGatherer, bGatherer.X, bGatherer.Y, bGatherer.width, bGatherer.height);
+		      ctx.drawImage(bMelee, bMelee.X, bMelee.Y, bMelee.width, bMelee.height);
+		      ctx.drawImage(bRanged, bRanged.X, bRanged.Y, bMelee.width, bMelee.height);
+		      ctx.font="32px Georgia";
+		      ctx.fillStyle="black";
+		      ctx.fillText(bGatherer.count, bGatherer.X+73, bGatherer.Y+91);
+		      ctx.fillText(bMelee.count, bMelee.X+73, bMelee.Y+91);
+		      ctx.fillText(bRanged.count, bRanged.X+73, bRanged.Y+91);
+
+		      //Melee image and health
+		      if (pMelee.dead == false && pMelee.act){
+		        ctx.drawImage(pMelee, pMelee.X, pMelee.Y, pMelee.width, pMelee.height);
 		        ctx.fillStyle = "red";
-		        ctx.fillRect(playerMelees[i].X, playerMelees[i].Y+playerMelees[i].height, playerMelees[i].hp*0.75, 15);
+		        ctx.fillRect(pMelee.X, pMelee.Y+pMelee.height, pMelee.health*0.75, 15);
 		      }
-			}
 
-      //Ranged image and health
-		  //making the arrow part
-			for (var j = 0; j < playerRanged.length; j++){
-						if (playerRanged[j].dead == false && playerRanged[j].act){
-              var pRanged = new Image();
-              pRanged.src = "art/allyrangeM.png";
-			        ctx.drawImage(pRanged, playerRanged[j].X, playerRanged[j].Y, playerRanged[j].width, playerRanged[j].height);
-			        ctx.fillStyle = "red";
-			        ctx.fillRect(playerRanged[j].X, playerRanged[j].Y+playerRanged[j].height, playerRanged[j].hp*0.75, 15);
-			      }
-			}
+		      //Ranged image and health
+		      if (pRanged.dead == false && pRanged.act){
+		        ctx.drawImage(pRanged, pRanged.X, pRanged.Y, pRanged.width, pRanged.height);
+		        pArrow.y = pRanged.Y + pRanged.height/2;
+		        pArrow.draw();
+		        ctx.fillStyle = "red";
+		        ctx.fillRect(pRanged.X, pRanged.Y+pRanged.height, pRanged.health*0.75, 15);
+		      }
 
-      for (var k=0; k<playerGathers.length; k++){
-					if (playerGathers[k].act){
+		      if (pGatherer.act){
 		        //Gatherer image
-            var pGatherer = new Image();
-            pGatherer.src = "art/ally_gF.png";
-		        ctx.drawImage(pGatherer, playerGathers[k].X, playerGathers[k].Y, playerGathers[k].width, playerGathers[k].height);
+		        ctx.drawImage(pGatherer, pGatherer.X, pGatherer.Y, pGatherer.width, pGatherer.height);
 		      }
-			}
 
-      //Enemy melee image and health
-      if (eMelee.dead == false && eMelee.act){
-        ctx.drawImage(eMelee, eMelee.X, eMelee.Y, eMelee.width, eMelee.height);
-        ctx.fillStyle = "red";
-        ctx.fillRect(eMelee.X, eMelee.Y+eMelee.height, eMelee.health*0.75, 15);
-      }
+		      //Enemy melee image and health
+		      if (eMelee.dead == false && eMelee.act){
+		        ctx.drawImage(eMelee, eMelee.X, eMelee.Y, eMelee.width, eMelee.height);
+		        ctx.fillStyle = "red";
+		        ctx.fillRect(eMelee.X, eMelee.Y+eMelee.height, eMelee.health*0.75, 15);
+		      }
 
-      //Enemy ranged image and health
-      if (eRanged.dead == false && eRanged.act){
-        ctx.drawImage(eRanged, eRanged.X, eRanged.Y, eRanged.width, eRanged.height);
-        eArrow.draw();
-        ctx.fillStyle = "red";
-        ctx.fillRect(eRanged.X, eRanged.Y+eRanged.height, eRanged.health*0.75, 15);
-      }
+		      //Enemy ranged image and health
+		      if (eRanged.dead == false && eRanged.act){
+		        ctx.drawImage(eRanged, eRanged.X, eRanged.Y, eRanged.width, eRanged.height);
+		        eArrow.draw();
+		        ctx.fillStyle = "red";
+		        ctx.fillRect(eRanged.X, eRanged.Y+eRanged.height, eRanged.health*0.75, 15);
+		      }
 
-      //upgrade UI button
-      ctx.font="18px Georgia";
-      ctx.fillStyle="black";
+		      //upgrade UI button
+		      ctx.font="18px Georgia";
+		      ctx.fillStyle="black";
 
-			//Timer display
-			ctx.fillText("Wave 1 in " + nowtime + "s", uiIcon.X+12, uiIcon.Y-15 );
+					//Timer display
+					ctx.fillText("Wave 1 in " + nowtime + "s", uiIcon.X+12, uiIcon.Y-15 );
 
-      if(uiActive == false){
-        ctx.fillText("Upgrade", uiIcon.X+15, uiIcon.Y+22);
-      }else{
-        ctx.fillText("Close", uiIcon.X+15, uiIcon.Y+22);
+		      if(uiActive == false){
+		        ctx.fillText("Upgrade", uiIcon.X+15, uiIcon.Y+22);
+		      }else{
+		        ctx.fillText("Close", uiIcon.X+15, uiIcon.Y+22);
 
-        ctx.drawImage(uiBackground, uiBackground.X, uiBackground.Y, uiBackground.width, uiBackground.height);
-        //drawing the current attack skill level
-        if(atkUi == 1){
-        ctx.drawImage(uiButtonOne, 575, 235, uiButtonOne.width, uiButtonOne.height);
-        }else if(atkUi == 2){
-        ctx.drawImage(uiButtonTwo, 575, 235, uiButtonOne.width, uiButtonOne.height);
-        }else if(atkUi == 3){
-        ctx.drawImage(uiButtonThree, 575, 235, uiButtonOne.width, uiButtonOne.height);
-        }else{
-        ctx.drawImage(uiButtonFour, 575, 235, uiButtonOne.width, uiButtonOne.height);
-        }
-        //drawing the current def skill level
-        if(defUi == 1){
-        ctx.drawImage(uiButtonOne, 575, 345, uiButtonOne.width, uiButtonOne.height);
-        }else if(defUi == 2){
-        ctx.drawImage(uiButtonTwo, 575, 345, uiButtonOne.width, uiButtonOne.height);
-        }else if(defUi == 3){
-        ctx.drawImage(uiButtonThree, 575, 345, uiButtonOne.width, uiButtonOne.height);
-        }else{
-        ctx.drawImage(uiButtonFour, 575, 345, uiButtonOne.width, uiButtonOne.height);
-        }
-        //drawing the current spd skill level
-        if(spdUi == 1){
-        	ctx.drawImage(uiButtonOne, 575, 460, uiButtonOne.width, uiButtonOne.height);
-        }
-				else if(spdUi == 2){
-        	ctx.drawImage(uiButtonTwo, 575, 460, uiButtonOne.width, uiButtonOne.height);
-        }
-				else if(spdUi == 3){
-        	ctx.drawImage(uiButtonThree, 575, 460, uiButtonOne.width, uiButtonOne.height);
-        }
-				else{
-        	ctx.drawImage(uiButtonFour, 575, 460, uiButtonOne.width, uiButtonOne.height);
-        }
-        //draw in tier
-        ctx.font="72px Georgia";
-        ctx.fillStyle="black";
-        ctx.fillText(" "+tierUi, 510, 125);
-      }
+		        ctx.drawImage(uiBackground, uiBackground.X, uiBackground.Y, uiBackground.width, uiBackground.height);
+		        //drawing the current attack skill level
+		        if(atkUi == 1){
+		        ctx.drawImage(uiButtonOne, 575, 235, uiButtonOne.width, uiButtonOne.height);
+		        }else if(atkUi == 2){
+		        ctx.drawImage(uiButtonTwo, 575, 235, uiButtonOne.width, uiButtonOne.height);
+		        }else if(atkUi == 3){
+		        ctx.drawImage(uiButtonThree, 575, 235, uiButtonOne.width, uiButtonOne.height);
+		        }else{
+		        ctx.drawImage(uiButtonFour, 575, 235, uiButtonOne.width, uiButtonOne.height);
+		        }
+		        //drawing the current def skill level
+		        if(defUi == 1){
+		        ctx.drawImage(uiButtonOne, 575, 345, uiButtonOne.width, uiButtonOne.height);
+		        }else if(defUi == 2){
+		        ctx.drawImage(uiButtonTwo, 575, 345, uiButtonOne.width, uiButtonOne.height);
+		        }else if(defUi == 3){
+		        ctx.drawImage(uiButtonThree, 575, 345, uiButtonOne.width, uiButtonOne.height);
+		        }else{
+		        ctx.drawImage(uiButtonFour, 575, 345, uiButtonOne.width, uiButtonOne.height);
+		        }
+		        //drawing the current spd skill level
+		        if(spdUi == 1){
+		        	ctx.drawImage(uiButtonOne, 575, 460, uiButtonOne.width, uiButtonOne.height);
+		        }
+						else if(spdUi == 2){
+		        	ctx.drawImage(uiButtonTwo, 575, 460, uiButtonOne.width, uiButtonOne.height);
+		        }
+						else if(spdUi == 3){
+		        	ctx.drawImage(uiButtonThree, 575, 460, uiButtonOne.width, uiButtonOne.height);
+		        }
+						else{
+		        	ctx.drawImage(uiButtonFour, 575, 460, uiButtonOne.width, uiButtonOne.height);
+		        }
+		        //draw in tier
+		        ctx.font="72px Georgia";
+		        ctx.fillStyle="black";
+		        ctx.fillText(" "+tierUi, 510, 125);
+		      }
 
-      //water container
-      ctx.drawImage(waterCont, waterCont.X, waterCont.Y, waterCont.width, waterCont.height);
+		      //water container
+		      ctx.drawImage(waterCont, waterCont.X, waterCont.Y, waterCont.width, waterCont.height);
 
-}
+		}
+
+					//draw win screen
+					else if (state == "win"){
+							ctx.drawImage(winImg, 0,0,canvas.width,canvas.height);
+					}
+
+					//draw lose screen
+					else if (state == "lose"){
+							ctx.drawImage(loseImg, 0,0,canvas.width,canvas.height);
+					}
 
 }
 
