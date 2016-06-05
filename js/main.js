@@ -446,18 +446,9 @@ pGatherer.src = "art/ally_gatherer_female.png";
 pGatherer.act = false;
 pGatherer.state = "go";
 
-var gathererObj = Sprite({
-	context: ctx,
-	width: 650,
-	height: 250,
-	image: pGatherer,
-	numFrames: 4,
-	ticksPerFrame: 8
-});
-
 //Named as playerMelee
 var pMelee = new Image();
-pMelee.src = "art/allymeleeF.png";
+pMelee.src = "art/a_m_f_UpdatedSheet.png";
 pMelee.name = "pMelee";
 pMelee.health = 100;
 pMelee.dmg = 15;
@@ -467,6 +458,15 @@ pMelee.X = 1000;
 pMelee.Y = 200;
 pMelee.act = false;
 pMelee.dead = false;
+
+var meleeObj = Sprite({
+	context: ctx,
+	width: 650,
+	height: 250,
+	image: pMelee,
+	numFrames: 4,
+	ticksPerFrame: 8
+});
 
 //player ranged
 var pRanged = new Image();
@@ -703,7 +703,7 @@ function update(){
 		        if(pGatherer.act){
 							    if (pGatherer.state == "go"){
 
-									gathererObj.update();
+									meleeObj.update();
 					            	pGatherer.X -= 5;
 					            	//call this to get water with gatherer
 					            	gatherWater(pGatherer);
@@ -847,7 +847,7 @@ function update(){
 
 		      if (pGatherer.act){
 		        //Gatherer image
-				  gathererObj.draw();
+				  meleeObj.draw();
 		        //ctx.drawImage(pGatherer, pGatherer.X, pGatherer.Y, pGatherer.width, pGatherer.height);
 		      }
 
