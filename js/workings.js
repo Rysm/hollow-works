@@ -170,7 +170,7 @@ function Sprite(opt) {
     self.draw = function() {
 
         // Clear the canvas
-        self.ctx.clearRect(0, 0, self.width, self.height);
+        //self.ctx.clearRect(0, 0, self.width, self.height);
 
         // Draw the animation
         self.ctx.drawImage(
