@@ -358,10 +358,10 @@ eRanged.advance = true;
 Menu button parameters
 */
 var playBut = new Image();
-playBut.width = 164;
-playBut.height = 69;
-playBut.X = 565;
-playBut.Y = 360;
+playBut.width = 200;
+playBut.height = 100;
+playBut.X = 538;
+playBut.Y = 460;
 
 //Game state background stuff
 var titleBG = new Image();
