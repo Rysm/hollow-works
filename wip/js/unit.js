@@ -91,47 +91,52 @@ var spawnY = 540;
 
 function unit(type){
 
-    this.spawn() = function(type){
         //melee
         if (type == 1){
-      			this.name  = "pMelee";
-            this.hp = 100;
-            this.dmg = 15;
-            this.speed = 5;
-            this.width = 80;
-            this.height = 160;
-            this.X = 0;
-            this.Y = 0;
-            this.act = false;
-            this.dead = false;
+
+      			name : "pMelee",
+            hp : 100,
+            dmg : 15,
+            speed : 5,
+            width : 80,
+            height : 160,
+            X : 0,
+            Y : 0,
+            act : false,
+            dead : false
           }
 
         //ranged
         else if (type == 2){
-      			name = "pRanged";
-            hp = 70;
-            dmg = 30;
-            speed = 5;
-            width = 90;
-            height = 160;
-            X = 0;
-            Y = 0;
-            act = false;
-            dead = false;
+
+          return {
+      			name : "pRanged",
+            hp : 70,
+            dmg : 30,
+            speed : 5,
+            width : 90,
+            height : 160,
+            X : 0,
+            Y : 0,
+            act : false,
+            dead : false
+          }
         }
 
         //gatherer
         else{
-      			name = "pGatherer";
-            speed = 5;
-      			width = 80;
-      			height = 160;
-            X = 0;
-            Y = 0;
-            act = false;
-            state = "go";
+
+          return {
+      			name : "pGatherer",
+            speed : 5,
+      			width : 80,
+      			height : 160,
+            X : 0,
+            Y : 0,
+            act : false,
+            state: "go"
+          }
         }
-   }
 }
 
 //spawn unit class
