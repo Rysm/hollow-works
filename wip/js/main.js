@@ -173,12 +173,12 @@ function handleClick(eventParams){
 
 			  //spawn gatherer dude
 			  if(checkBounds(bGatherer, eventParams.clientX, eventParams.clientY)){
-			      pGatherer.X = 1300;
-			      pGatherer.Y = 275;
-			      pGatherer.width = 40;
-			      pGatherer.height = 80;
-			      pGatherer.act = true;
 			      if(bGatherer.count > 0){
+				      pGatherer.X = 1300;
+				      pGatherer.Y = 275;
+				      pGatherer.width = 40;
+				      pGatherer.height = 80;
+				      pGatherer.act = true;
 			        bGatherer.count-=1;
 			      }
 
@@ -186,26 +186,26 @@ function handleClick(eventParams){
 
 			  //spawn melee dude
 			  if(checkBounds(bMelee, eventParams.clientX, eventParams.clientY)){
-			      //character activate location
-			      //turns on a switch to enable player object/particle movement
-			      pMelee.Y = canvas.height-waterCont.height-50;
-			      eMelee.Y = canvas.height-waterCont.height-50;
-			      eRanged.Y = canvas.height-waterCont.height-50;
-			      pMelee.act=true;
 			      if(bMelee.count > 0){
-			        bMelee.count-=1;
+				      //character activate location
+				      //turns on a switch to enable player object/particle movement
+				      pMelee.Y = canvas.height-waterCont.height-50;
+				      eMelee.Y = canvas.height-waterCont.height-50;
+				      eRanged.Y = canvas.height-waterCont.height-50;
+				      pMelee.act=true;
+				      bMelee.count-=1;
 			      }
 			  }
 
 			  //spawn ranged dude
 			  if (checkBounds(bRanged, eventParams.clientX, eventParams.clientY)){
-			      //character activate location
-			      //turns on a switch to enable player object/particle movement
-			      pRanged.Y = canvas.height-waterCont.height-50;
-			      eMelee.Y = canvas.height-waterCont.height-50;
-			      eRanged.Y = canvas.height-waterCont.height-50;
-			      pRanged.act=true;
 			      if(bRanged.count > 0){
+				      //character activate location
+				      //turns on a switch to enable player object/particle movement
+				      pRanged.Y = canvas.height-waterCont.height-50;
+				      eMelee.Y = canvas.height-waterCont.height-50;
+				      eRanged.Y = canvas.height-waterCont.height-50;
+				      pRanged.act=true;
 			        bRanged.count-=1;
 			      }
 			  }
@@ -414,7 +414,7 @@ bMelee.X = 1000;
 bMelee.Y = 10;
 bMelee.act = false;
 bMelee.dead = false;
-bMelee.count = 1;
+bMelee.count = playerMelees.length; //how long the array is
 
 var bRanged = new Image();
 bRanged.src = "art/bowicon.png";
@@ -424,7 +424,7 @@ bRanged.X = 1110
 bRanged.Y = 10;
 bRanged.act = false;
 bRanged.dead = false;
-bRanged.count = 1;
+bRanged.count = playerRanges.length; //how long the array is
 
 var bGatherer = new Image();
 bGatherer.X = 890;
@@ -434,7 +434,7 @@ bGatherer.height = 100;
 bGatherer.name = "bGatherer";
 bGatherer.src = "art/gatherericon.png";
 bGatherer.act = false;
-bGatherer.count = 1;
+bGatherer.count = playerGathers.length; //how long the array is.
 
 
 //UNITS BEGIN HERE

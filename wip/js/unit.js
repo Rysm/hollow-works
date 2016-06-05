@@ -7,8 +7,6 @@ Values correspond to the type of character
 
 var type = [1,2,3]; //may be unnecessary
 
-var makeMelee, makeRanged, makeGatherer = false;
-
 var playerProjs = new Array();
 
 /*
@@ -21,7 +19,7 @@ Initialize with 0 units each
 */
 
 var playerMelees = new Array();
-var playerRanged = new Array();
+var playerRanges = new Array();
 var playerGathers = new Array();
 
 /*
@@ -79,3 +77,5 @@ var unitGatherer = {
           act : true,
           dead : false
 };
+
+playerMelees.push(unitMelee); //add a dood
