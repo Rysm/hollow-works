@@ -556,27 +556,6 @@ if (menu == false){
           }
         }
 
-        /*
-
-
-                //combat
-                //call these to check if arrows are hitting
-                //hitProj(bullet, target dood)
-                hitProj(eArrow, pRanged);
-                hitProj(eArrow, pMelee);
-
-                if (pRanged.dead == false && pRanged.act){
-                  pArrow.y = pRanged.Y + pRanged.height/2;
-                  pArrow.update();
-                }
-
-                if (eRanged.dead == false && eRanged.act){
-                  eArrow.update();
-                }
-
-        */
-
-
           }
 
         backgroundbattle.play(); //repeats song
@@ -645,26 +624,38 @@ else if (menu == false && hero==true && state == null){
       ctx.fillText(bMelee.count, bMelee.X+73, bMelee.Y+91);
       ctx.fillText(bRanged.count, bRanged.X+73, bRanged.Y+91);
 
-      //Melee image and health
-      if (pMelee.dead == false && pMelee.act){
-        ctx.drawImage(pMelee, pMelee.X, pMelee.Y, pMelee.width, pMelee.height);
-        ctx.fillStyle = "red";
-        ctx.fillRect(pMelee.X, pMelee.Y+pMelee.height, pMelee.health*0.75, 15);
-      }
+      //Uses the new implementation I've added
+			//Melee image and health
+			for (var i = 0; i < playerMelees.length; i++){
+					if (playerMelees[i].dead == false && playerMelees[i].act){
+            var pMelee = new Image();
+            pMelee.src = "art/allymeleeF.png";
+		        ctx.drawImage(pMelee, playerMelees[i].X, playerMelees[i].Y, playerMelees[i].width, playerMelees[i].height);
+		        ctx.fillStyle = "red";
+		        ctx.fillRect(playerMelees[i].X, playerMelees[i].Y+playerMelees[i].height, playerMelees[i].hp*0.75, 15);
+		      }
+			}
 
       //Ranged image and health
-      if (pRanged.dead == false && pRanged.act){
-        ctx.drawImage(pRanged, pRanged.X, pRanged.Y, pRanged.width, pRanged.height);
-        pArrow.y = pRanged.Y + pRanged.height/2;
-        pArrow.draw();
-        ctx.fillStyle = "red";
-        ctx.fillRect(pRanged.X, pRanged.Y+pRanged.height, pRanged.health*0.75, 15);
-      }
+		  //making the arrow part
+			for (var j = 0; j < playerRanged.length; j++){
+						if (playerRanged[j].dead == false && playerRanged[j].act){
+              var pRanged = new Image();
+              pRanged.src = "art/allyrangeM.png";
+			        ctx.drawImage(pRanged, playerRanged[j].X, playerRanged[j].Y, playerRanged[j].width, playerRanged[j].height);
+			        ctx.fillStyle = "red";
+			        ctx.fillRect(playerRanged[j].X, playerRanged[j].Y+playerRanged[j].height, playerRanged[j].hp*0.75, 15);
+			      }
+			}
 
-      if (pGatherer.act){
-        //Gatherer image
-        ctx.drawImage(pGatherer, pGatherer.X, pGatherer.Y, pGatherer.width, pGatherer.height);
-      }
+      for (var k=0; k<playerGathers.length; k++){
+					if (playerGathers[k].act){
+		        //Gatherer image
+            var pGatherer = new Image();
+            pGatherer.src = "art/ally_gF.png";
+		        ctx.drawImage(pGatherer, playerGathers[k].X, playerGathers[k].Y, playerGathers[k].width, playerGathers[k].height);
+		      }
+			}
 
       //Enemy melee image and health
       if (eMelee.dead == false && eMelee.act){
