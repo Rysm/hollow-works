@@ -20,7 +20,7 @@ Initialize with 0 units each
 
 var playerMelees = new Array();
 var playerRanges = new Array();
-var playerGathers = new Array();
+var playerGatherers = new Array();
 
 /*
 AI'S
@@ -79,3 +79,5 @@ var unitGatherer = {
 };
 
 playerMelees.push(unitMelee); //add a dood
+playerRanges.push(unitRanged); //add a dood
+playerGatherers.push(unitGatherer); //add a dood
