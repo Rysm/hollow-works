@@ -702,8 +702,6 @@ function update(){
 		        //friendly unit movement
 		        if(pGatherer.act){
 							    if (pGatherer.state == "go"){
-
-									meleeObj.update();
 					            	pGatherer.X -= 5;
 					            	//call this to get water with gatherer
 					            	gatherWater(pGatherer);
@@ -723,7 +721,8 @@ function update(){
 		        }
 
 		        if (pMelee.act && pMelee.dead == false){
-		          pMelee.X-=5;
+                    meleeObj.update();
+		            pMelee.X-=5;
 		        }
 
 		        if (pRanged.act && pRanged.X > 700 && pRanged.dead == false){
@@ -831,6 +830,7 @@ function update(){
 
 		      //Melee image and health
 		      if (pMelee.dead == false && pMelee.act){
+                  meleeObj.draw();
 		        ctx.drawImage(pMelee, pMelee.X, pMelee.Y, pMelee.width, pMelee.height);
 		        ctx.fillStyle = "red";
 		        ctx.fillRect(pMelee.X, pMelee.Y+pMelee.height, pMelee.health*0.75, 15);
@@ -847,8 +847,7 @@ function update(){
 
 		      if (pGatherer.act){
 		        //Gatherer image
-				  meleeObj.draw();
-		        //ctx.drawImage(pGatherer, pGatherer.X, pGatherer.Y, pGatherer.width, pGatherer.height);
+		        ctx.drawImage(pGatherer, pGatherer.X, pGatherer.Y, pGatherer.width, pGatherer.height);
 		      }
 
 		      //Enemy melee image and health
