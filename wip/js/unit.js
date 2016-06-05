@@ -108,34 +108,28 @@ function unit(type){
 
         //ranged
         else if (type == 2){
-
-          return {
-      			name : "pRanged",
-            hp : 70,
-            dmg : 30,
-            speed : 5,
-            width : 90,
-            height : 160,
-            X : 0,
-            Y : 0,
-            act : false,
-            dead : false
-          }
+      			name = "pRanged";
+            hp = 70;
+            dmg = 30;
+            speed = 5;
+            width = 90;
+            height = 160;
+            X = 0;
+            Y = 0;
+            act = false;
+            dead = false;
         }
 
         //gatherer
         else{
-
-          return {
-      			name : "pGatherer",
-            speed : 5,
-      			width : 80,
-      			height : 160,
-            X : 0,
-            Y : 0,
-            act : false,
-            state: "go"
-          }
+      			name = "pGatherer";
+            speed = 5;
+      			width = 80;
+      			height = 160;
+            X = 0;
+            Y = 0;
+            act = false;
+            state = "go";
         }
    }
 }
