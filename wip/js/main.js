@@ -679,11 +679,44 @@ if (menu == false){
 
 				//loops that manage every single melee unit
 				for (a = 0; a < playerMelees.length; a++){
-							if (playerMelees[i].act && playerMelees[i].dead == false){
-				          playerMelees[i].X-=5; //movement
-									hitProj(eArrow, playerMelees[i]); //check if damage from arrow
+							if (playerMelees[a].act && playerMelees[a].dead == false){
+				          playerMelees[a].X-=5; //movement
+									hitProj(eArrow, playerMelees[a]); //check if damage from arrow
 				      }
 				}
+
+				//loops that manage every single ranged unit
+				for (b = 0; b < playerRanges.length; b++){
+							if (playerRanges[b].act && playerRanges[b].dead == false){
+									if (playerRanges[b].X > 700){
+				        			playerRanges[b].X-=5; //movement
+									}
+									hitProj(eArrow, playerRanges[b]); //check if damage from arrow
+				      }
+				}
+
+				//loops that manage every single gatherer unit
+				for (c = 0; c < playerGatherers.length; c++){
+							if (playerGatherers[c].act){
+    					    if (playerGatherers[c] == "go"){
+					            playerGatherers[c].X -= 5;
+					            //call this to get water with gatherer
+					            gatherWater(pGatherer);
+					            //forward
+					            if (playerGatherers[c].X < -20){
+					                playerGatherers[c].state = "back";
+					            }
+					        }
+					        else if (playerGatherers[c].state == "back"){
+					            playerGatherers[c].X += 5;
+					            //state management
+					            if (playerGatherers[c].X > canvas.width + 20){
+					                playerGatherers[c].state = "go";
+					            }
+					        }
+				      }
+				}
+
 
         //call this to check if we're losing water
         takeWater(waterCont, eMelee);
@@ -709,31 +742,6 @@ if (menu == false){
           eArrow.update();
         }
 
-        //friendly unit movement
-        if(pGatherer.act){
-					    if (pGatherer.state == "go"){
-			            pGatherer.X -= 5;
-			            //call this to get water with gatherer
-			            gatherWater(pGatherer);
-			            //forward
-			            if (pGatherer.X < -20){
-			                pGatherer.state = "back";
-			            }
-			        }
-			        else if (pGatherer.state == "back"){
-			            pGatherer.X += 5;
-			            //state management
-			            if (pGatherer.X > canvas.width + 20){
-			                pGatherer.state = "go";
-			            }
-			        }
-        }
-
-
-        if (pRanged.act && pRanged.X > 700 && pRanged.dead == false){
-          pRanged.X-=5;
-        }
-
         //enemy unit movement
         if (eMelee.act && eMelee.dead == false){
           eMelee.X+=5;
@@ -747,6 +755,7 @@ if (menu == false){
           }
         }
 
+/*
         //melee combat
         //checkCombat (friendly, enemy)
         if (pMelee.act && eRanged.act){
@@ -766,6 +775,9 @@ if (menu == false){
 				if (rekt == winNum){
 						state = "win";
 				}
+
+*/
+
   }
 
 backgroundbattle.play(); //repeats song
