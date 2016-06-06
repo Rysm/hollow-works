@@ -173,7 +173,7 @@ function Sprite(opt) {
         //self.ctx.clearRect(0, 0, self.width, self.height);
 
         // Draw the animation
-        self.ctx.drawImage(
+        self.context.drawImage(
             self.image,
             index * self.width / numFrames,
             0,
