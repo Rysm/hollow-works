@@ -446,7 +446,7 @@ pGatherer.Y = 200;
 pGatherer.width = 80;
 pGatherer.height = 160;
 pGatherer.name = "pGatherer";
-pGatherer.src = "art/ally_gatherer_female.png";
+pGatherer.src = "art/allygathererF.png";
 pGatherer.act = false;
 pGatherer.state = "go";
 
@@ -679,6 +679,9 @@ if (menu == false){
 
 				//loops that manage every single melee unit
 				for (a = 0; a < playerMelees.length; a++){
+							var meleeImg = new Image();
+							meleeImg.src = "art/allymeleeF.png";
+							drawMelees.push(meleeImg);
 							if (playerMelees[a].act && playerMelees[a].dead == false){
 				          playerMelees[a].X-=5; //movement
 									hitProj(eArrow, playerMelees[a]); //check if damage from arrow
@@ -687,6 +690,9 @@ if (menu == false){
 
 				//loops that manage every single ranged unit
 				for (b = 0; b < playerRanges.length; b++){
+							var rangesImg = new Image();
+							rangesImg.src = "art/allyrangeM.png";
+							drawRanges.push(rangesImg);
 							if (playerRanges[b].act && playerRanges[b].dead == false){
 									if (playerRanges[b].X > 700){
 				        			playerRanges[b].X-=5; //movement
@@ -697,6 +703,9 @@ if (menu == false){
 
 				//loops that manage every single gatherer unit
 				for (c = 0; c < playerGatherers.length; c++){
+							var gathererImg = new Image();
+							gathererImg.src = "art/allygathererF.png";
+							drawGatherers.push(gathererImg);
 							if (playerGatherers[c].act){
     					    if (playerGatherers[c] == "go"){
 					            playerGatherers[c].X -= 5;
@@ -716,7 +725,6 @@ if (menu == false){
 					        }
 				      }
 				}
-
 
         //call this to check if we're losing water
         takeWater(waterCont, eMelee);
@@ -775,7 +783,6 @@ if (menu == false){
 				if (rekt == winNum){
 						state = "win";
 				}
-
 */
 
   }
@@ -845,26 +852,40 @@ function draw(){
 		      ctx.fillText(bMelee.count, bMelee.X+73, bMelee.Y+91);
 		      ctx.fillText(bRanged.count, bRanged.X+73, bRanged.Y+91);
 
-		      //Melee image and health
-		      if (pMelee.dead == false && pMelee.act){
-		        ctx.drawImage(pMelee, pMelee.X, pMelee.Y, pMelee.width, pMelee.height);
-		        ctx.fillStyle = "red";
-		        ctx.fillRect(pMelee.X, pMelee.Y+pMelee.height, pMelee.health*0.75, 15);
-		      }
+					//loops that manage every single melee unit
+					for (d = 0; d < playerMelees.length; d++){
+					      //Melee image and health
+					      if (playerMelees[d].dead == false && playerMelees[d].act){
+								  if (drawMelees[d]!= null){
+							        ctx.drawImage(drawMelees[d], playerMelees[d].X, playerMelees[d].Y, playerMelees[d].width, playerMelees[d].height);
+							        ctx.fillStyle = "red";
+							        ctx.fillRect(playerMelees[d].X, playerMelees[d].Y+playerMelees[d].height, playerMelees[d].health*0.75, 15);
+									}
+					      }
+					}
 
-		      //Ranged image and health
-		      if (pRanged.dead == false && pRanged.act){
-		        ctx.drawImage(pRanged, pRanged.X, pRanged.Y, pRanged.width, pRanged.height);
-		        pArrow.y = pRanged.Y + pRanged.height/2;
-		        pArrow.draw();
-		        ctx.fillStyle = "red";
-		        ctx.fillRect(pRanged.X, pRanged.Y+pRanged.height, pRanged.health*0.75, 15);
-		      }
+					//loops that manage every single ranged unit
+					for (e = 0; e < playerRanges.length; e++){
+					      //Ranged image and health
+					      if (playerRanges[e].dead == false && playerRanges[e].act){
+										if (drawRanges[e]!= null){
+							        ctx.drawImage(drawRanges[e], playerRanges[e].X, playerRanges[e].Y, playerRanges[e].width, playerRanges[e].height);
+							        pArrow.y = playerRanges[e].Y + playerRanges[e].height/2;
+							        pArrow.draw();
+							        ctx.fillStyle = "red";
+							        ctx.fillRect(playerRanges[e].X, playerRanges[e].Y+playerRanges[e].height, playerRanges[e].health*0.75, 15);
+										}
+					      }
+					}
 
-		      if (pGatherer.act){
-		        //Gatherer image
-		        ctx.drawImage(pGatherer, pGatherer.X, pGatherer.Y, pGatherer.width, pGatherer.height);
-		      }
+					//loops that manage every single gatherer unit
+					for (f = 0; f < playerGatherers.length; f++){
+								if (playerGatherers[f].act){
+	    						if (drawGatherers[f]!= null){
+					        		ctx.drawImage(drawGatherers[f], playerGatherers[f].X, playerGatherers[f].Y, playerGatherers[f].width, playerGatherers[f].height);
+									}
+					      }
+					}
 
 		      //Enemy melee image and health
 		      if (eMelee.dead == false && eMelee.act){

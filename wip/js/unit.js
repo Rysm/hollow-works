@@ -22,6 +22,10 @@ var playerMelees = new Array();
 var playerRanges = new Array();
 var playerGatherers = new Array();
 
+var drawMelees = new Array();
+var drawRanges = new Array();
+var drawGatherers = new Array();
+
 /*
 AI'S
 Empty array that holds three indices also
@@ -46,7 +50,7 @@ var unitMelee = {
           height : 160,
           X : 1000,
           Y : 540,
-          act : true,
+          act : false,
           dead : false
 };
 
@@ -60,7 +64,7 @@ var unitRanged = {
           height : 160,
           X : 1000,
           Y : 540,
-          act : true,
+          act : false,
           dead : false
 };
 
@@ -74,7 +78,7 @@ var unitGatherer = {
           height : 160,
           X : 920,
           Y : 200,
-          act : true,
+          act : false,
           dead : false
 };
 
