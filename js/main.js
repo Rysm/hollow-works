@@ -935,9 +935,9 @@ function update(){
 }
 
 function main(){
-	window.requestAnimationFrame(main);
+	
 	update();
 	draw();
 }
 
-//setInterval(main, 50); //(function to repeat, milliseconds)
+setInterval(main, 50); //(function to repeat, milliseconds)
