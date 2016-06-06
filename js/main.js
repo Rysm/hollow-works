@@ -461,8 +461,8 @@ pMelee.dead = false;
 
 meleeObj = Sprite({
 	context: ctx,
-	width: 80,
-	height: 160,
+	width: 650,
+	height: 250,
 	image: pMelee,
 	numFrames: 4,
 	ticksPerFrame: 8
@@ -979,8 +979,8 @@ function Sprite(opt) {
 			self.height,
 			self.image.X,
 			self.image.Y,
-			self.width / numFrames,
-			self.height);
+			self.image.width,
+			self.image.height);
 	};
 
 	return self;
