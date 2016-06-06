@@ -459,17 +459,6 @@ pMelee.Y = 200;
 pMelee.act = false;
 pMelee.dead = false;
 
-var meleeObj = Sprite({
-	context: ctx,
-	width: 650,
-	height: 250,
-	image: pMelee,
-	numFrames: 4,
-	ticksPerFrame: 8
-});
-
-meleeObj.addEventListener("load", main);
-
 //player ranged
 var pRanged = new Image();
 pRanged.src = "art/allyrangeM.png";
@@ -723,7 +712,6 @@ function update(){
 		        }
 
 		        if (pMelee.act && pMelee.dead == false){
-                    meleeObj.update();
 		            pMelee.X-=5;
 		        }
 
@@ -832,8 +820,8 @@ function update(){
 
 		      //Melee image and health
 		      if (pMelee.dead == false && pMelee.act){
-                  meleeObj.draw();
-		        //ctx.drawImage(pMelee, pMelee.X, pMelee.Y, pMelee.width, pMelee.height);
+
+		        ctx.drawImage(pMelee, pMelee.X, pMelee.Y, pMelee.width, pMelee.height);
 		        ctx.fillStyle = "red";
 		        ctx.fillRect(pMelee.X, pMelee.Y+pMelee.height, pMelee.health*0.75, 15);
 		      }
