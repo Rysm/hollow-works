@@ -942,7 +942,7 @@ function Sprite(opt) {
 		ticksPerFrame = opt.ticksPerFrame || 0,
 		numFrames = opt.numFrames || 1;
 
-	self.context = opt.ctx;
+	self.context = opt.context;
 	self.width = opt.width;
 	self.height = opt.height;
 	self.image = opt.image;
@@ -968,7 +968,7 @@ function Sprite(opt) {
 	self.draw = function() {
 
 		// Clear the canvas
-		self.context.clearRect(0, 0, self.width, self.height);
+		//self.context.clearRect(0, 0, self.width, self.height);
 
 		// Draw the animation
 		self.context.drawImage(
@@ -979,15 +979,18 @@ function Sprite(opt) {
 			self.height,
 			self.image.X,
 			self.image.Y,
-			self.width / numFrames,
-			self.height);
+			self.image.width,
+			self.image.height);
 	};
 
 	return self;
 }
 
 function main(){
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/master
 	update();
 	draw();
 }
