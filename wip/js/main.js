@@ -178,11 +178,13 @@ function handleClick(eventParams){
 
 			  //spawn gatherer dude
 			  if(checkBounds(bGatherer, eventParams.clientX, eventParams.clientY)){
+		       if(bGatherer.count > 0){
 							if (playerGatherers[gCount] != null){
 									playerGatherers[gCount].act=true;
 									gCount++;
 							}
 			        bGatherer.count-=1;
+						}
 			  }
 
 			  //spawn melee dude
@@ -676,20 +678,16 @@ if (menu == false){
 
 				//loops that manage every single melee unit
 				for (a = 0; a < playerMelees.length; a++){
-							var meleeImg = new Image();
-							meleeImg.src = "art/allymeleeF.png";
-							drawMelees.push(meleeImg);
 							if (playerMelees[a].act && playerMelees[a].dead == false){
-				          playerMelees[a].X-=5; //movement
+				          playerMelees[a].X-= playerMelees[a].speed; //movement
 									hitProj(eArrow, playerMelees[a]); //check if damage from arrow
 				      }
+
 				}
 
 				//loops that manage every single ranged unit
 				for (b = 0; b < playerRanges.length; b++){
-							var rangesImg = new Image();
-							rangesImg.src = "art/allyrangeM.png";
-							drawRanges.push(rangesImg);
+
 							if (playerRanges[b].act && playerRanges[b].dead == false){
 									if (playerRanges[b].X > 700){
 				        			playerRanges[b].X-=5; //movement
@@ -700,9 +698,6 @@ if (menu == false){
 
 				//loops that manage every single gatherer unit
 				for (c = 0; c < playerGatherers.length; c++){
-							var gathererImg = new Image();
-							gathererImg.src = "art/allygathererF.png";
-							drawGatherers.push(gathererImg);
 
 							if (playerGatherers[c].act){
     					    if (playerGatherers[c].state == "go"){
@@ -854,7 +849,7 @@ function draw(){
 					for (d = 0; d < playerMelees.length; d++){
 					      //Melee image and health
 					      if (playerMelees[d].dead == false && playerMelees[d].act){
-								  if (drawMelees[d]!= null){
+								  if (playerMelees[d]!= null){
 							        ctx.drawImage(drawMelees[d], playerMelees[d].X, playerMelees[d].Y, playerMelees[d].width, playerMelees[d].height);
 							        ctx.fillStyle = "red";
 							        ctx.fillRect(playerMelees[d].X, playerMelees[d].Y+playerMelees[d].height, playerMelees[d].health*0.75, 15);
@@ -871,7 +866,7 @@ function draw(){
 							        pArrow.y = playerRanges[e].Y + playerRanges[e].height/2;
 							        pArrow.draw();
 							        ctx.fillStyle = "red";
-							        ctx.fillRect(playerRanges[e].X, playerRanges[e].Y+playerRanges[e].height, playerRanges[e].health*0.75, 15);
+							        ctx.fillRect(playerRanges[e].X, playerRanges[e].Y + playerRanges[e].height, playerRanges[e].health*0.75, 15);
 										}
 					      }
 					}

@@ -83,6 +83,31 @@ var unitGatherer = {
           state : "go"
 };
 
+var meleeImg = new Image();
+meleeImg.src = "art/allymeleeF.png";
+
+var rangesImg = new Image();
+rangesImg.src = "art/allyrangeM.png";
+
+var gathererImg = new Image();
+gathererImg.src = "art/allygathererF.png";
+
 playerMelees.push(unitMelee); //add a dood
-playerRanges.push(unitRanged); //add a dood
+playerMelees.push(unitMelee); //add a dood
+playerMelees.push(unitMelee); //add a dood
+playerMelees.push(unitMelee); //add a dood
+drawMelees.push(meleeImg);
+drawMelees.push(meleeImg);
+drawMelees.push(meleeImg);
+drawMelees.push(meleeImg);
 playerGatherers.push(unitGatherer); //add a dood
+playerGatherers.push(unitGatherer); //add a dood
+playerGatherers.push(unitGatherer); //add a dood
+playerGatherers.push(unitGatherer); //add a dood
+drawGatherers.push(gathererImg);
+drawGatherers.push(gathererImg);
+drawGatherers.push(gathererImg);
+drawGatherers.push(gathererImg);
+playerRanges.push(unitRanged);
+drawRanges.push(rangesImg);
+console.log(drawMelees);
