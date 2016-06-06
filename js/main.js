@@ -448,7 +448,7 @@ pGatherer.state = "go";
 
 //Named as playerMelee
 var pMelee = new Image();
-pMelee.src = "art/a_m_f_UpdatedSheet.png";
+pMelee.src = "art/walkTest.png";
 pMelee.name = "pMelee";
 pMelee.health = 100;
 pMelee.dmg = 15;
@@ -458,6 +458,15 @@ pMelee.X = 1000;
 pMelee.Y = 200;
 pMelee.act = false;
 pMelee.dead = false;
+
+meleeObj = Sprite({
+	context: ctx,
+	width: 650,
+	height: 250,
+	image: pMelee,
+	numFrames: 4,
+	ticksPerFrame: 8
+});
 
 //player ranged
 var pRanged = new Image();
@@ -712,6 +721,7 @@ function update(){
 		        }
 
 		        if (pMelee.act && pMelee.dead == false){
+					meleeObj.update();
 		            pMelee.X-=5;
 		        }
 
@@ -842,7 +852,8 @@ function update(){
 
 		      //Enemy melee image and health
 		      if (eMelee.dead == false && eMelee.act){
-		        ctx.drawImage(eMelee, eMelee.X, eMelee.Y, eMelee.width, eMelee.height);
+				  meleeObj.draw();
+		        //ctx.drawImage(eMelee, eMelee.X, eMelee.Y, eMelee.width, eMelee.height);
 		        ctx.fillStyle = "red";
 		        ctx.fillRect(eMelee.X, eMelee.Y+eMelee.height, eMelee.health*0.75, 15);
 		      }
@@ -922,6 +933,58 @@ function update(){
 					ctx.drawImage(loseImg, 0,0,canvas.width,canvas.height);
 			}
 
+}
+
+function Sprite(opt) {
+
+	var self = {},
+		index = 0,
+		tickCount = 0,
+		ticksPerFrame = opt.ticksPerFrame || 0,
+		numFrames = opt.numFrames || 1;
+
+	self.context = opt.ctx;
+	self.width = opt.width;
+	self.height = opt.height;
+	self.image = opt.image;
+
+	self.update = function() {
+
+		tickCount += 1;
+
+		if (tickCount > ticksPerFrame) {
+
+			tickCount = 0;
+
+			// If the current frame index is in range
+			if (index < numFrames - 1) {
+				// Go to the next frame
+				index += 1;
+			} else {
+				index = 0;
+			}
+		}
+	};
+
+	self.draw = function() {
+
+		// Clear the canvas
+		self.ctx.clearRect(0, 0, self.width, self.height);
+
+		// Draw the animation
+		self.context.drawImage(
+			self.image,
+			index * self.width / numFrames,
+			0,
+			self.width / numFrames,
+			self.height,
+			0,
+			0,
+			self.width / numFrames,
+			self.height);
+	};
+
+	return self;
 }
 
 function main(){
