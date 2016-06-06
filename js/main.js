@@ -942,7 +942,7 @@ function Sprite(opt) {
 		ticksPerFrame = opt.ticksPerFrame || 0,
 		numFrames = opt.numFrames || 1;
 
-	self.context = opt.ctx;
+	self.context = opt.context;
 	self.width = opt.width;
 	self.height = opt.height;
 	self.image = opt.image;
