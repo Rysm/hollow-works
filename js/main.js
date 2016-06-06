@@ -978,8 +978,8 @@ function Sprite(opt) {
 			0,
 			self.width / numFrames,
 			self.height,
-			0,
-			0,
+			self.image.X,
+			self.image.Y,
 			self.width / numFrames,
 			self.height);
 	};
