@@ -468,6 +468,8 @@ var meleeObj = Sprite({
 	ticksPerFrame: 8
 });
 
+meleeObj.addEventListener("load", main);
+
 //player ranged
 var pRanged = new Image();
 pRanged.src = "art/allyrangeM.png";
