@@ -43,6 +43,11 @@ var selectHero = "nothing";
 //will hold win
 var state = null;
 
+//Indexes for the button spawning
+var mCount = 0;
+var rCount = 0;
+var gCount = 0;
+
 /*
 Menu raining stuff
 */
@@ -173,26 +178,19 @@ function handleClick(eventParams){
 
 			  //spawn gatherer dude
 			  if(checkBounds(bGatherer, eventParams.clientX, eventParams.clientY)){
-			      if(bGatherer.count > 0){
-				      pGatherer.X = 1300;
-				      pGatherer.Y = 275;
-				      pGatherer.width = 40;
-				      pGatherer.height = 80;
-				      pGatherer.act = true;
-			        bGatherer.count-=1;
-			      }
-
+							if (playerGatherers[gCount] != null){
+									playerGatherers[gCount].act=true;
+									gCount++;
+							}
 			  }
 
 			  //spawn melee dude
 			  if(checkBounds(bMelee, eventParams.clientX, eventParams.clientY)){
 			      if(bMelee.count > 0){
-				      //character activate location
-				      //turns on a switch to enable player object/particle movement
-				      pMelee.Y = canvas.height-waterCont.height-50;
-				      eMelee.Y = canvas.height-waterCont.height-50;
-				      eRanged.Y = canvas.height-waterCont.height-50;
-				      pMelee.act=true;
+							if (playerMelees[mCount] != null){
+				      		playerMelees[mCount].act=true;
+									mCount++;
+							}
 				      bMelee.count-=1;
 			      }
 			  }
@@ -200,11 +198,10 @@ function handleClick(eventParams){
 			  //spawn ranged dude
 			  if (checkBounds(bRanged, eventParams.clientX, eventParams.clientY)){
 			      if(bRanged.count > 0){
-				      //character activate location
-				      //turns on a switch to enable player object/particle movement
-				      pRanged.Y = canvas.height-waterCont.height-50;
-				      eMelee.Y = canvas.height-waterCont.height-50;
-				      eRanged.Y = canvas.height-waterCont.height-50;
+							if (playerRanges[rCount] != null){
+									playerRanges[rCount].act=true;
+									rCount++;
+							}
 				      pRanged.act=true;
 			        bRanged.count-=1;
 			      }
