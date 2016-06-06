@@ -182,6 +182,7 @@ function handleClick(eventParams){
 									playerGatherers[gCount].act=true;
 									gCount++;
 							}
+			        bGatherer.count-=1;
 			  }
 
 			  //spawn melee dude
@@ -202,7 +203,6 @@ function handleClick(eventParams){
 									playerRanges[rCount].act=true;
 									rCount++;
 							}
-				      pRanged.act=true;
 			        bRanged.count-=1;
 			      }
 			  }
@@ -703,8 +703,9 @@ if (menu == false){
 							var gathererImg = new Image();
 							gathererImg.src = "art/allygathererF.png";
 							drawGatherers.push(gathererImg);
+
 							if (playerGatherers[c].act){
-    					    if (playerGatherers[c] == "go"){
+    					    if (playerGatherers[c].state == "go"){
 					            playerGatherers[c].X -= 5;
 					            //call this to get water with gatherer
 					            gatherWater(pGatherer);

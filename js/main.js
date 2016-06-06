@@ -987,7 +987,7 @@ function Sprite(opt) {
 }
 
 function main(){
-	
+
 	update();
 	draw();
 }

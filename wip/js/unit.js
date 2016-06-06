@@ -79,7 +79,8 @@ var unitGatherer = {
           X : 920,
           Y : 200,
           act : false,
-          dead : false
+          dead : false,
+          state : "go"
 };
 
 playerMelees.push(unitMelee); //add a dood
