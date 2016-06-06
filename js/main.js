@@ -721,8 +721,8 @@ function update(){
 		        }
 
 		        if (pMelee.act && pMelee.dead == false){
-					meleeObj.update();
 		            pMelee.X-=5;
+					meleeObj.update();
 		        }
 
 		        if (pRanged.act && pRanged.X > 700 && pRanged.dead == false){
@@ -830,8 +830,8 @@ function update(){
 
 		      //Melee image and health
 		      if (pMelee.dead == false && pMelee.act){
-
-		        ctx.drawImage(pMelee, pMelee.X, pMelee.Y, pMelee.width, pMelee.height);
+				  meleeObj.draw();
+		        //ctx.drawImage(pMelee, pMelee.X, pMelee.Y, pMelee.width, pMelee.height);
 		        ctx.fillStyle = "red";
 		        ctx.fillRect(pMelee.X, pMelee.Y+pMelee.height, pMelee.health*0.75, 15);
 		      }
@@ -852,8 +852,7 @@ function update(){
 
 		      //Enemy melee image and health
 		      if (eMelee.dead == false && eMelee.act){
-				  meleeObj.draw();
-		        //ctx.drawImage(eMelee, eMelee.X, eMelee.Y, eMelee.width, eMelee.height);
+		        ctx.drawImage(eMelee, eMelee.X, eMelee.Y, eMelee.width, eMelee.height);
 		        ctx.fillStyle = "red";
 		        ctx.fillRect(eMelee.X, eMelee.Y+eMelee.height, eMelee.health*0.75, 15);
 		      }
@@ -969,7 +968,7 @@ function Sprite(opt) {
 	self.draw = function() {
 
 		// Clear the canvas
-		self.ctx.clearRect(0, 0, self.width, self.height);
+		self.context.clearRect(0, 0, self.width, self.height);
 
 		// Draw the animation
 		self.context.drawImage(
