@@ -64,11 +64,11 @@ function Particle(x, y, speed, lifetime){
 
 function particle_system(numParticles){
 	for(var i =0; i < numParticles; i++){
-  	particles.push(new Particle(Math.random() * canvas.width, -40, 15, canvas.height));
+  	particles.push(new Particle(Math.random() * canvas.width, -40, 5, canvas.height));
   }
 }
 
-particle_system(100);
+particle_system(10);
 
 /*
 Input Music
