@@ -9,6 +9,8 @@ var type = [1,2,3]; //may be unnecessary
 
 var makeMelee, makeRanged, makeGatherer = false;
 
+var playerProjs = new Array();
+
 /*
 PLAYER'S
 Empty array that holds three indices also
@@ -18,10 +20,51 @@ Empty array that holds three indices also
 Initialize with 0 units each
 */
 
-var playerMelees = [];
-var playerRanged = [];
-var playerGathers = [];
-var friendlies = [playerMelees, playerRanged, playerGathers];
+var playerMelees = new Array();
+var playerRanged = new Array();
+var playerGathers = new Array();
+
+//unit counts
+meleeCount = 0;
+rangedCount = 0;
+gathererCount = 0;
+
+//count of friendlies
+var friendlies = [0, 0, 0];
+
+//Instantiate three player unit
+playerMelees.push( unit(1) ); //melee
+friendlies[0]+=1;
+playerMelees.push( unit(1) ); //melee
+friendlies[0]+=1;
+playerMelees.push( unit(1) ); //melee
+friendlies[0]+=1;
+playerMelees.push( unit(1) ); //melee
+friendlies[0]+=1;
+
+
+playerRanged.push( unit(2) ); //ranged
+friendlies[1]+=1;
+playerRanged.push( unit(2) ); //ranged
+friendlies[1]+=1;
+playerRanged.push( unit(2) ); //ranged
+friendlies[1]+=1;
+playerRanged.push( unit(2) ); //ranged
+friendlies[1]+=1;
+playerRanged.push( unit(2) ); //ranged
+friendlies[1]+=1;
+
+playerGathers.push( unit(3) ); //gatherer
+friendlies[2]+=1;
+playerGathers.push( unit(3) ); //gatherer
+friendlies[2]+=1;
+playerGathers.push( unit(3) ); //gatherer
+friendlies[2]+=1;
+playerGathers.push( unit(3) ); //gatherer
+friendlies[2]+=1;
+
+
+
 
 /*
 AI'S
@@ -33,7 +76,9 @@ Initialize with 0 units each
 */
 var badMelees = [];
 var badRanged = [];
-var baddies = [badMelees, badRanged];
+
+//count of enemies
+var baddies = [0, 0];
 
 //Coordinate variables for combat
 var spawnX = 1000;
@@ -47,42 +92,52 @@ var spawnY = 540;
 function unit(type){
     //melee
     if (type == 1){
-      this.hp = 100;
-      this.dmg = 10;
-      this.speed = 5;
-      this.width = 80;
-      this.height = 160;
-      this.X = 0;
-      this.Y = 0;
-      this.src = "art/allymeleeF.png";
-      this.act = false;
-      this.dead = false;
+      return {
+  			name : "pMelee",
+        hp : 100,
+        dmg : 15,
+        speed : 5,
+        width : 80,
+        height : 160,
+        X : 0,
+        Y : 0,
+        act : false,
+        dead : false
+      };
     }
 
     //ranged
     else if (type == 2){
-      this.hp = 50;
-      this.dmg = 30;
-      this.speed = 5;
-      this.width = 90;
-      this.height = 160;
-      this.X = 0;
-      this.Y = 0;
-      this.src = "art/allyrangeM.png"
-      this.act = false;
-      this.dead = false;
+
+      return {
+  			name : "pRanged",
+        hp : 70,
+        dmg : 30,
+        speed : 5,
+        width : 90,
+        height : 160,
+        X : 0,
+        Y : 0,
+        act : false,
+        dead : false
+      }
     }
 
     //gatherer
     else{
-      //this.hp = 0;
-      //this.dmg = 0;
-      this.speed = 5;
-      this.X = 0;
-      this.Y = 0;
-      this.act = false;
-      this.src = "";
+
+      return {
+  			name : "pGatherer",
+        speed : 5,
+  			width : 80,
+  			height : 160,
+        X : 0,
+        Y : 0,
+        act : false,
+        state: "go"
+      }
     }
+
 }
 
 //spawn unit class
@@ -92,32 +147,50 @@ function spawnUnit(unitArray){
   //summon melee dude
   if (makeMelee){
     if (playerMelees!=null){
-      makeMelee = false;
-      playerMelees[0].X = spawnX;
-      playerMelees[0].Y = spawnY;
-      playerMelees[0].act = true;
-      //delete the unit from the array
-      playerMelees.splice(0,1);
+			playerMelees[meleeCount].act = true;
+      playerMelees[meleeCount].X = spawnX;
+      playerMelees[meleeCount].Y = spawnY;
+			makeMelee = false;
+      if (meleeCount<playerMelees.length){
+        meleeCount+=1;
+      }
+      if(friendlies[0] > 0){
+        friendlies[0]-=1;
+      }
     }
   }
 
-  else if (makeRanged){
+
+  if (makeRanged){
       if (playerRanged!=null){
-        makeRanged = false;
-        playerRanged[0].X = spawnX;
-        playerRanged[0].Y = spawnY;
-        playerRanged[0].act = true;
-        //delete the unit from the array
-        playerRanged.splice(0,1);
+        playerRanged[rangedCount].act = true;
+        playerRanged[rangedCount].X = spawnX;
+        playerRanged[rangedCount].Y = spawnY;
+				makeRanged = false;
+        if (rangedCount<playerRanged.length){
+          rangedCount+=1;
+        }
+        if(friendlies[1] > 0){
+           friendlies[1]-=1;
+        }
       }
   }
 
-  else if (makeGatherer){
-      if (playerGathers){
-        makeGatherer = false;
-        //delete the unit from the array
-        playerGathers[0].act = true;
-        playerGathers.splice(0,1);
+  if (makeGatherer){
+      if (playerGathers!=null){
+        playerGathers[gathererCount].act = true;
+        playerGathers[gathererCount].width = 80;
+        playerGathers[gathererCount].height = 160;
+        playerGathers[gathererCount].X = 920;
+        playerGathers[gathererCount].Y = 200;
+				makeGatherer = false;
+        if (gathererCount<playerGathers.length){
+          gathererCount+=1;
+        }
+        if(friendlies[2] > 0){
+          friendlies[2]-=1;
+        }
       }
   }
+
 }

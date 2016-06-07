@@ -8,6 +8,14 @@ var level = 1; //current game level NOT PLAYER'S
 
 var water = 100; //resource count
 
+//win conditions
+var winNum = 2;
+var rekt = 0; //number killed
+
+//check if unit died
+var countM = false;
+var countR = false;
+
 //bullet
 var Bullet = function(velocity, rectangle) {
     this.vx = velocity;
@@ -24,13 +32,25 @@ function checkCombat(friendly, enemy){
   if((friendly.X)<=(enemy.X + enemy.width) && friendly.act == true){
 
     //check if friendly dead
-    if (friendly.health <= 10){
+    if (friendly.health <= 0){
       friendly.dead = true;
     }
 
     //check if enemy dead
-    if (enemy.health <= 10){
-      enemy.dead = true;
+    if (enemy.health <= 0){
+            enemy.dead = true;
+
+            //kill melee
+            if (countM == false && enemy.name == "eMelee"){
+                countM = true;
+                rekt += 1;
+            }
+          //kill ranged
+            if (countR == false && enemy.name == "eRanged"){
+                countR = true;
+                rekt += 1;
+            }
+
     }
 
     friendly.health -= 15;
@@ -48,7 +68,7 @@ function hitProj(projectile, target){
         if (target.name === "pRanged" || target.name === "pMelee"){
           if (projectile.x >= target.X){
             //check if target dead
-            if (target.health <= 10){
+            if (target.health <= 0){
               target.dead = true;
               target.X = 1995;
             }
@@ -63,8 +83,19 @@ function hitProj(projectile, target){
         else if (target.name === "eRanged" || target.name === "eMelee"){
           if (projectile.x <= target.X+target.width){
             //check if target dead
-            if (target.health <= 10){
+            if (target.health <= 0){
               target.dead = true;
+
+              //arrow kill melee
+              if (countM == false && target.name == "eMelee"){
+                  countM = true;
+                  rekt += 1;
+              }
+            //arrow kill ranged
+              if (countR == false && target.name == "eRanged"){
+                  countR = true;
+                  rekt += 1;
+              }
               target.X = -1995;
             }
             target.health -= 30;
@@ -74,12 +105,11 @@ function hitProj(projectile, target){
   }
 }
 
-
 //check if enemies are taking water
 //passes in enemy and then checks coordinates
 function takeWater(waterCont, enemy){
   if(((waterCont.X)>=(enemy.X+enemy.width)&&(enemy.X+enemy.width)>=(waterCont.X))){
-      water -= 90;
+      water -= 50;
       enemy.X = 2000;
   }
 }
@@ -102,6 +132,6 @@ function gatherWater(unit){
   if (unit.X < -20 && unit.act){
     console.log("we here");
     water+= Math.floor( (Math.random()*50) +1);
-    //unit.act = false;
+    unit.act = false;
   }
 }
