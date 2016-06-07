@@ -968,7 +968,7 @@ function Sprite(opt) {
 	self.draw = function() {
 
 		// Clear the canvas
-		//self.context.clearRect(0, 0, self.width, self.height);
+		self.context.clearRect(0, 0, self.width, self.height);
 
 		// Draw the animation
 		self.context.drawImage(
