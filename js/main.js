@@ -987,10 +987,6 @@ function Sprite(opt) {
 }
 
 function main(){
-<<<<<<< HEAD
-
-=======
->>>>>>> origin/master
 	update();
 	draw();
 }
