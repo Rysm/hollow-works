@@ -976,8 +976,8 @@ function Sprite(opt) {
 			self.height,
 			self.image.X,
 			self.image.Y,
-			80,
-			160);
+			self.image.width,
+			self.image.height);
 	};
 
 	return self;
