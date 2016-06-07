@@ -41,6 +41,8 @@ var selectHero = "nothing";
 //will hold win
 var state = null;
 
+var recruitmentActive = false;
+
 /*
 Menu raining stuff
 */
@@ -216,6 +218,17 @@ function handleClick(eventParams){
 			    }
 
 			  }
+
+				//open recruitment
+				if (checkBounds(recruitmentButton, eventParams.clientX, eventParams.clientY)){
+			    if(recruitmentActive == false){
+			      recruitmentActive = true;
+			    }else{
+			      recruitmentActive = false;
+			    }
+
+			  }
+
 			  //upgrade attack
 			  if (checkBounds(uiButtonOne, eventParams.clientX, eventParams.clientY)){
 			    if(uiActive){
@@ -336,6 +349,66 @@ waterCont.Y = canvas.height-waterCont.height-20;
 //background
 var bg = new Image();
 bg.src = "art/bg.png";
+
+//recruitmentButton
+var recruitmentButton = new Image();
+recruitmentButton.X = 1150;
+recruitmentButton.Y = 200;
+recruitmentButton.width = 85;
+recruitmentButton.height = 70;
+recruitmentButton.src = "art/recruitment button.png";
+
+//recruitment
+var recruitment = new Image();
+recruitment.X = 450;
+recruitment.Y = 0;
+recruitment.width = 500;
+recruitment.height = 300;
+recruitment.src = "art/recruitment board.png";
+
+//recruitmentOne
+var recruitmentOne = new Image();
+recruitmentOne.X = 540;
+recruitmentOne.Y = 100;
+recruitmentOne.width = 80;
+recruitmentOne.height = 80;
+recruitmentOne.src = "art/heads_gatherer_f.png";
+
+//recruitmentTwo
+var recruitmentTwo = new Image();
+recruitmentTwo.X = 665;
+recruitmentTwo.Y = 100;
+recruitmentTwo.width = 80;
+recruitmentTwo.height = 80;
+recruitmentTwo.src = "art/heads_melee_f.png";
+
+//recruitmentThree
+var recruitmentThree = new Image();
+recruitmentThree.X = 790;
+recruitmentThree.Y = 100;
+recruitmentThree.width = 80;
+recruitmentThree.height = 80;
+recruitmentThree.src = "art/heads_range_f.png";
+
+// recruitmentbuttons
+var recruitGatherer = new Image();
+recruitGatherer.X = 530;
+recruitGatherer.Y = 200;
+recruitGatherer.width = 100;
+recruitGatherer.height = 60;
+
+var recruitMelee = new Image();
+recruitMelee.X = 655;
+recruitMelee.Y = 200;
+recruitMelee.width = 100;
+recruitMelee.height = 60;
+
+var recruitRange = new Image();
+recruitRange.X = 780;
+recruitRange.Y = 200;
+recruitRange.width = 100;
+recruitRange.height = 60;
+
 
 //uiIcon
 var uiIcon = new Image();
@@ -864,6 +937,40 @@ function update(){
 		        ctx.fillStyle = "red";
 		        ctx.fillRect(eRanged.X, eRanged.Y+eRanged.height, eRanged.health*0.75, 15);
 		      }
+					//recruitment
+								if(recruitmentActive == true){
+									ctx.drawImage(recruitment, recruitment.X, recruitment.Y, recruitment.width, recruitment.height);
+
+									ctx.drawImage(recruitmentOne, recruitmentOne.X, recruitmentOne.Y, recruitmentOne.width, recruitmentOne.height);
+									ctx.drawImage(recruitmentTwo, recruitmentTwo.X, recruitmentTwo.Y, recruitmentTwo.width, recruitmentTwo.height);
+									ctx.drawImage(recruitmentThree, recruitmentThree.X, recruitmentThree.Y, recruitmentThree.width, recruitmentThree.height);
+
+									ctx.fillStyle = "green";
+									ctx.fillRect(recruitGatherer.X, recruitGatherer.Y, recruitGatherer.width, recruitGatherer.height);
+									ctx.fillRect(recruitMelee.X, recruitMelee.Y, recruitMelee.width, recruitMelee.height);
+									ctx.fillRect(recruitRange.X, recruitRange.Y, recruitRange.width, recruitRange.height);
+									ctx.font="14px Georgia"
+									ctx.fillStyle="black";
+									ctx.fillText("New", recruitGatherer.X+10, recruitGatherer.Y+20);
+									ctx.fillText("New", recruitMelee.X+10, recruitMelee.Y+20);
+									ctx.fillText("New", recruitRange.X+10, recruitRange.Y+20);
+
+									ctx.fillText("Gatherer", recruitGatherer.X+10, recruitGatherer.Y+38);
+									ctx.fillText("Melee", recruitMelee.X+10, recruitMelee.Y+38);
+									ctx.fillText("Ranged", recruitRange.X+10, recruitRange.Y+38);
+
+									ctx.font = "12px Georgia";
+									ctx.fillText("Cost: 20 Water", recruitGatherer.X+10, recruitGatherer.Y+55);
+									ctx.fillText("Cost: 10 Water", recruitMelee.X+10, recruitMelee.Y+55);
+									ctx.fillText("Cost: 10 Water", recruitRange.X+10, recruitRange.Y+55);
+
+								}
+
+								//open UI
+								ctx.drawImage(recruitmentButton, recruitmentButton.X,recruitmentButton.Y,recruitmentButton.width,recruitmentButton.height);
+
+
+
 
 		      //upgrade UI button
 		      ctx.font="18px Georgia";
