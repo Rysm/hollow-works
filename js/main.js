@@ -967,9 +967,6 @@ function Sprite(opt) {
 
 	self.draw = function() {
 
-		// Clear the canvas
-		self.context.clearRect(0, 0, self.width, self.height);
-
 		// Draw the animation
 		self.context.drawImage(
 			self.image,
@@ -979,8 +976,8 @@ function Sprite(opt) {
 			self.height,
 			self.image.X,
 			self.image.Y,
-			self.image.width,
-			self.image.height);
+			80,
+			160);
 	};
 
 	return self;
