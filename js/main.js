@@ -461,11 +461,11 @@ pMelee.dead = false;
 
 meleeObj = Sprite({
 	context: ctx,
-	width: 650,
-	height: 250,
+	width: 2600,
+	height: 1000,
 	image: pMelee,
 	numFrames: 4,
-	ticksPerFrame: 8
+	ticksPerFrame: 4
 });
 
 //player ranged
