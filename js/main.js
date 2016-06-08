@@ -3,6 +3,8 @@ var FPS = 60;
 //===========================================================================
 // CONFIGURATION
 //===========================================================================
+
+///////////////////////////this is a test, stop it//////////////////////////////////////
 var cfg = {
 	state: {
 		initial: '',
@@ -49,6 +51,78 @@ var cfg = {
 
 	]
 };
+
+// i like being pretty
+is = {
+	'string':         function(obj) { return (typeof obj === 'string');                 },
+	'number':         function(obj) { return (typeof obj === 'number');                 },
+	'bool':           function(obj) { return (typeof obj === 'boolean');                },
+	'array':          function(obj) { return (obj instanceof Array);                    },
+	'undefined':      function(obj) { return (typeof obj === 'undefined');              },
+	'func':           function(obj) { return (typeof obj === 'function');               },
+	'null':           function(obj) { return (obj === null);                            },
+	'notNull':        function(obj) { return (obj !== null);                            },
+	'invalid':        function(obj) { return ( is['null'](obj) ||  is.undefined(obj));  },
+	'valid':          function(obj) { return (!is['null'](obj) && !is.undefined(obj));  },
+	'emptyString':    function(obj) { return (is.string(obj) && (obj.length == 0));     },
+	'nonEmptyString': function(obj) { return (is.string(obj) && (obj.length > 0));      },
+	'emptyArray':     function(obj) { return (is.array(obj) && (obj.length == 0));      },
+	'nonEmptyArray':  function(obj) { return (is.array(obj) && (obj.length > 0));       },
+	'document':       function(obj) { return (obj === document);                        },
+	'window':         function(obj) { return (obj === window);                          },
+	'element':        function(obj) { return (obj instanceof HTMLElement);              },
+	'event':          function(obj) { return (obj instanceof Event);                    },
+	'link':           function(obj) { return (is.element(obj) && (obj.tagName == 'A')); }
+}
+
+createImage = function(url, opt) {
+	opt = opt || {};
+	var image = new Image();
+	// some conditional to check onload here, one sec
+	image.src = url;
+	return image;
+}
+
+// gettin er done!
+loadResources = function( images, sounds ) {
+	images = images || [];
+	sounds = sounds || [];
+	var count = images.length + sounds.length;
+	var resources = {images: {}, sounds: {}};
+	if (count != 0) {
+		var done = false;
+		var loaded = function () {
+			if (!done)
+				done = true; // we only want it called once
+		}
+
+		var onload = function () {
+			if (--count == 0)
+				loaded();
+		};
+
+		for (var n = 0; n < images.length; n++) {
+			var image = images[n];
+			image = is.string(image) ? {id: image, url: image} : image;
+			resources.images[image.id] = createImage(image.url, {onload: onload});
+		}
+		for (var n = 0; n < sounds.length; n++) {
+			var sound = sounds[n];
+			sound = is.string(sound) ? {id: sound, name: sound} : sound;
+			// need somthin here for soundFX stuffs
+			// I'll deal with this in a bit, just want image balls to work
+		}
+	}
+}
+
+// ooo, aaa, welcome to JavaScript
+loadResources( cfg.images, cfg.sounds );
+
+
+///////////////////////////////////test end////////////////////////////////////////
+
+
+
 /*
 Initiate canvas
 */
