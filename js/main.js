@@ -543,7 +543,7 @@ meleeObj = Sprite({
 
 //player ranged
 var pRanged = new Image();
-pRanged.src = "art/allyrangeM.png";
+pRanged.src = "art/a_r_f_UpdatedSheet.png";
 pRanged.name = "pRanged";
 pRanged.health = 70;
 pRanged.dmg = 30;
@@ -556,6 +556,15 @@ pRanged.dead = false;
 pRanged.createArrow = function() {
     return new Arrow(pRanged, eMelee, eRanged, 80, 20, 12);
 }
+
+rangedObj = Sprite({
+	context: ctx,
+	width: 2600,
+	height: 1000,
+	image: pRanged,
+	numFrames: 4,
+	ticksPerFrame: 4
+});
 
 var eMelee = new Image();
 eMelee.name = "eMelee";
@@ -583,7 +592,7 @@ eRanged.act = false;
 eRanged.dead = false;
 eRanged.advance = true;
 eRanged.createArrow = function() {
-    return new Arrow(eRanged, pMelee, pRanged, 80, 20, -7);
+    return new Arrow(eRanged, pMelee, pRanged, 20, 5, -7);
 }
 
 // ^^^ UNITS END HERE
@@ -654,6 +663,8 @@ function Arrow(from, enemy, enemy2, width, height, xSpeed) {
 //
 
         ctx.drawImage(bulletImg, this.x, this.y, this.width, this.height);
+
+		return true;
     };
 
     this.reset = function() {
@@ -799,7 +810,8 @@ function update(){
 		        }
 
 		        if (pRanged.act && pRanged.X > 700 && pRanged.dead == false){
-		          pRanged.X-=5;
+		          	pRanged.X-=5;
+					rangedObj.update();
 		        }
 
 		        //enemy unit movement
@@ -911,9 +923,14 @@ function update(){
 
 		      //Ranged image and health
 		      if (pRanged.dead == false && pRanged.act){
-		        ctx.drawImage(pRanged, pRanged.X, pRanged.Y, pRanged.width, pRanged.height);
-		        pArrow.y = pRanged.Y + pRanged.height/2;
-		        pArrow.draw();
+				  rangedObj.draw();
+		        //ctx.drawImage(pRanged, pRanged.X, pRanged.Y, pRanged.width, pRanged.height);
+		        pArrow.y = pRanged.Y + pRanged.height/4 + 10;
+		        if (pArrow.draw()) {
+					pRanged.src = "art/ally_range_female_attack_spritesheet.png";
+					rangedObj.numFrames = 5;
+					rangedObj.ticksPerFrame = 8;
+				}
 		        ctx.fillStyle = "red";
 		        ctx.fillRect(pRanged.X, pRanged.Y+pRanged.height, pRanged.health*0.75, 15);
 		      }
