@@ -7,9 +7,11 @@ var FPS = 60;
 ///////////////////////////this is a test, stop it//////////////////////////////////////
 var cfg = {
 	state: {
-		initial: '',
+		initial: 'whereWeStart',
 		events: [
-
+			///////**********yes events, no more random true false garbage*******?????
+			/// we're talkin about menu on, ui on, and all that mess          /////
+			// zzzzzzzzzz
 		]
 	},
 	images: [
@@ -73,7 +75,7 @@ is = {
 	'element':        function(obj) { return (obj instanceof HTMLElement);              },
 	'event':          function(obj) { return (obj instanceof Event);                    },
 	'link':           function(obj) { return (is.element(obj) && (obj.tagName == 'A')); }
-}
+};
 
 createImage = function(url, opt) {
 	opt = opt || {};
@@ -81,9 +83,9 @@ createImage = function(url, opt) {
 	// some conditional to check onload here, one sec
 	image.src = url;
 	return image;
-}
+};
 
-// gettin er done!
+// gettin er done! don't be scrrrrrrd! it's ez
 loadResources = function( images, sounds ) {
 	images = images || [];
 	sounds = sounds || [];
@@ -113,13 +115,13 @@ loadResources = function( images, sounds ) {
 			// I'll deal with this in a bit, just want image balls to work
 		}
 	}
-}
+};
 
 // ooo, aaa, welcome to JavaScript
 loadResources( cfg.images, cfg.sounds );
 
 
-///////////////////////////////////test end////////////////////////////////////////
+///////////////////////////////////test end, unWorry////////////////////////////////////////
 
 
 
