@@ -1,3 +1,54 @@
+var FPS = 60;
+
+//===========================================================================
+// CONFIGURATION
+//===========================================================================
+var cfg = {
+	state: {
+		initial: '',
+		events: [
+
+		]
+	},
+	images: [
+		{ id: 'background',   url: "art/bg.png"                              		},
+		{ id: 'waterCont',    url: "art/waterCont.png"                       		},
+		{ id: 'recruitBtn',   url: "art/recruitment button.png"              		},
+		{ id: 'recruitBrd',   url: "art/recruitment board.png"               		},
+		{ id: 'gRecruit', 	  url: "art/heads_gatherer_f.png"                		},
+		{ id: 'mRecruit', 	  url: "art/heads_melee_f.png"               	 		},
+		{ id: 'rRecruit', 	  url: "art/heads_range_f.png"                   		},
+		{ id: 'gRecruitBtn',  url: ""                						 		},
+		{ id: 'mRecruitBtn',  url: ""               						 		},
+		{ id: 'rRecruitBtn',  url: ""                   					 		},
+		{ id: 'uiIcon', 	  url: ""                   					 		},
+		{ id: 'uiBackground', url: "art/uiMenu.png"                   		 		},
+		{ id: 'uiBtn1', 	  url: "art/levelOne.png"                   	 		},
+		{ id: 'uiBtn2', 	  url: "art/levelTwo.png"                   	 		},
+		{ id: 'uiBtn3', 	  url: "art/levelThree.png"                   	 		},
+		{ id: 'uiBtn4', 	  url: "art/levelFour.png"                   	 		},
+		{ id: 'plyrPtrt', 	  url: ""                   	 				 		},
+		{ id: 'tearDrpLp', 	  url: "art/teardropbloop.png"                   		},
+		{ id: 'waterIcon', 	  url: "art/watericon2.png"                   	 		},
+		{ id: 'charBtnM', 	  url: "art/swordicon.png"                   	 		},
+		{ id: 'charBtnR', 	  url: "art/bowicon.png"                   	     		},
+		{ id: 'charBtnG', 	  url: "art/gatherericon.png"                    		},
+		{ id: 'mWlk',         url: "art/walkTest.png"                        		},
+		{ id: 'mAtk', 		  url: "art/ally_melee_female_attack_spritesheet.png"	},
+		{ id: 'rWlk', 		  url: "art/a_r_f_UpdatedSheet.png"                  	},
+		{ id: 'rAtk', 		  url: "art/a_r_f_UpdatedSheet.png"                  	},
+		{ id: 'eMWlk', 		  url: "art/e_m_f_UpdatedSheet.png"                  	},
+		{ id: 'eMAtk', 		  url: "art/enemy_melee_female_attack_spritesheet.png" 	},
+		{ id: 'eRWlk', 		  url: "art/e_r_f_UpdatedSheet.png"                    	},
+		{ id: 'eRAtk', 		  url: "art/enemy_range_female_attack_spritesheet.png" 	}
+	],
+	sounds: [
+
+	],
+	waves: [
+
+	]
+};
 /*
 Initiate canvas
 */
@@ -507,6 +558,12 @@ bGatherer.count = 1;
 
 
 //UNITS BEGIN HERE
+ALLY = {
+	MELEE:    { sx: 0, sy: 0, frames: 4, tpf: FPS/15, health: 500, speed: 200/FPS, damage: 50/FPS, armor: 3, state: "walking", weapon: { speed: 600/FPS, reload: 0.40*FPS, damage: 4, active: false }, sex: "female", name: "melee"    },
+	RANGED:   { sx: 0, sy: 0, frames: 4, tpf: FPS/15, health: 500, speed: 220/FPS, damage: 40/FPS, armor: 2, state: "walking", weapon: { speed: 620/FPS, reload: 0.35*FPS, damage: 4, active: false }, sex: "male",   name: "ranged"   },
+	GATHERER: { sx: 0, sy: 0, frames: 4, tpf: FPS/15, health: 0,   speed: 260/FPS, damage: 0,      armor: 0, state: "walking",                                                                         sex: "female", name: "gatherer" }
+};
+
 
 //playerGather
 var pGatherer = new Image();
