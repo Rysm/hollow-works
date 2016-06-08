@@ -31,8 +31,6 @@ var nextTier = 50;
 var nextAtk = 10;
 var nextDef = 10;
 var nextSpd = 10;
-var gamestart = false;
-var currentCountDown =  makeTimer(30000);
 
 //is hero selected
 var hero = false;
@@ -43,10 +41,7 @@ var selectHero = "nothing";
 //will hold win
 var state = null;
 
-//Indexes for the button spawning
-var mCount = 0;
-var rCount = 0;
-var gCount = 0;
+var recruitmentActive = false;
 
 /*
 Menu raining stuff
@@ -64,11 +59,11 @@ function Particle(x, y, speed, lifetime){
 
 function particle_system(numParticles){
 	for(var i =0; i < numParticles; i++){
-  	particles.push(new Particle(Math.random() * canvas.width, -40, 5, canvas.height));
+  	particles.push(new Particle(Math.random() * canvas.width, -40, 15, canvas.height));
   }
 }
 
-particle_system(10);
+particle_system(100);
 
 /*
 Input Music
@@ -178,33 +173,39 @@ function handleClick(eventParams){
 
 			  //spawn gatherer dude
 			  if(checkBounds(bGatherer, eventParams.clientX, eventParams.clientY)){
-		       if(bGatherer.count > 0){
-							if (playerGatherers[gCount] != null){
-									playerGatherers[gCount].act=true;
-									gCount++;
-							}
+			      pGatherer.X = 1300;
+			      pGatherer.Y = 275;
+			      pGatherer.width = 40;
+			      pGatherer.height = 80;
+			      pGatherer.act = true;
+			      if(bGatherer.count > 0){
 			        bGatherer.count-=1;
-						}
+			      }
+
 			  }
 
 			  //spawn melee dude
 			  if(checkBounds(bMelee, eventParams.clientX, eventParams.clientY)){
+			      //character activate location
+			      //turns on a switch to enable player object/particle movement
+			      pMelee.Y = canvas.height-waterCont.height-50;
+			      eMelee.Y = canvas.height-waterCont.height-50;
+			      eRanged.Y = canvas.height-waterCont.height-50;
+			      pMelee.act=true;
 			      if(bMelee.count > 0){
-							if (playerMelees[mCount] != null){
-				      		playerMelees[mCount].act=true;
-									mCount++;
-							}
-				      bMelee.count-=1;
+			        bMelee.count-=1;
 			      }
 			  }
 
 			  //spawn ranged dude
 			  if (checkBounds(bRanged, eventParams.clientX, eventParams.clientY)){
+			      //character activate location
+			      //turns on a switch to enable player object/particle movement
+			      pRanged.Y = canvas.height-waterCont.height-50;
+			      eMelee.Y = canvas.height-waterCont.height-50;
+			      eRanged.Y = canvas.height-waterCont.height-50;
+			      pRanged.act=true;
 			      if(bRanged.count > 0){
-							if (playerRanges[rCount] != null){
-									playerRanges[rCount].act=true;
-									rCount++;
-							}
 			        bRanged.count-=1;
 			      }
 			  }
@@ -217,6 +218,17 @@ function handleClick(eventParams){
 			    }
 
 			  }
+
+				//open recruitment
+				if (checkBounds(recruitmentButton, eventParams.clientX, eventParams.clientY)){
+			    if(recruitmentActive == false){
+			      recruitmentActive = true;
+			    }else{
+			      recruitmentActive = false;
+			    }
+
+			  }
+
 			  //upgrade attack
 			  if (checkBounds(uiButtonOne, eventParams.clientX, eventParams.clientY)){
 			    if(uiActive){
@@ -254,6 +266,7 @@ function checkBounds(button, clickX, clickY){
   	return false;
   }
 }
+
 
 /*
 HERO
@@ -307,20 +320,17 @@ function choose(e){
 			//select melee
 			if ( (e.clientX >= 90 && e.clientX <= 405) && (e.clientY>=49 && e.clientY<=689) ){
 				selectHero = "melee";
-				gamestart = true;
 				hero=true;
 			}
 			//select gatherer
 			else if ( (e.clientX >= 488 && e.clientX <= 832) && (e.clientY>=100 && e.clientY<=670) ){
 				selectHero = "gatherer";
-				gamestart = true;
 				hero = true;
 			}
 
 			//Hovering over ranged hero
 			else if ( (e.clientX >= 876 && e.clientX <= 1217) && (e.clientY>=56 && e.clientY<=680) ){
 				selectHero = "ranged";
-				gamestart = true;
 				hero = true;
 			}
 
@@ -339,6 +349,66 @@ waterCont.Y = canvas.height-waterCont.height-20;
 //background
 var bg = new Image();
 bg.src = "art/bg.png";
+
+//recruitmentButton
+var recruitmentButton = new Image();
+recruitmentButton.X = 1150;
+recruitmentButton.Y = 200;
+recruitmentButton.width = 85;
+recruitmentButton.height = 70;
+recruitmentButton.src = "art/recruitment button.png";
+
+//recruitment
+var recruitment = new Image();
+recruitment.X = 450;
+recruitment.Y = 0;
+recruitment.width = 500;
+recruitment.height = 300;
+recruitment.src = "art/recruitment board.png";
+
+//recruitmentOne
+var recruitmentOne = new Image();
+recruitmentOne.X = 540;
+recruitmentOne.Y = 100;
+recruitmentOne.width = 80;
+recruitmentOne.height = 80;
+recruitmentOne.src = "art/heads_gatherer_f.png";
+
+//recruitmentTwo
+var recruitmentTwo = new Image();
+recruitmentTwo.X = 665;
+recruitmentTwo.Y = 100;
+recruitmentTwo.width = 80;
+recruitmentTwo.height = 80;
+recruitmentTwo.src = "art/heads_melee_f.png";
+
+//recruitmentThree
+var recruitmentThree = new Image();
+recruitmentThree.X = 790;
+recruitmentThree.Y = 100;
+recruitmentThree.width = 80;
+recruitmentThree.height = 80;
+recruitmentThree.src = "art/heads_range_f.png";
+
+// recruitmentbuttons
+var recruitGatherer = new Image();
+recruitGatherer.X = 530;
+recruitGatherer.Y = 200;
+recruitGatherer.width = 100;
+recruitGatherer.height = 60;
+
+var recruitMelee = new Image();
+recruitMelee.X = 655;
+recruitMelee.Y = 200;
+recruitMelee.width = 100;
+recruitMelee.height = 60;
+
+var recruitRange = new Image();
+recruitRange.X = 780;
+recruitRange.Y = 200;
+recruitRange.width = 100;
+recruitRange.height = 60;
+
 
 //uiIcon
 var uiIcon = new Image();
@@ -407,80 +477,50 @@ waterIcon.Y = 115;
 //TOP RIGHT CHARACTER BUTTONS
 var bMelee = new Image();
 bMelee.src = "art/swordicon.png";
-bMelee.width = 100;
-bMelee.height = 100;
-bMelee.X = 1000;
-bMelee.Y = 10;
-bMelee.act = false;
-bMelee.dead = false;
-bMelee.count = playerMelees.length; //how long the array is
 
 var bRanged = new Image();
 bRanged.src = "art/bowicon.png";
-bRanged.width = 100;
-bRanged.height = 100;
-bRanged.X = 1110
-bRanged.Y = 10;
-bRanged.act = false;
-bRanged.dead = false;
-bRanged.count = playerRanges.length; //how long the array is
 
 var bGatherer = new Image();
-bGatherer.X = 890;
-bGatherer.Y = 10;
-bGatherer.width = 100;
-bGatherer.height = 100;
-bGatherer.name = "bGatherer";
 bGatherer.src = "art/gatherericon.png";
-bGatherer.act = false;
-bGatherer.count = playerGatherers.length; //how long the array is.
-
 
 //UNITS BEGIN HERE
-
 //playerGather
 var pGatherer = new Image();
-pGatherer.X = 920;
-pGatherer.Y = 200;
-pGatherer.width = 80;
-pGatherer.height = 160;
-pGatherer.name = "pGatherer";
-pGatherer.src = "art/allygathererF.png";
-pGatherer.act = false;
-pGatherer.state = "go";
+pGatherer.src = "art/ally_gatherer_female.png";
 
 //Named as playerMelee
 var pMelee = new Image();
-pMelee.src = "art/allymeleeF.png";
-pMelee.name = "pMelee";
-pMelee.health = 100;
-pMelee.dmg = 15;
-pMelee.width = 80;
-pMelee.height = 160;
-pMelee.X = 1000;
-pMelee.Y = 200;
-pMelee.act = false;
-pMelee.dead = false;
+pMelee.src = "art/walkTest.png";
+
+meleeObj = Sprite({
+	context: ctx,
+	width: 2600,
+	height: 1000,
+	image: pMelee,
+	numFrames: 4,
+	ticksPerFrame: 4
+});
 
 //player ranged
 var pRanged = new Image();
-pRanged.src = "art/allyrangeM.png";
-pRanged.name = "pRanged";
-pRanged.health = 70;
-pRanged.dmg = 30;
-pRanged.width = 90;
-pRanged.height = 160;
-pRanged.X = 1000 + pRanged.width;
-pRanged.Y = pMelee.Y;
-pRanged.act = false;
-pRanged.dead = false;
+pRanged.src = "art/a_r_f_UpdatedSheet.png";
 pRanged.createArrow = function() {
     return new Arrow(pRanged, eMelee, eRanged, 80, 20, 12);
 }
 
+rangedObj = Sprite({
+	context: ctx,
+	width: 2600,
+	height: 1000,
+	image: pRanged,
+	numFrames: 4,
+	ticksPerFrame: 4
+});
+
 var eMelee = new Image();
-eMelee.name = "eMelee";
 eMelee.src = "art/badmeleeF.png";
+eMelee.name = "eMelee";
 eMelee.dmg = 15;
 eMelee.health = 100;
 eMelee.width = 80;
@@ -504,7 +544,7 @@ eRanged.act = false;
 eRanged.dead = false;
 eRanged.advance = true;
 eRanged.createArrow = function() {
-    return new Arrow(eRanged, pMelee, pRanged, 80, 20, -7);
+    return new Arrow(eRanged, pMelee, pRanged, 20, 5, -7);
 }
 
 // ^^^ UNITS END HERE
@@ -575,6 +615,8 @@ function Arrow(from, enemy, enemy2, width, height, xSpeed) {
 //
 
         ctx.drawImage(bulletImg, this.x, this.y, this.width, this.height);
+
+		return true;
     };
 
     this.reset = function() {
@@ -618,6 +660,7 @@ var eArrow = eRanged.createArrow();
 
 function update(){
 
+	//menu rain
 	for(var i = 0; i < particles.length; i++){
   	var particle = particles[i];
     particle.y = particle.y+particle.speed;
@@ -629,163 +672,141 @@ function update(){
     particle.y += particle.radius*0.3;
   }
 
-//water stuck lowest as 0
-if (water <= 0){
-	state = "lose";
-	water = 0;
-}
+		//water stuck lowest as 0
+		if (water <= 0){
+			state = "lose";
+			water = 0;
+		}
 
-//filler
-if (menu == true){
-//console.log(mouseYpos);
-//console.log(mouseXpos);
-}
+		//filler
+		if (menu == true){
+		//console.log(mouseYpos);
+		//console.log(mouseXpos);
+		}
 
-//game state disabled from messing with menu
-if (menu == false){
+		//game state disabled from messing with menu
+		if (menu == false){
+						//timer thing
+						countDownValue = currentCountDown();
 
-				if (gamestart == true){
-						currentCountDown =  makeTimer(30000);
-						gamestart = false;
-				}
+						//get time in ms and convert to seconds
+						//floor it too
+						nowtime = Math.floor( ((countDownValue/1000) % 60) );
 
-				//timer thing
-				countDownValue = currentCountDown();
+						//Spawn the first wave!
+						//Once timer reaches 0
+						if (nowtime <= 0){
+								nowtime = 0;
+								eMelee.act = true;
+								eRanged.act = true;
+						}
 
-				//get time in ms and convert to seconds
-				//floor it too
-				nowtime = Math.floor( ((countDownValue/1000) % 60) );
+						//update player playerPortrait
+						if (selectHero == "melee"){
+								playerPortrait.src = "art/meleePortrait.png";
+						}
+						if (selectHero == "gatherer"){
+								playerPortrait.src = "art/gathererPortrait.png";
+						}
+						if (selectHero == "ranged"){
+								playerPortrait.src = "art/rangedPortrait.png";
+						}
 
-				//Spawn the first wave!
-				//Once timer reaches 0
-				if (nowtime <= 0){
-						nowtime = 0;
-						eMelee.act = true;
-						eRanged.act = true;
-				}
+		        //call this to check if we're losing water
+		        takeWater(waterCont, eMelee);
+		        takeWater(waterCont, eRanged);
 
-				//update player playerPortrait
-				if (selectHero == "melee"){
-						playerPortrait.src = "art/meleePortrait.png";
-				}
-				if (selectHero == "gatherer"){
-						playerPortrait.src = "art/gathererPortrait.png";
-				}
-				if (selectHero == "ranged"){
-						playerPortrait.src = "art/rangedPortrait.png";
-				}
+		        //combat
+		        //call these to check if arrows are hitting
+		        //hitProj(bullet, target dood)
+		        hitProj(eArrow, pRanged);
+		        hitProj(eArrow, pMelee);
+		        hitProj(pArrow, eMelee);
+		        hitProj(pArrow, eRanged);
 
+		        //call this to get water with gatherer
+		        //gatherWater(pGatherer);
 
-				//loops that manage every single melee unit
-				for (a = 0; a < playerMelees.length; a++){
-							if (playerMelees[a].act && playerMelees[a].dead == false){
-				          playerMelees[a].X-= playerMelees[a].speed; //movement
-									hitProj(eArrow, playerMelees[a]); //check if damage from arrow
-				      }
+		        if (pRanged.dead == false && pRanged.act){
+		          pArrow.y = pRanged.Y + pRanged.height/2;
+		          pArrow.update();
+		        }
 
-				}
+		        if (eRanged.dead == false && eRanged.act){
+		          eArrow.update();
+		        }
 
-				//loops that manage every single ranged unit
-				for (b = 0; b < playerRanges.length; b++){
+		        //friendly unit movement
+		        if(pGatherer.act){
+							    if (pGatherer.state == "go"){
+					            	pGatherer.X -= 5;
+					            	//call this to get water with gatherer
+					            	gatherWater(pGatherer);
 
-							if (playerRanges[b].act && playerRanges[b].dead == false){
-									if (playerRanges[b].X > 700){
-				        			playerRanges[b].X-=5; //movement
-									}
-									hitProj(eArrow, playerRanges[b]); //check if damage from arrow
-				      }
-				}
-
-				//loops that manage every single gatherer unit
-				for (c = 0; c < playerGatherers.length; c++){
-
-							if (playerGatherers[c].act){
-    					    if (playerGatherers[c].state == "go"){
-					            playerGatherers[c].X -= 5;
-					            //call this to get water with gatherer
-					            gatherWater(pGatherer);
 					            //forward
-					            if (playerGatherers[c].X < -20){
-					                playerGatherers[c].state = "back";
+					            if (pGatherer.X < -20){
+					                pGatherer.state = "back";
 					            }
 					        }
-					        else if (playerGatherers[c].state == "back"){
-					            playerGatherers[c].X += 5;
+					        else if (pGatherer.state == "back"){
+					            pGatherer.X += 5;
 					            //state management
-					            if (playerGatherers[c].X > canvas.width + 20){
-					                playerGatherers[c].state = "go";
+					            if (pGatherer.X > canvas.width + 20){
+					                pGatherer.state = "go";
 					            }
 					        }
-				      }
-				}
+		        }
 
-        //call this to check if we're losing water
-        takeWater(waterCont, eMelee);
-        takeWater(waterCont, eRanged);
+		        if (pMelee.act && pMelee.dead == false){
+		            pMelee.X-=5;
+								meleeObj.update();
+		        }
 
-        //combat
-        //call these to check if arrows are hitting
-        //hitProj(bullet, target dood)
-        hitProj(eArrow, pRanged);
+		        if (pRanged.act && pRanged.X > 700 && pRanged.dead == false){
+		          	pRanged.X-=5;
+					rangedObj.update();
+		        }
 
-        hitProj(pArrow, eMelee);
-        hitProj(pArrow, eRanged);
+		        //enemy unit movement
+		        if (eMelee.act && eMelee.dead == false){
+		          eMelee.X+=5;
+		        }
 
-        //call this to get water with gatherer
-        //gatherWater(pGatherer);
+		        if (eRanged.act && eRanged.dead == false){
+		          checkEnemyRange(eRanged,pMelee);
+		          checkEnemyRange(eRanged,pRanged);
+		          if (eRanged.advance){
+		            eRanged.X+=5;
+		          }
+		        }
 
-        if (pRanged.dead == false && pRanged.act){
-          pArrow.y = pRanged.Y + pRanged.height/2;
-          pArrow.update();
-        }
+		        //melee combat
+		        //checkCombat (friendly, enemy)
+		        if (pMelee.act && eRanged.act){
+		          checkCombat(pMelee, eRanged); //melee vs ranged
+		        }
+		        if (pMelee.act && eMelee.act){
+		          checkCombat(pMelee, eMelee); //melee vs melee
+		        }
+		        if (pRanged.act && eMelee.act){
+		          checkCombat(pRanged, eMelee); //ranged vs melee
+		        }
+		        if (pRanged.act && eRanged.act){
+		          checkCombat(pRanged, eRanged); //ranged vs ranged
+		        }
 
-        if (eRanged.dead == false && eRanged.act){
-          eArrow.update();
-        }
+						//win condition
+						if (rekt == winNum){
+								state = "win";
+						}
+		  }
 
-        //enemy unit movement
-        if (eMelee.act && eMelee.dead == false){
-          eMelee.X+=5;
-        }
+		backgroundbattle.play(); //repeats song
 
-        if (eRanged.act && eRanged.dead == false){
-          checkEnemyRange(eRanged,pMelee);
-          checkEnemyRange(eRanged,pRanged);
-          if (eRanged.advance){
-            eRanged.X+=5;
-          }
-        }
+		}
 
-/*
-        //melee combat
-        //checkCombat (friendly, enemy)
-        if (pMelee.act && eRanged.act){
-          checkCombat(pMelee, eRanged); //melee vs ranged
-        }
-        if (pMelee.act && eMelee.act){
-          checkCombat(pMelee, eMelee); //melee vs melee
-        }
-        if (pRanged.act && eMelee.act){
-          checkCombat(pRanged, eMelee); //ranged vs melee
-        }
-        if (pRanged.act && eRanged.act){
-          checkCombat(pRanged, eRanged); //ranged vs ranged
-        }
-
-				//win condition
-				if (rekt == winNum){
-						state = "win";
-				}
-*/
-
-  }
-
-backgroundbattle.play(); //repeats song
-
-}
-
-//Show the player what they need to see
-function draw(){
+		//Show the player what they need to see
+		function draw(){
 
 		//clear the canvas
 		if (menu == true && hero==false){
@@ -841,44 +862,36 @@ function draw(){
 		      ctx.drawImage(bRanged, bRanged.X, bRanged.Y, bMelee.width, bMelee.height);
 		      ctx.font="32px Georgia";
 		      ctx.fillStyle="black";
-		      ctx.fillText(bGatherer.count, bGatherer.X+73, bGatherer.Y+91);
-		      ctx.fillText(bMelee.count, bMelee.X+73, bMelee.Y+91);
-		      ctx.fillText(bRanged.count, bRanged.X+73, bRanged.Y+91);
+		      ctx.fillText(friendlyGatherer.length, bGatherer.X+73, bGatherer.Y+91);
+		      ctx.fillText(friendlyMelees.length, bMelee.X+73, bMelee.Y+91);
+		      ctx.fillText(friendlyRanged, bRanged.X+73, bRanged.Y+91);
 
-					//loops that manage every single melee unit
-					for (d = 0; d < playerMelees.length; d++){
-					      //Melee image and health
-					      if (playerMelees[d].dead == false && playerMelees[d].act){
-								  if (playerMelees[d]!= null){
-							        ctx.drawImage(drawMelees[d], playerMelees[d].X, playerMelees[d].Y, playerMelees[d].width, playerMelees[d].height);
-							        ctx.fillStyle = "red";
-							        ctx.fillRect(playerMelees[d].X, playerMelees[d].Y+playerMelees[d].height, playerMelees[d].health*0.75, 15);
-									}
-					      }
-					}
+		      //Melee image and health
+		      if (pMelee.dead == false && pMelee.act){
+				  meleeObj.draw();
+		        //ctx.drawImage(pMelee, pMelee.X, pMelee.Y, pMelee.width, pMelee.height);
+		        ctx.fillStyle = "red";
+		        ctx.fillRect(pMelee.X, pMelee.Y+pMelee.height, pMelee.health*0.75, 15);
+		      }
 
-					//loops that manage every single ranged unit
-					for (e = 0; e < playerRanges.length; e++){
-					      //Ranged image and health
-					      if (playerRanges[e].dead == false && playerRanges[e].act){
-										if (drawRanges[e]!= null){
-							        ctx.drawImage(drawRanges[e], playerRanges[e].X, playerRanges[e].Y, playerRanges[e].width, playerRanges[e].height);
-							        pArrow.y = playerRanges[e].Y + playerRanges[e].height/2;
-							        pArrow.draw();
-							        ctx.fillStyle = "red";
-							        ctx.fillRect(playerRanges[e].X, playerRanges[e].Y + playerRanges[e].height, playerRanges[e].health*0.75, 15);
-										}
-					      }
-					}
+		      //Ranged image and health
+		      if (pRanged.dead == false && pRanged.act){
+				  rangedObj.draw();
+		        //ctx.drawImage(pRanged, pRanged.X, pRanged.Y, pRanged.width, pRanged.height);
+		        pArrow.y = pRanged.Y + pRanged.height/4 + 10;
+		        if (pArrow.draw()) {
+					pRanged.src = "art/ally_range_female_attack_spritesheet.png";
+					rangedObj.numFrames = 5;
+					rangedObj.ticksPerFrame = 8;
+				}
+		        ctx.fillStyle = "red";
+		        ctx.fillRect(pRanged.X, pRanged.Y+pRanged.height, pRanged.health*0.75, 15);
+		      }
 
-					//loops that manage every single gatherer unit
-					for (f = 0; f < playerGatherers.length; f++){
-								if (playerGatherers[f].act){
-	    						if (drawGatherers[f]!= null){
-					        		ctx.drawImage(drawGatherers[f], playerGatherers[f].X, playerGatherers[f].Y, playerGatherers[f].width, playerGatherers[f].height);
-									}
-					      }
-					}
+		      if (pGatherer.act){
+		        //Gatherer image
+		        ctx.drawImage(pGatherer, pGatherer.X, pGatherer.Y, pGatherer.width, pGatherer.height);
+		      }
 
 		      //Enemy melee image and health
 		      if (eMelee.dead == false && eMelee.act){
@@ -894,6 +907,40 @@ function draw(){
 		        ctx.fillStyle = "red";
 		        ctx.fillRect(eRanged.X, eRanged.Y+eRanged.height, eRanged.health*0.75, 15);
 		      }
+					//recruitment
+								if(recruitmentActive == true){
+									ctx.drawImage(recruitment, recruitment.X, recruitment.Y, recruitment.width, recruitment.height);
+
+									ctx.drawImage(recruitmentOne, recruitmentOne.X, recruitmentOne.Y, recruitmentOne.width, recruitmentOne.height);
+									ctx.drawImage(recruitmentTwo, recruitmentTwo.X, recruitmentTwo.Y, recruitmentTwo.width, recruitmentTwo.height);
+									ctx.drawImage(recruitmentThree, recruitmentThree.X, recruitmentThree.Y, recruitmentThree.width, recruitmentThree.height);
+
+									ctx.fillStyle = "green";
+									ctx.fillRect(recruitGatherer.X, recruitGatherer.Y, recruitGatherer.width, recruitGatherer.height);
+									ctx.fillRect(recruitMelee.X, recruitMelee.Y, recruitMelee.width, recruitMelee.height);
+									ctx.fillRect(recruitRange.X, recruitRange.Y, recruitRange.width, recruitRange.height);
+									ctx.font="14px Georgia"
+									ctx.fillStyle="black";
+									ctx.fillText("New", recruitGatherer.X+10, recruitGatherer.Y+20);
+									ctx.fillText("New", recruitMelee.X+10, recruitMelee.Y+20);
+									ctx.fillText("New", recruitRange.X+10, recruitRange.Y+20);
+
+									ctx.fillText("Gatherer", recruitGatherer.X+10, recruitGatherer.Y+38);
+									ctx.fillText("Melee", recruitMelee.X+10, recruitMelee.Y+38);
+									ctx.fillText("Ranged", recruitRange.X+10, recruitRange.Y+38);
+
+									ctx.font = "12px Georgia";
+									ctx.fillText("Cost: 20 Water", recruitGatherer.X+10, recruitGatherer.Y+55);
+									ctx.fillText("Cost: 10 Water", recruitMelee.X+10, recruitMelee.Y+55);
+									ctx.fillText("Cost: 10 Water", recruitRange.X+10, recruitRange.Y+55);
+
+								}
+
+								//open UI
+								ctx.drawImage(recruitmentButton, recruitmentButton.X,recruitmentButton.Y,recruitmentButton.width,recruitmentButton.height);
+
+
+
 
 		      //upgrade UI button
 		      ctx.font="18px Georgia";
@@ -952,21 +999,70 @@ function draw(){
 
 		}
 
-					//draw win screen
-					else if (state == "win"){
-							ctx.drawImage(winImg, 0,0,canvas.width,canvas.height);
-					}
+			//draw win screen
+			else if (state == "win"){
+					ctx.drawImage(winImg, 0,0,canvas.width,canvas.height);
+			}
 
-					//draw lose screen
-					else if (state == "lose"){
-							ctx.drawImage(loseImg, 0,0,canvas.width,canvas.height);
-					}
+			//draw lose screen
+			else if (state == "lose"){
+					ctx.drawImage(loseImg, 0,0,canvas.width,canvas.height);
+			}
 
 }
 
+function Sprite(opt) {
+
+	var self = {},
+		index = 0,
+		tickCount = 0,
+		ticksPerFrame = opt.ticksPerFrame || 0,
+		numFrames = opt.numFrames || 1;
+
+	self.context = opt.context;
+	self.width = opt.width;
+	self.height = opt.height;
+	self.image = opt.image;
+
+	self.update = function() {
+
+		tickCount += 1;
+
+		if (tickCount > ticksPerFrame) {
+
+			tickCount = 0;
+
+			// If the current frame index is in range
+			if (index < numFrames - 1) {
+				// Go to the next frame
+				index += 1;
+			} else {
+				index = 0;
+			}
+		}
+	};
+
+	self.draw = function() {
+
+		// Draw the animation
+		self.context.drawImage(
+			self.image,
+			index * self.width / numFrames,
+			0,
+			self.width / numFrames,
+			self.height,
+			self.image.X,
+			self.image.Y,
+			self.image.width,
+			self.image.height);
+	};
+
+	return self;
+}
+
 function main(){
-  update();
-  draw();
+	update();
+	draw();
 }
 
 setInterval(main, 50); //(function to repeat, milliseconds)

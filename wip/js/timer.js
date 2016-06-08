@@ -5,3 +5,5 @@ function makeTimer(amount) {
        return amount - ( Date.now() - startTime );
     }
 }
+
+var currentCountDown =  makeTimer(30000);

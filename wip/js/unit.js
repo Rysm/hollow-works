@@ -1,113 +1,56 @@
 /*
-Values correspond to the type of character
-1 : Melee (Tanky, okay dmg)
-2 : Ranged (High dmg, squishy)
-3 : Gatherer (Low dmg, used for gathering resources during daytime)
+Object oriented unit implementation
+Type 1 = Melee
+Type 2 = Ranged
+Type 3 = Gatherer
 */
 
-var type = [1,2,3]; //may be unnecessary
+//Array to hold friendly units
+var friendlyMelees = new Array();
+var friendlyRanged = new Array();
+var friendlyGatherer = new Array();
 
-var playerProjs = new Array();
+//Function for generating player units
+function unit(type){
 
-/*
-PLAYER'S
-Empty array that holds three indices also
-0 = # of melee
-1 = # of ranged
-2 = # of gatherer
-Initialize with 0 units each
-*/
+		if (type==1){
+				this.name = "pMelee";
+				this.health = 100;
+				this.dmg = 15;
+				this.speed = 5;
+				this.width = 80;
+				this.height = 160;
+				this.X = 1000;
+				this.Y = 200;
+				this.act = false;
+				this.dead = false;
+		}
 
-var playerMelees = new Array();
-var playerRanges = new Array();
-var playerGatherers = new Array();
+		else (type==2){
+				this.name = "pRanged";
+				this.health = 70;
+				this.dmg = 30;
+				this.speed = 5;
+				this.width = 90;
+				this.height = 160;
+				this.X = 1000 + pRanged.width;
+				this.Y = pMelee.Y;
+				this.act = false;
+				this.dead = false;
+		}
 
-var drawMelees = new Array();
-var drawRanges = new Array();
-var drawGatherers = new Array();
+		else if (type==3){
+				this.name = "pGatherer";
+				this.speed = 5;
+				this.X = 920;
+				this.Y = 200;
+				this.width = 80;
+				this.height = 160;
+				this.act = false;
+				this.state = "go";
+		}
+}
 
-/*
-AI'S
-Empty array that holds three indices also
-0 = # of melee
-1 = # of ranged
-2 = # of gatherer
-Initialize with 0 units each
-*/
-var badMelees = [];
-var badRanged = [];
-
-//count of enemies
-var baddies = [0, 0];
-
-//melee unit object
-var unitMelee = {
-    			name : "pMelee",
-          hp : 100,
-          dmg : 15,
-          speed : 5,
-          width : 80,
-          height : 160,
-          X : 1000,
-          Y : 540,
-          act : false,
-          dead : false
-};
-
-//ranged unit object
-var unitRanged = {
-    			name : "pRanged",
-          hp : 100,
-          dmg : 15,
-          speed : 5,
-          width : 80,
-          height : 160,
-          X : 1000,
-          Y : 540,
-          act : false,
-          dead : false
-};
-
-//gatherer unit object
-var unitGatherer = {
-    			name : "pGatherer",
-          hp : 100,
-          dmg : 15,
-          speed : 5,
-          width : 80,
-          height : 160,
-          X : 920,
-          Y : 200,
-          act : false,
-          dead : false,
-          state : "go"
-};
-
-var meleeImg = new Image();
-meleeImg.src = "art/allymeleeF.png";
-
-var rangesImg = new Image();
-rangesImg.src = "art/allyrangeM.png";
-
-var gathererImg = new Image();
-gathererImg.src = "art/allygathererF.png";
-
-playerMelees.push(unitMelee); //add a dood
-playerMelees.push(unitMelee); //add a dood
-playerMelees.push(unitMelee); //add a dood
-playerMelees.push(unitMelee); //add a dood
-drawMelees.push(meleeImg);
-drawMelees.push(meleeImg);
-drawMelees.push(meleeImg);
-drawMelees.push(meleeImg);
-playerGatherers.push(unitGatherer); //add a dood
-playerGatherers.push(unitGatherer); //add a dood
-playerGatherers.push(unitGatherer); //add a dood
-playerGatherers.push(unitGatherer); //add a dood
-drawGatherers.push(gathererImg);
-drawGatherers.push(gathererImg);
-drawGatherers.push(gathererImg);
-drawGatherers.push(gathererImg);
-playerRanges.push(unitRanged);
-drawRanges.push(rangesImg);
-console.log(drawMelees);
+friendlyMelees.push( unit(1) );
+friendlyRanged.push( unit(2) )
+friendlyGatherer.push( unit(3));
