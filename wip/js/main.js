@@ -262,23 +262,29 @@ function handleClick(eventParams){
 
 				//recruit gatherer
 				if (checkBounds(recruitmentOne, eventParams.clientX, eventParams.clientY)){
-					water -= 5;
-					bGatherer.count++;
-					friendlyGatherer.push( unit(3) );
+					if (water > 6){
+							water -= 5;
+							bGatherer.count++;
+							friendlyGatherer.push( unit(3) );
+					}
 				}
 
 				//recruit melee
 				if (checkBounds(recruitmentTwo, eventParams.clientX, eventParams.clientY)){
-					water -= 5;
-					bMelee.count++;
-					friendlyMelees.push( unit(1) );
+					if (water > 6){
+							water -= 5;
+							bMelee.count++;
+							friendlyMelees.push( unit(1) );
+					}
 				}
 
 				//recruit ranged
 				if (checkBounds(recruitmentThree, eventParams.clientX, eventParams.clientY)){
-					water -= 5;
-					bRanged.count++;
-					friendlyRanged.push( unit(2) );
+					if (water > 6){
+							water -= 5;
+							bRanged.count++;
+							friendlyRanged.push( unit(2) );
+					}
 				}
 }
 
