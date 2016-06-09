@@ -8,6 +8,7 @@ function Arrow(from, enemy, enemy2, width, height, xSpeed) {
     this.xSpeed = xSpeed;
 
 //arrow sound effects
+
     var arrowpew=document.getElementById('arrowpew'); //input arrow pew sounds
     var arrowcounter=0; //arrow pew pew counter
     var arrowpewPlayed = false;
@@ -23,6 +24,7 @@ function Arrow(from, enemy, enemy2, width, height, xSpeed) {
 
     this.draw = function() {
 
+/*
 //arrow shooting sounds in action//
         if(!arrowpewPlayed){ //plays it if it isn't played just in case
           arrowpew.currentTime = 0;
@@ -37,7 +39,8 @@ function Arrow(from, enemy, enemy2, width, height, xSpeed) {
             arrowcounter=0;
           }
         }
-//
+
+*/
 
         ctx.drawImage(bulletImg, this.x, this.y, this.width, this.height);
 
