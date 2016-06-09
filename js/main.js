@@ -661,7 +661,7 @@ pMelee.dmg = 15;
 pMelee.width = 80;
 pMelee.height = 160;
 pMelee.X = 1000;
-pMelee.Y = 200;
+pMelee.Y = 1000;
 pMelee.act = false;
 pMelee.dead = false;
 
@@ -1049,7 +1049,7 @@ function update(){
 		      //Melee image and health
 		      if (pMelee.dead == false && pMelee.act){
 				  meleeObj.draw();
-		        //ctx.drawImage(pMelee, pMelee.X, pMelee.Y, pMelee.width, pMelee.height);
+		        ctx.drawImage(pMelee, pMelee.X, pMelee.Y, pMelee.width, pMelee.height);
 		        ctx.fillStyle = "red";
 		        ctx.fillRect(pMelee.X, pMelee.Y+pMelee.height, pMelee.health*0.75, 15);
 		      }

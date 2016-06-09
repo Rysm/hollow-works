@@ -14,43 +14,50 @@ var friendlyGatherer = new Array();
 function unit(type){
 
 		if (type==1){
-				this.name = "pMelee";
-				this.health = 100;
-				this.dmg = 15;
-				this.speed = 5;
-				this.width = 80;
-				this.height = 160;
-				this.X = 1000;
-				this.Y = 200;
-				this.act = false;
-				this.dead = false;
+				var unit_obj = {
+					name : "pMelee",
+					health : 100,
+					dmg : 15,
+					speed : 5,
+					width : 80,
+					height : 160,
+					X : 1000,
+					Y : 500,
+					act : false,
+					dead : false
+				}
 		}
 
-		else (type==2){
-				this.name = "pRanged";
-				this.health = 70;
-				this.dmg = 30;
-				this.speed = 5;
-				this.width = 90;
-				this.height = 160;
-				this.X = 1000 + pRanged.width;
-				this.Y = pMelee.Y;
-				this.act = false;
-				this.dead = false;
+		else if (type==2){
+				var unit_obj = {
+					name : "pRanged",
+					health : 70,
+					dmg : 30,
+					speed : 5,
+					width : 90,
+					height : 160,
+					X : 1090,
+					Y : 500,
+					act : false,
+					dead : false
+				}
 		}
 
 		else if (type==3){
-				this.name = "pGatherer";
-				this.speed = 5;
-				this.X = 920;
-				this.Y = 200;
-				this.width = 80;
-				this.height = 160;
-				this.act = false;
-				this.state = "go";
+				var unit_obj = {
+						name : "pGatherer",
+						speed : 5,
+						X : 920,
+						Y : 200,
+						width : 80,
+						height : 160,
+						act : false,
+						state : "go"
+				}
 		}
+		return unit_obj;
 }
 
 friendlyMelees.push( unit(1) );
 friendlyRanged.push( unit(2) )
-friendlyGatherer.push( unit(3));
+friendlyGatherer.push( unit(3) );
