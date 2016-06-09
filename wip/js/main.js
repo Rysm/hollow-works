@@ -288,32 +288,10 @@ rangedObj = Sprite({
 
 var eMelee = new Image();
 eMelee.src = "art/badmeleeF.png";
-eMelee.name = "eMelee";
-eMelee.dmg = 15;
-eMelee.health = 100;
-eMelee.width = 80;
-eMelee.height = 160;
-eMelee.X = 110;
-eMelee.Y = canvas.height-waterCont.height-50;
-eMelee.act = false;
-eMelee.dead = false;
 
 //enemy ranged
 var eRanged = new Image();
-eRanged.name = "eRanged";
 eRanged.src = "art/badrangeF.png";
-eRanged.health = 70;
-pRanged.dmg = 30;
-eRanged.width = 90;
-eRanged.height = 160;
-eRanged.X = 0;
-eRanged.Y = canvas.height-waterCont.height-50;
-eRanged.act = false;
-eRanged.dead = false;
-eRanged.advance = true;
-eRanged.createArrow = function() {
-    return new Arrow(eRanged, pMelee, pRanged, 20, 5, -7);
-}
 
 // ^^^ UNITS END HERE
 
@@ -425,10 +403,6 @@ function Arrow(from, enemy, enemy2, width, height, xSpeed) {
     };
 }
 
-
-//Should call stuff from the working.js to grab functions that calculate damage and resource.
-var eArrow = eRanged.createArrow();
-
 function update(){
 
 	//menu rain
@@ -489,7 +463,7 @@ function update(){
 				            friendlyMelees[a].X-= (5+spdUi);
 										meleeObj.update();
 				        }
-								hitProj(eArrow, friendlyMelees[a]);
+							//	hitProj(eArrow, friendlyMelees[a]);
 						}
 
 						//update instances for ranged
@@ -504,7 +478,7 @@ function update(){
 										//update arrows
 						        friendlyArrows[b].y = friendlyRanged[b].Y + friendlyRanged[b].height/2;
 				        }
-				        hitProj(eArrow, friendlyRanged[b]);
+				      //  hitProj(eArrow, friendlyRanged[b]);
 						}
 
 						//update instances for gatherer

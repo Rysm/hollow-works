@@ -62,19 +62,3 @@ function unit(type){
 friendlyMelees.push( unit(1) );
 friendlyRanged.push( unit(2) )
 friendlyGatherer.push( unit(3) );
-
-/*Function for generating enemy units
-Only two types
-type 1 = melee
-type 2 = range
-*/
-function enemy(type){
-			if (type == 1){
-
-			}
-
-			else if (type==2){
-
-			}
-
-}
