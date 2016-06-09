@@ -438,12 +438,24 @@ function update(){
 						//floor it too
 						nowtime = Math.floor( ((countDownValue/1000) % 60) );
 
-						//Spawn the first wave!
+						//Wave spawner
 						//Once timer reaches 0
 						if (nowtime <= 0){
 								nowtime = 0;
-								eMelee.act = true;
-								eRanged.act = true;
+								thisWave = waves[waveNum];
+								for (q=0; q < thisWave.length; q++){
+												waves[waveNum][q].act = true;
+												//enemy melee updater
+												if (waves[waveNum][q].name == "eMelee" && waves[waveNum][q].act && waves[waveNum][q].dead == false){
+															waves[waveNum][q].X+= (5+spdUi);
+		        									//hitProj(pArrow, eMelee);
+												}
+												//enemy ranged updater
+												else if (waves[waveNum][q].name == "eRanged" && waves[waveNum][q].act && waves[waveNum][q].dead == false){
+								          		waves[waveNum][q].X+= (5+spdUi);
+															//hitProj(pArrow, eRanged);
+												}
+								}
 						}
 
 						//update player playerPortrait
@@ -473,8 +485,8 @@ function update(){
 										if (friendlyRanged[b].X > 700){
 				          		friendlyRanged[b].X-= (5+spdUi);
 										}
-				      	friendlyArrows[b].update();
-							  rangedObj.update();
+						      	friendlyArrows[b].update();
+									  rangedObj.update();
 										//update arrows
 						        friendlyArrows[b].y = friendlyRanged[b].Y + friendlyRanged[b].height/2;
 				        }
@@ -509,30 +521,12 @@ function update(){
 		        //call this to check if we're losing water
 		        takeWater(waterCont, eMelee);
 		        takeWater(waterCont, eRanged);
+
+
+/*
 		        if (eRanged.dead == false && eRanged.act){
 		          eArrow.update();
 		        }
-
-		        //enemy unit movement
-		        if (eMelee.act && eMelee.dead == false){
-		          eMelee.X+=5;
-		        }
-
-		        if (eRanged.act && eRanged.dead == false){
-		          checkEnemyRange(eRanged,pMelee);
-		          checkEnemyRange(eRanged,pRanged);
-		          if (eRanged.advance){
-		            eRanged.X+=5;
-		          }
-		        }
-/*
-		        //combat
-		        //call these to check if arrows are hitting
-		        //hitProj(bullet, target dood)
-		        hitProj(pArrow, eMelee);
-		        hitProj(pArrow, eRanged);
-
-
 
 		        //melee combat
 		        //checkCombat (friendly, enemy)
@@ -549,12 +543,23 @@ function update(){
 		          checkCombat(pRanged, eRanged); //ranged vs ranged
 		        }
 
-						//win condition
-						if (rekt == winNum){
-								state = "win";
-						}
 */
 		//backgroundbattle.play(); //repeats song
+
+						//Check if a new wave is beginning
+						if (kills == waves[waveNum].length){
+									//win condition
+									if (waveNum == 5){
+											state = "win";
+									}
+									//start a new wave condition
+									else {
+											//give 30 seconds for next wave.
+											currentCountDown =  makeTimer(30000);
+											waveNum++; //go on to next wave
+									}
+						}
+
 			}
 }
 
@@ -620,90 +625,95 @@ else if (menu == false && hero==true && state == null){
       ctx.fillText(bMelee.count, bMelee.X+73, bMelee.Y+91);
       ctx.fillText(bRanged.count, bRanged.X+73, bRanged.Y+91);
 
-						//update instances for melees
-						for (a = 0; a < friendlyMelees.length; a++){
-						      //Melee image and health
-						      if (friendlyMelees[a]!= null && friendlyMelees[a].dead == false && friendlyMelees[a].act){
-								  	meleeObj.draw();
-						        ctx.drawImage(pMelee, friendlyMelees[a].X, friendlyMelees[a].Y, friendlyMelees[a].width, friendlyMelees[a].height);
-						        ctx.fillStyle = "red";
-						        ctx.fillRect(friendlyMelees[a].X, friendlyMelees[a].Y+friendlyMelees[a].height, friendlyMelees[a].health*0.75, 15);
-						      }
-						}
+			//update instances for melees
+			for (d = 0; d < friendlyMelees.length; d++){
+			      //Melee image and health
+			      if (friendlyMelees[d]!= null && friendlyMelees[d].dead == false && friendlyMelees[d].act){
+					  	meleeObj.draw();
+			        ctx.drawImage(pMelee, friendlyMelees[d].X, friendlyMelees[d].Y, friendlyMelees[d].width, friendlyMelees[d].height);
+			        ctx.fillStyle = "red";
+			        ctx.fillRect(friendlyMelees[d].X, friendlyMelees[d].Y+friendlyMelees[d].height, friendlyMelees[d].health*0.75, 15);
+			      }
+			}
 
-						//update instances for ranged
-						for (b = 0; b < friendlyRanged.length; b++){
+			//update instances for ranged
+			for (e = 0; e < friendlyRanged.length; e++){
 
-						      //Ranged image and health
-						      if (friendlyRanged[b]!= null && friendlyRanged[b].dead == false && friendlyRanged[b].act){
-												  	rangedObj.draw();
-										        ctx.drawImage(pRanged, friendlyRanged[b].X, friendlyRanged[b].Y, friendlyRanged[b].width, friendlyRanged[b].height);
-										        friendlyArrows[b].y = friendlyRanged[b].Y + friendlyRanged[b].height/4 + 10;
+			      //Ranged image and health
+			      if (friendlyRanged[e]!= null && friendlyRanged[e].dead == false && friendlyRanged[e].act){
+									  	rangedObj.draw();
+							        ctx.drawImage(pRanged, friendlyRanged[e].X, friendlyRanged[e].Y, friendlyRanged[b].width, friendlyRanged[e].height);
+							        friendlyArrows[e].y = friendlyRanged[e].Y + friendlyRanged[e].height/4 + 10;
 
-										        if (friendlyArrows[b].draw()) {
-															friendlyRanged[b].src = "art/ally_range_female_attack_spritesheet.png";
-															rangedObj.numFrames = 5;
-															rangedObj.ticksPerFrame = 8;
-														}
+							        if (friendlyArrows[e].draw()) {
+												friendlyRanged[e].src = "art/ally_range_female_attack_spritesheet.png";
+												rangedObj.numFrames = 5;
+												rangedObj.ticksPerFrame = 8;
+											}
 
-										        ctx.fillStyle = "red";
-										        ctx.fillRect(friendlyRanged[b].X, friendlyRanged[b].Y+friendlyRanged[b].height, friendlyRanged[b].health*0.75, 15);
-						      }
+							        ctx.fillStyle = "red";
+							        ctx.fillRect(friendlyRanged[e].X, friendlyRanged[e].Y+friendlyRanged[e].height, friendlyRanged[e].health*0.75, 15);
+			      }
 
-						}
+			}
 
-						//update instances for gatherer
-						for (c = 0; c < friendlyGatherer.length; c++){
 
-							      if (friendlyRanged[c]!= null && friendlyGatherer[c].act){
-							        //Gatherer image
-							        ctx.drawImage(pGatherer, friendlyGatherer[c].X, friendlyGatherer[c].Y, friendlyGatherer[c].width, friendlyGatherer[c].height);
-							      }
+			//update instances for gatherer
+			for (f = 0; f < friendlyGatherer.length; f++){
 
-						}
+				      if (friendlyRanged[f]!= null && friendlyGatherer[f].act){
+				        //Gatherer image
+				        ctx.drawImage(pGatherer, friendlyGatherer[f].X, friendlyGatherer[f].Y, friendlyGatherer[f].width, friendlyGatherer[f].height);
+				      }
 
-      //Enemy melee image and health
-      if (eMelee.dead == false && eMelee.act){
-        ctx.drawImage(eMelee, eMelee.X, eMelee.Y, eMelee.width, eMelee.height);
-        ctx.fillStyle = "red";
-        ctx.fillRect(eMelee.X, eMelee.Y+eMelee.height, eMelee.health*0.75, 15);
-      }
+			}
 
-      //Enemy ranged image and health
-      if (eRanged.dead == false && eRanged.act){
-        ctx.drawImage(eRanged, eRanged.X, eRanged.Y, eRanged.width, eRanged.height);
-        eArrow.draw();
-        ctx.fillStyle = "red";
-        ctx.fillRect(eRanged.X, eRanged.Y+eRanged.height, eRanged.health*0.75, 15);
-      }
+			if (nowtime <= 0){
+					nowtime = 0;
+					thisWave = waves[waveNum];
+					for (q=0; q < thisWave.length; q++){
+									if (waves[waveNum][q].name == "eMelee" && waves[waveNum][q].act && waves[waveNum][q].dead == false){
+									        ctx.drawImage(eMelee, waves[waveNum][q].X, waves[waveNum][q].Y, waves[waveNum][q].width, waves[waveNum][q].height);
+									        ctx.fillStyle = "red";
+									        ctx.fillRect(waves[waveNum][q].X, waves[waveNum][q].Y+waves[waveNum][q].height, waves[waveNum][q].health*0.75, 15);
+									}
+									else if (waves[waveNum][q].name == "eRanged" && waves[waveNum][q].act && waves[waveNum][q].dead == false){
+									        ctx.drawImage(eRanged, waves[waveNum][q].X, waves[waveNum][q].Y, waves[waveNum][q].width, waves[waveNum][q].height);
+									        //eArrow.draw();
+									        ctx.fillStyle = "red";
+									        ctx.fillRect(waves[waveNum][q].X, waves[waveNum][q].Y+waves[waveNum][q].height, waves[waveNum][q].health*0.75, 15);
+									}
+					}
+			}
+
 			//recruitment
-						if(recruitmentActive == true){
-							ctx.drawImage(recruitment, recruitment.X, recruitment.Y, recruitment.width, recruitment.height);
+			if(recruitmentActive == true){
+				ctx.drawImage(recruitment, recruitment.X, recruitment.Y, recruitment.width, recruitment.height);
 
-							ctx.drawImage(recruitmentOne, recruitmentOne.X, recruitmentOne.Y, recruitmentOne.width, recruitmentOne.height);
-							ctx.drawImage(recruitmentTwo, recruitmentTwo.X, recruitmentTwo.Y, recruitmentTwo.width, recruitmentTwo.height);
-							ctx.drawImage(recruitmentThree, recruitmentThree.X, recruitmentThree.Y, recruitmentThree.width, recruitmentThree.height);
+				ctx.drawImage(recruitmentOne, recruitmentOne.X, recruitmentOne.Y, recruitmentOne.width, recruitmentOne.height);
+				ctx.drawImage(recruitmentTwo, recruitmentTwo.X, recruitmentTwo.Y, recruitmentTwo.width, recruitmentTwo.height);
+				ctx.drawImage(recruitmentThree, recruitmentThree.X, recruitmentThree.Y, recruitmentThree.width, recruitmentThree.height);
 
-							ctx.fillStyle = "green";
-							ctx.fillRect(recruitGatherer.X, recruitGatherer.Y, recruitGatherer.width, recruitGatherer.height);
-							ctx.fillRect(recruitMelee.X, recruitMelee.Y, recruitMelee.width, recruitMelee.height);
-							ctx.fillRect(recruitRange.X, recruitRange.Y, recruitRange.width, recruitRange.height);
-							ctx.font="14px Georgia"
-							ctx.fillStyle="black";
-							ctx.fillText("New", recruitGatherer.X+10, recruitGatherer.Y+20);
-							ctx.fillText("New", recruitMelee.X+10, recruitMelee.Y+20);
-							ctx.fillText("New", recruitRange.X+10, recruitRange.Y+20);
+				ctx.fillStyle = "green";
+				ctx.fillRect(recruitGatherer.X, recruitGatherer.Y, recruitGatherer.width, recruitGatherer.height);
+				ctx.fillRect(recruitMelee.X, recruitMelee.Y, recruitMelee.width, recruitMelee.height);
+				ctx.fillRect(recruitRange.X, recruitRange.Y, recruitRange.width, recruitRange.height);
+				ctx.font="14px Georgia"
+				ctx.fillStyle="black";
+				ctx.fillText("New", recruitGatherer.X+10, recruitGatherer.Y+20);
+				ctx.fillText("New", recruitMelee.X+10, recruitMelee.Y+20);
+				ctx.fillText("New", recruitRange.X+10, recruitRange.Y+20);
 
-							ctx.fillText("Gatherer", recruitGatherer.X+10, recruitGatherer.Y+38);
-							ctx.fillText("Melee", recruitMelee.X+10, recruitMelee.Y+38);
-							ctx.fillText("Ranged", recruitRange.X+10, recruitRange.Y+38);
+				ctx.fillText("Gatherer", recruitGatherer.X+10, recruitGatherer.Y+38);
+				ctx.fillText("Melee", recruitMelee.X+10, recruitMelee.Y+38);
+				ctx.fillText("Ranged", recruitRange.X+10, recruitRange.Y+38);
 
-							ctx.font = "12px Georgia";
-							ctx.fillText("Cost: 20 Water", recruitGatherer.X+10, recruitGatherer.Y+55);
-							ctx.fillText("Cost: 10 Water", recruitMelee.X+10, recruitMelee.Y+55);
-							ctx.fillText("Cost: 10 Water", recruitRange.X+10, recruitRange.Y+55);
+				ctx.font = "12px Georgia";
+				ctx.fillText("Cost: 20 Water", recruitGatherer.X+10, recruitGatherer.Y+55);
+				ctx.fillText("Cost: 10 Water", recruitMelee.X+10, recruitMelee.Y+55);
+				ctx.fillText("Cost: 10 Water", recruitRange.X+10, recruitRange.Y+55);
 
-						}
+			}
 
 			//open UI
 			ctx.drawImage(recruitmentButton, recruitmentButton.X,recruitmentButton.Y,recruitmentButton.width,recruitmentButton.height);
@@ -713,7 +723,7 @@ else if (menu == false && hero==true && state == null){
       ctx.fillStyle="black";
 
 			//Timer display
-			ctx.fillText("Wave 1 in " + nowtime + "s", uiIcon.X+12, uiIcon.Y-15 );
+			ctx.fillText("Wave " + waveNum + " in " + nowtime + "s", uiIcon.X+12, uiIcon.Y-15 );
 
       if(uiActive == false){
         ctx.fillText("Upgrade", uiIcon.X+15, uiIcon.Y+22);

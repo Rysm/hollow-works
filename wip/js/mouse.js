@@ -106,8 +106,8 @@ function handleClick(eventParams){
 				if (checkBounds(recruitmentOne, eventParams.clientX, eventParams.clientY)){
 					if (water > 6){
 							water -= 5;
-							bGatherer.count++;
 							friendlyGatherer.push( unit(3) );
+							bGatherer.count++;
 					}
 				}
 
@@ -115,8 +115,8 @@ function handleClick(eventParams){
 				if (checkBounds(recruitmentTwo, eventParams.clientX, eventParams.clientY)){
 					if (water > 6){
 							water -= 5;
-							bMelee.count++;
 							friendlyMelees.push( unit(1) );
+							bMelee.count++;
 					}
 				}
 
@@ -124,8 +124,8 @@ function handleClick(eventParams){
 				if (checkBounds(recruitmentThree, eventParams.clientX, eventParams.clientY)){
 					if (water > 6){
 							water -= 5;
-							bRanged.count++;
 							friendlyRanged.push( unit(2) );
+							bRanged.count++;
 					}
 				}
 }

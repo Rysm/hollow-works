@@ -132,6 +132,5 @@ function gatherWater(unit){
   if (unit.X < -20 && unit.act){
     console.log("we here");
     water+= Math.floor( (Math.random()*50) +1);
-
   }
 }

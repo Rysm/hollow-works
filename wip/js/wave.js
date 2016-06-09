@@ -1,8 +1,30 @@
 //Contains code for wave logic
-var waves = new Array(); //2d array incoming
-var content_Wave = new Array();
+var content_wave = new Array(); //all wave variations here
 
-var curr_wave = 1; //indexing for wave we spawn by
+var levels = 1; //indexing for wave we spawn by
+var enemyNum = 2; //number of bad dudes
+
+//Used in main
+var waveNum = 1;
+var indexC = 0;
+var startWave = false;
+var waves = new Array(); //2d array incoming
+
+//gonna use this to get to next wave
+var kills = 0;
+
+//Wave generator
+while (levels <= 5){
+		for (var h = 0; h < enemyNum; h++){
+				content_wave.push( enemy( Math.floor(Math.random() * 2) + 1   ) );
+		}
+		waves.push(content_wave);
+		content_wave = [] //clear it
+		//increment
+		levels++;
+		//num of enemies doubles
+		enemyNum = enemyNum*2;
+}
 
 /*Function for generating enemy units
 Only two types
@@ -18,7 +40,7 @@ function enemy(type){
 							width : 80,
 							height : 160,
 							X : 110,
-							Y : canvas.height-waterCont.height-50,
+							Y : 500,
 							act : false,
 							dead : false
 						}
@@ -32,7 +54,7 @@ function enemy(type){
 							width : 90,
 							height : 160,
 							X : 0,
-							Y : canvas.height-waterCont.height-50,
+							Y : 500,
 							act : false,
 							dead : false,
 							advance : true
