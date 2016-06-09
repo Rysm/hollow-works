@@ -1,19 +1,41 @@
-var FPS = 60;
+var FPS = 60; // an Idea for a const cause animations run off of how fast our fps are
+ 			  // currently we have ---> setInterval(main, 'this is where fps would go');
+			  // this determines how fast our main loop runs which in turn runs animations
+			  // animation speeds for our sprite sheets, :)
+
 
 //===========================================================================
 // CONFIGURATION
 //===========================================================================
 
-///////////////////////////this is a test, stop it//////////////////////////////////////
+// would really like to preceed private vars with '_' but I feel peeps might get confused
+// so if it looks to be private, plz don't alter during implementation
+
+	///////////////////////////////////////////////////////////////
+	// this is a test, "stop it", just lOOK AND READ!
+	///////////////////////////////////////////////////////////////
 var cfg = {
 	state: {
-		initial: 'whereWeStart',
+		initial: 'whereWeStart', // our initialState
+								 // sets up booting etc and would transition into class
+								 // selection screen
+								 // then an event would trigger a selectScreenDraw() func;
+								 // which of course would draw stuff to canvas and then
+								 // transition into some 'gameStart' func
+								 // which would start all game update() and draw() funcs needed to run
+								 // gg
 		events: [
 			///////**********yes events, no more random true false garbage*******?????
-			/// we're talkin about menu on, ui on, and all that mess          /////
+			/// we're talkin about menu on, ui on or off states, and all that mess          /////
+			// this will help with all transitions for draw() methods in our main() draw() func
+			// you feel me?
 			// zzzzzzzzzz
 		]
 	},
+
+	// images to load from an array...
+	// this is how it should be
+	// welcome to programming
 	images: [
 		{ id: 'background',   url: "art/bg.png"                              		},
 		{ id: 'waterCont',    url: "art/waterCont.png"                       		},
@@ -46,15 +68,26 @@ var cfg = {
 		{ id: 'eRWlk', 		  url: "art/e_r_f_UpdatedSheet.png"                    	},
 		{ id: 'eRAtk', 		  url: "art/enemy_range_female_attack_spritesheet.png" 	}
 	],
+	// add sounds for loading once...
+	// makes it ez in an array
 	sounds: [
 
 	],
+	// add things for waves in array here
 	waves: [
-
+		{ id: 'wave one' } // more attributes,
+						   // etc
+						   // like att: someLiteral}
+						   // syntax would be ',' <-- here b4 '}' then comma)// more attributes,
+						   // etc
+						   // like att: someLiteral, "more stuff" or end with no comma}
 	]
 };
 
 // i like being pretty
+// type conversion stuff cause JavaScript is messy
+// you see Andy?
+// usage: is.'string' then we func runs checking, ahhhh it feels nice to use...
 is = {
 	'string':         function(obj) { return (typeof obj === 'string');                 },
 	'number':         function(obj) { return (typeof obj === 'number');                 },
@@ -77,32 +110,52 @@ is = {
 	'link':           function(obj) { return (is.element(obj) && (obj.tagName == 'A')); }
 };
 
+// gotta create our images somehow
+// ez, takes two params
+// for now options are instantiated with onload() func
+// ^see the loadResources() for loop
 createImage = function(url, opt) {
 	opt = opt || {};
 	var image = new Image();
-	// some conditional to check onload here, one sec
+	// I know what you're thinkin
+	// we need some conditional to check onload here
+	// I should write one but since we pressed for time
+	// we'll assume everything is all good
+	// fuck it!!
 	image.src = url;
 	return image;
 };
 
 // gettin er done! don't be scrrrrrrd! it's ez
-loadResources = function( images, sounds ) {
-	images = images || [];
-	sounds = sounds || [];
+loadResources = function( images, sounds ) { // would normally add a callBack func
+											 // as third parameter here but for the sake of time,
+											 // ugh, forget it
+	images = images || []; // here's our arrays
+	sounds = sounds || []; // another for sound load
 	var count = images.length + sounds.length;
+
+	// more stuff you're welcome to add to but I think
+	// this is ok for now to load our shit...
 	var resources = {images: {}, sounds: {}};
+	// this conditional is without an else() {};
+	// because we assume load is good, ugh, srry
 	if (count != 0) {
-		var done = false;
+		var done = false; // gotta know it's done
 		var loaded = function () {
 			if (!done)
 				done = true; // we only want it called once
 		}
 
+		// see we assume, it's bad, but oh well
+		// cause there is no callBack
+		// callBack, of course, is what make JavaScript good, lol
 		var onload = function () {
 			if (--count == 0)
 				loaded();
 		};
 
+		// n is fine, it's incapsulated or "hidden"
+		// not really though, lol, good 'ol JavaScript
 		for (var n = 0; n < images.length; n++) {
 			var image = images[n];
 			image = is.string(image) ? {id: image, url: image} : image;
@@ -115,15 +168,18 @@ loadResources = function( images, sounds ) {
 			// I'll deal with this in a bit, just want image balls to work
 		}
 	}
+
+	//////////////////////////////////////////////////////////////////////////////
+	// test end, unWorry currently doin nothing, just checkin for program crashes
+	//////////////////////////////////////////////////////////////////////////////
 };
 
 // ooo, aaa, welcome to JavaScript
+// this is our "onload" function, similar to ones like jQuerry or ImpactJS libs
+// we need this for loading one time
+// then game runs off resources
+//
 loadResources( cfg.images, cfg.sounds );
-
-
-///////////////////////////////////test end, unWorry////////////////////////////////////////
-
-
 
 /*
 Initiate canvas
