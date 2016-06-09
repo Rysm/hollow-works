@@ -70,21 +70,27 @@ function handleClick(eventParams){
 			  if (checkBounds(uiButtonOne, eventParams.clientX, eventParams.clientY)){
 			    if(uiActive && water > 11){
 						water-=10;
-						atkUi+=1;
+						if (atkUi < 4){
+							atkUi+=1;
+						}
 			    }
 			  }
 			  //upgrade defense
 			  if (checkBounds(uiButtonTwo, eventParams.clientX, eventParams.clientY)){
 			    if(uiActive && water > 11){
 						water-=10;
-			      defUi+=1;
+						if (defUi < 4){
+							defUi+=1;
+						}
 			    }
 			  }
 			//upgrade speed
 			if (checkBounds(uiButtonThree, eventParams.clientX, eventParams.clientY)){
 			  if(uiActive && water > 11){
 						water-=10;
-				    spdUi+=1;
+						if (spdUi < 4){
+							spdUi+=1;
+						}
 			  }
 			}
 

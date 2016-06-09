@@ -341,6 +341,91 @@ winImg.src = "art/winscreen.png"
 var loseImg = new Image();
 loseImg.src = "art/gameover.png";
 
+//arrow
+function Arrow(from, enemy, enemy2, width, height, xSpeed) {
+
+    this.x = from.X + from.width/2;
+    this.y = from.Y + from.height/2;
+    this.width = width;
+    this.height = height;
+    this.xSpeed = xSpeed;
+
+//arrow sound effects
+
+    var arrowpew=document.getElementById('arrowpew'); //input arrow pew sounds
+    var arrowcounter=0; //arrow pew pew counter
+    var arrowpewPlayed = false;
+
+    if (from.name == "pRanged"){
+      var bulletImg = new Image();
+      bulletImg.src = "art/arrow.png";
+    }
+    if (from.name == "eRanged"){
+      var bulletImg = new Image();
+      bulletImg.src = "art/fliprow.png";
+    }
+
+    this.draw = function() {
+
+/*
+//arrow shooting sounds in action//
+        if(!arrowpewPlayed){ //plays it if it isn't played just in case
+          arrowpew.currentTime = 0;
+          arrowpew.play();
+          arrowpewPlayed = true;
+        }
+
+        if (arrowpew.ended){
+          arrowcounter+=0.05;
+          if(arrowcounter>=4){ //timer for the arrows to come out
+            arrowpew.play();
+            arrowcounter=0;
+          }
+        }
+
+*/
+
+        ctx.drawImage(bulletImg, this.x, this.y, this.width, this.height);
+
+		return true;
+    };
+
+    this.reset = function() {
+        arrowpewPlayed = false;
+        this.x = from.X + from.width/2;
+        this.y = from.Y + from.height/2;
+        this.width = width;
+        this.height = height;
+    };
+
+    this.update = function() {
+      //if fired from friendly unit
+      if (from.name == "pRanged"){
+        if (this.x < 0 || this.x < enemy.X + enemy.width ||
+            this.x < enemy2.X + enemy2.width) {
+            this.x = from.X + from.width / 2;
+            this.y = from.Y + from.height / 2;
+        }
+        else {
+            this.x -= this.xSpeed;
+        }
+      }
+      //if fired from hostile enemy
+      if (from.name == "eRanged"){
+        if (this.x > canvas.width || this.x > enemy.X+ enemy.width ||
+            this.x > enemy2.X+enemy2.width) {
+            this.x = from.X + from.width / 2;
+            this.y = from.Y + from.height / 2;
+        }
+        else {
+            this.x -= this.xSpeed;
+        }
+      }
+
+    };
+}
+
+
 //Should call stuff from the working.js to grab functions that calculate damage and resource.
 var eArrow = eRanged.createArrow();
 
@@ -414,10 +499,10 @@ function update(){
 				          	friendlyRanged[b].X-= (5+spdUi);
 
 										//update arrows
-						        if (friendlyRanged[b].dead == false && friendlyRanged[b].act){
+
 						          friendlyArrows[b].y = friendlyRanged[b].Y + friendlyRanged[b].height/2;
 						          friendlyArrows[b].update();
-						        }
+
 
 									  rangedObj.update();
 				        }
@@ -452,13 +537,6 @@ function update(){
 		        //call this to check if we're losing water
 		        takeWater(waterCont, eMelee);
 		        takeWater(waterCont, eRanged);
-/*
-		        //combat
-		        //call these to check if arrows are hitting
-		        //hitProj(bullet, target dood)
-		        hitProj(pArrow, eMelee);
-		        hitProj(pArrow, eRanged);
-
 		        if (eRanged.dead == false && eRanged.act){
 		          eArrow.update();
 		        }
@@ -475,6 +553,14 @@ function update(){
 		            eRanged.X+=5;
 		          }
 		        }
+/*
+		        //combat
+		        //call these to check if arrows are hitting
+		        //hitProj(bullet, target dood)
+		        hitProj(pArrow, eMelee);
+		        hitProj(pArrow, eRanged);
+
+
 
 		        //melee combat
 		        //checkCombat (friendly, enemy)
