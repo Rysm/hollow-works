@@ -6,5 +6,5 @@ function makeTimer(amount) {
     }
 }
 
-var currentCountDown =  makeTimer(30000);
-//var currentCountDown =  makeTimer(3);
+//var currentCountDown =  makeTimer(30000);
+var currentCountDown =  makeTimer(3);

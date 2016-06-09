@@ -1,6 +1,10 @@
 //Contains code for wave logic
 var content_wave = new Array(); //all wave variations here
 
+//vars to get it working
+pMelee="pMelee";
+pRanged="pRanged";
+
 var levels = 1; //indexing for wave we spawn by
 var enemyNum = 2; //number of bad dudes
 
@@ -13,10 +17,13 @@ var waves = new Array(); //2d array incoming
 //gonna use this to get to next wave
 var kills = 0;
 
+var badArrows = new Array();
+
 //Wave generator
 while (levels <= 5){
 		for (var h = 0; h < enemyNum; h++){
-				content_wave.push( enemy( Math.floor(Math.random() * 2) + 1   ) );
+				typeTracker = Math.floor(Math.random() * 2) + 1;
+				content_wave.push( enemy( typeTracker ));
 		}
 		waves.push(content_wave);
 		content_wave = [] //clear it
