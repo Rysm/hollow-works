@@ -69,8 +69,8 @@ function handleClick(eventParams){
 			  //upgrade attack
 			  if (checkBounds(uiButtonOne, eventParams.clientX, eventParams.clientY)){
 			    if(uiActive && water > 11){
-						water-=10;
-						if (atkUi < 4){
+						if (atkUi <= 3){
+							water-=10;
 							atkUi+=1;
 						}
 			    }
@@ -78,8 +78,8 @@ function handleClick(eventParams){
 			  //upgrade defense
 			  if (checkBounds(uiButtonTwo, eventParams.clientX, eventParams.clientY)){
 			    if(uiActive && water > 11){
-						water-=10;
-						if (defUi < 4){
+						if (defUi <= 3){
+						  water-=10;
 							defUi+=1;
 						}
 			    }
@@ -87,8 +87,8 @@ function handleClick(eventParams){
 			//upgrade speed
 			if (checkBounds(uiButtonThree, eventParams.clientX, eventParams.clientY)){
 			  if(uiActive && water > 11){
-						water-=10;
-						if (spdUi < 4){
+						if (spdUi <= 3){
+						  water-=10;
 							spdUi+=1;
 						}
 			  }
