@@ -247,8 +247,8 @@ function handleClick(eventParams){
 			//upgrade speed
 			if (checkBounds(uiButtonThree, eventParams.clientX, eventParams.clientY)){
 			  if(uiActive && water > 11){
-					water-=10;
-			    spdUi+=1;
+						water-=10;
+				    spdUi+=1;
 			  }
 			}
 
@@ -256,10 +256,30 @@ function handleClick(eventParams){
 			  Playbutton stuff
 			  */
 			  if (checkBounds(playBut, eventParams.clientX, eventParams.clientY)){
-			    menu = false;
-			    hero = false;
+				    menu = false;
+				    hero = false;
 			  }
 
+				//recruit gatherer
+				if (checkBounds(recruitmentOne, eventParams.clientX, eventParams.clientY)){
+					water -= 5;
+					bGatherer.count++;
+					friendlyGatherer.push( unit(3) );
+				}
+
+				//recruit melee
+				if (checkBounds(recruitmentTwo, eventParams.clientX, eventParams.clientY)){
+					water -= 5;
+					bMelee.count++;
+					friendlyMelees.push( unit(1) );
+				}
+
+				//recruit ranged
+				if (checkBounds(recruitmentThree, eventParams.clientX, eventParams.clientY)){
+					water -= 5;
+					bRanged.count++;
+					friendlyRanged.push( unit(2) );
+				}
 }
 
 //checkboundsfunction for handleclick
