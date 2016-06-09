@@ -9,6 +9,7 @@ Type 3 = Gatherer
 var friendlyMelees = new Array();
 var friendlyRanged = new Array();
 var friendlyGatherer = new Array();
+var friendlyArrows = new Array();
 
 //Function for generating player units
 function unit(type){

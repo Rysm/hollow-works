@@ -1,5 +1,3 @@
-
-
 function Sprite(opt) {
 
     var self = {},
@@ -51,5 +49,3 @@ function Sprite(opt) {
 
     return self;
 }
-
-

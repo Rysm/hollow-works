@@ -203,7 +203,14 @@ function handleClick(eventParams){
 			  //spawn ranged dude
 			  if (checkBounds(bRanged, eventParams.clientX, eventParams.clientY)){
 								if (friendlyRanged[activeR] != null){
-						      	friendlyRanged[activeR].act = true;
+										//arrow stuff
+										friendlyRanged[activeR].createArrow = function() {
+										    return new Arrow(friendlyRanged[activeR], eMelee, eRanged, 80, 20, 12);
+										}
+										var pArrow = friendlyRanged[activeR].createArrow();
+										friendlyArrows.push(pArrow);
+										//spawning
+				      			friendlyRanged[activeR].act = true;
 							      if(bRanged.count > 0){
 							        bRanged.count-=1;
 							      }
@@ -538,6 +545,7 @@ pGatherer.src = "art/allygathererF.png";
 var pMelee = new Image();
 pMelee.src = "art/walkTest.png";
 
+//Instantiates and animates sprite sheet
 meleeObj = Sprite({
 	context: ctx,
 	width: 2600,
@@ -550,10 +558,8 @@ meleeObj = Sprite({
 //player ranged
 var pRanged = new Image();
 pRanged.src = "art/a_r_f_UpdatedSheet.png";
-pRanged.createArrow = function() {
-    return new Arrow(pRanged, eMelee, eRanged, 80, 20, 12);
-}
 
+//Instantiates and animates sprite sheet
 rangedObj = Sprite({
 	context: ctx,
 	width: 2600,
@@ -618,89 +624,7 @@ winImg.src = "art/winscreen.png"
 var loseImg = new Image();
 loseImg.src = "art/gameover.png";
 
-//bullet
-function Arrow(from, enemy, enemy2, width, height, xSpeed) {
-
-    this.x = from.X + from.width/2;
-    this.y = from.Y + from.height/2;
-    this.width = width;
-    this.height = height;
-    this.xSpeed = xSpeed;
-
-//arrow sound effects
-    var arrowpew=document.getElementById('arrowpew'); //input arrow pew sounds
-    var arrowcounter=0; //arrow pew pew counter
-    var arrowpewPlayed = false;
-
-    if (from == pRanged){
-      var bulletImg = new Image();
-      bulletImg.src = "art/arrow.png";
-    }
-    if (from == eRanged){
-      var bulletImg = new Image();
-      bulletImg.src = "art/fliprow.png";
-    }
-
-    this.draw = function() {
-
-//arrow shooting sounds in action//
-        if(!arrowpewPlayed){ //plays it if it isn't played just in case
-          arrowpew.currentTime = 0;
-          arrowpew.play();
-          arrowpewPlayed = true;
-        }
-
-        if (arrowpew.ended){
-          arrowcounter+=0.05;
-          if(arrowcounter>=4){ //timer for the arrows to come out
-            arrowpew.play();
-            arrowcounter=0;
-          }
-        }
-//
-
-        ctx.drawImage(bulletImg, this.x, this.y, this.width, this.height);
-
-		return true;
-    };
-
-    this.reset = function() {
-        arrowpewPlayed = false;
-        this.x = from.X + from.width/2;
-        this.y = from.Y + from.height/2;
-        this.width = width;
-        this.height = height;
-    };
-
-    this.update = function() {
-      //if fired from friendly unit
-      if (from == pRanged){
-        if (this.x < 0 || this.x < enemy.X + enemy.width ||
-            this.x < enemy2.X + enemy2.width) {
-            this.x = from.X + from.width / 2;
-            this.y = from.Y + from.height / 2;
-        }
-        else {
-            this.x -= this.xSpeed;
-        }
-      }
-      //if fired from hostile enemy
-      if (from == eRanged){
-        if (this.x > canvas.width || this.x > enemy.X+ enemy.width ||
-            this.x > enemy2.X+enemy2.width) {
-            this.x = from.X + from.width / 2;
-            this.y = from.Y + from.height / 2;
-        }
-        else {
-            this.x -= this.xSpeed;
-        }
-      }
-
-    };
-}
-
 //Should call stuff from the working.js to grab functions that calculate damage and resource.
-var pArrow = pRanged.createArrow();
 var eArrow = eRanged.createArrow();
 
 function update(){
@@ -763,7 +687,7 @@ function update(){
 				            friendlyMelees[a].X-= (5+spdUi);
 										meleeObj.update();
 				        }
-
+								hitProj(eArrow, friendlyMelees[a]);
 						}
 
 						//update instances for ranged
@@ -771,8 +695,16 @@ function update(){
 
 				        if (friendlyRanged[b].act && friendlyRanged[b].X > 700 && friendlyRanged[b].dead == false){
 				          	friendlyRanged[b].X-= (5+spdUi);
+
+										//update arrows
+						        if (friendlyRanged[b].dead == false && friendlyRanged[b].act){
+						          friendlyArrows[b].y = friendlyRanged[b].Y + friendlyRanged[b].height/2;
+						          friendlyArrows[b].update();
+						        }
+
+									  rangedObj.update();
 				        }
-								rangedObj.update();
+				        hitProj(eArrow, friendlyRanged[b]);
 						}
 
 						//update instances for gatherer
@@ -800,26 +732,15 @@ function update(){
 
 						}
 
-/*
 		        //call this to check if we're losing water
 		        takeWater(waterCont, eMelee);
 		        takeWater(waterCont, eRanged);
-
+/*
 		        //combat
 		        //call these to check if arrows are hitting
 		        //hitProj(bullet, target dood)
-		        hitProj(eArrow, pRanged);
-		        hitProj(eArrow, pMelee);
 		        hitProj(pArrow, eMelee);
 		        hitProj(pArrow, eRanged);
-
-		        //call this to get water with gatherer
-		        //gatherWater(pGatherer);
-
-		        if (pRanged.dead == false && pRanged.act){
-		          pArrow.y = pRanged.Y + pRanged.height/2;
-		          pArrow.update();
-		        }
 
 		        if (eRanged.dead == false && eRanged.act){
 		          eArrow.update();
@@ -942,14 +863,14 @@ else if (menu == false && hero==true && state == null){
 						      if (friendlyRanged[b]!= null && friendlyRanged[b].dead == false && friendlyRanged[b].act){
 												  	rangedObj.draw();
 										        ctx.drawImage(pRanged, friendlyRanged[b].X, friendlyRanged[b].Y, friendlyRanged[b].width, friendlyRanged[b].height);
-										        pArrow.y = friendlyRanged[b].Y + friendlyRanged[b].height/4 + 10;
-/*
-										        if (pArrow.draw()) {
+										        friendlyArrows[b].y = friendlyRanged[b].Y + friendlyRanged[b].height/4 + 10;
+
+										        if (friendlyArrows[b].draw()) {
 															friendlyRanged[b].src = "art/ally_range_female_attack_spritesheet.png";
 															rangedObj.numFrames = 5;
 															rangedObj.ticksPerFrame = 8;
 														}
-*/
+
 										        ctx.fillStyle = "red";
 										        ctx.fillRect(friendlyRanged[b].X, friendlyRanged[b].Y+friendlyRanged[b].height, friendlyRanged[b].health*0.75, 15);
 						      }
