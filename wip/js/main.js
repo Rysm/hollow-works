@@ -385,7 +385,7 @@ function Arrow(from, enemy, enemy2, width, height, xSpeed) {
 
 */
 
-        ctx.drawImage(bulletImg, this.x, this.y, this.width, this.height);
+    ctx.drawImage(bulletImg, this.x, this.y, this.width, this.height);
 
 		return true;
     };
@@ -495,16 +495,14 @@ function update(){
 						//update instances for ranged
 						for (b = 0; b < friendlyRanged.length; b++){
 
-				        if (friendlyRanged[b].act && friendlyRanged[b].X > 700 && friendlyRanged[b].dead == false){
-				          	friendlyRanged[b].X-= (5+spdUi);
-
+				        if (friendlyRanged[b].act && friendlyRanged[b].dead == false){
+										if (friendlyRanged[b].X > 700){
+				          		friendlyRanged[b].X-= (5+spdUi);
+										}
+				      	friendlyArrows[b].update();
+							  rangedObj.update();
 										//update arrows
-
-						          friendlyArrows[b].y = friendlyRanged[b].Y + friendlyRanged[b].height/2;
-						          friendlyArrows[b].update();
-
-
-									  rangedObj.update();
+						        friendlyArrows[b].y = friendlyRanged[b].Y + friendlyRanged[b].height/2;
 				        }
 				        hitProj(eArrow, friendlyRanged[b]);
 						}
