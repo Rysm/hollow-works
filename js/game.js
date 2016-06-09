@@ -1,46 +1,54 @@
-// yew sir
 
 Game = {
-
-    // lets make it, ez
-    createImage: function(url, opt) {
-        opt = opt || {};
+    
+    createImage: function (url, opt) {
+        
         var image = new Image();
-        if (opt.onload)
-            image.on('load', opt.onload);
+        
+        
         image.src = url;
         return image;
     },
 
-    loadResources: function( images, sounds ) {
-        images = images || [];
-        sounds = sounds || [];
-        var count = images.length + sounds.length;
-        var resources = { images: {}, sounds: {} };
-        if ( count != 0 ) {
-            var done = false;
-            var loaded = function () {
-                if (!done)
-                    done = true; // we only want it called once
-            }
+    createSprite: function (opt) {
 
-            var onload = function () {
-                if (--count == 0)
-                    loaded();
-            };
-
-            for (var n = 0; n < images.length; n++) {
-                var image = images[n];
-                image = is.string(image) ? { id: image, url: image } : image;
-                resources.images[image.id] = Game.createImage(image.url, { onload: onload });
+        var self = {},
+            index = 0,
+            tickCount = 0,
+            ticksPerFrame = opt.ticksPerFrame || 0,
+            numFrames = opt.numFrames || 1;
+    
+        self.context = opt.context;
+        self.width = opt.width;
+        self.height = opt.height;
+        self.image = opt.image;
+    
+        self.update = function() {
+    
+            tickCount += 1;
+            if (tickCount > ticksPerFrame) {
+                
+                tickCount = 0;
+                if (index < numFrames - 1) 
+                    index += 1;
+                else 
+                    index = 0;
             }
-            for(var n = 0 ; n < sounds.length ; n++) {
-                var sound  = sounds[n];
-                sound = is.string(sound) ? { id: sound, name: sound } : sound;
-                // need somthin here for soundFX stuffs
-                // I'll deal with this in a bit, just want image balls to work
-            }
-        }
-
+        };
+        self.draw = function() {
+            
+            self.context.drawImage(
+                self.image,
+                index * self.width / numFrames,
+                0,
+                self.width / numFrames,
+                self.height,
+                self.image.X,
+                self.image.Y,
+                self.image.width,
+                self.image.height);
+        };
+    
+        return self;
     }
-}
+};
