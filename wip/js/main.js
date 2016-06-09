@@ -56,19 +56,7 @@ HERO
 
 //Added something to help make menu look sick
 function handleHover(e){
-			/* x-y coord I recorded for self reference
-			left
-			90 - 49
-			405 - 689
 
-			mid
-			488 - 100
-			832 - 670
-
-			right
-			876 - 56
-			1217 - 680
-			*/
 			if (menu == false){
 					//Hovering over melee hero
 					if ( (e.clientX >= 90 && e.clientX <= 405) && (e.clientY>=49 && e.clientY<=689) ){
@@ -293,9 +281,6 @@ eMelee.src = "art/badmeleeF.png";
 var eRanged = new Image();
 eRanged.src = "art/badrangeF.png";
 
-// ^^^ UNITS END HERE
-
-
 /*
 Menu STUFF
 */
@@ -425,8 +410,6 @@ function update(){
 
 		//filler
 		if (menu == true){
-		//console.log(mouseYpos);
-		//console.log(mouseXpos);
 		}
 
 		//game state disabled from messing with menu
@@ -461,14 +444,21 @@ function update(){
 															//enemy melee updater
 															if (waves[realInd][q].name == "eMelee" && waves[realInd][q].act && waves[realInd][q].dead == false){
 																		waves[realInd][q].X+= (5+spdUi);
-					        									//hitProj(pArrow, eMelee);
 															}
 															//enemy ranged updater
-															else if (waves[realInd][q].name == "eRanged" && waves[realInd][q].act && waves[realInd][q].dead == false){
+															if (waves[realInd][q].name == "eRanged" && waves[realInd][q].act && waves[realInd][q].dead == false){
 												          		waves[realInd][q].X+= (5+spdUi);
-
-																			//hitProj(pArrow, eRanged);
 															}
+															if (waves[realInd][q].X == waterCont.X){
+															      water -= 20;
+																		waves[realInd][q].X = 2000;
+															}
+															if (friendlyArrows[w]!=null){
+															for (var w = 0; w<friendlyArrows.length; w++) {
+																		hitProj(friendlyArrows[w], waves[realInd][q]);
+																	}
+															}
+
 												}
 								}
 						}
@@ -478,23 +468,23 @@ function update(){
 				        if (friendlyMelees[a].act && friendlyMelees[a].dead == false){
 				            friendlyMelees[a].X-= (5+spdUi);
 										meleeObj.update();
+		          			checkCombat(friendlyMelees[a], waves[realInd][a]);
 				        }
 							//	hitProj(eArrow, friendlyMelees[a]);
 						}
 
 						//update instances for ranged
 						for (b = 0; b < friendlyRanged.length; b++){
-
 				        if (friendlyRanged[b].act && friendlyRanged[b].dead == false){
 										if (friendlyRanged[b].X > 700){
 				          		friendlyRanged[b].X-= (5+spdUi);
 										}
+		          			checkCombat(friendlyRanged[b], waves[realInd][b]);
 						      	friendlyArrows[b].update();
 									  rangedObj.update();
 										//update arrows
 						        friendlyArrows[b].y = friendlyRanged[b].Y + friendlyRanged[b].height/2;
 				        }
-				      //  hitProj(eArrow, friendlyRanged[b]);
 						}
 
 						//update instances for gatherer
@@ -522,28 +512,10 @@ function update(){
 						}
 
 		        //call this to check if we're losing water
-		        takeWater(waterCont, eMelee);
-		        takeWater(waterCont, eRanged);
-
 
 /*
 		        if (eRanged.dead == false && eRanged.act){
 		          eArrow.update();
-		        }
-
-		        //melee combat
-		        //checkCombat (friendly, enemy)
-		        if (pMelee.act && eRanged.act){
-		          checkCombat(pMelee, eRanged); //melee vs ranged
-		        }
-		        if (pMelee.act && eMelee.act){
-		          checkCombat(pMelee, eMelee); //melee vs melee
-		        }
-		        if (pRanged.act && eMelee.act){
-		          checkCombat(pRanged, eMelee); //ranged vs melee
-		        }
-		        if (pRanged.act && eRanged.act){
-		          checkCombat(pRanged, eRanged); //ranged vs ranged
 		        }
 
 */
@@ -686,8 +658,6 @@ else if (menu == false && hero==true && state == null){
 												        //eArrow.draw();
 												        ctx.fillStyle = "red";
 												        ctx.fillRect(waves[truInd][r].X, waves[truInd][r].Y+waves[truInd][r].height, waves[truInd][r].health*0.75, 15);
-
-
 												}
 									}
 					}

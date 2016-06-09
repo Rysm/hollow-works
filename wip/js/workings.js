@@ -30,6 +30,9 @@ var Bullet = function(velocity, rectangle) {
 function checkCombat(friendly, enemy){
 
   if((friendly.X)<=(enemy.X + enemy.width) && friendly.act == true){
+    //freeze them
+    friendly.X = friendly.X;
+    enemy.X=enemy.X;
 
     //check if friendly dead
     if (friendly.health <= 0){
@@ -53,8 +56,8 @@ function checkCombat(friendly, enemy){
 
     }
 
-    friendly.health -= 15;
-    enemy.health -= 15;
+    friendly.health -= 5;
+    enemy.health -= 5;
 
   }
 }
@@ -70,6 +73,7 @@ function hitProj(projectile, target){
             //check if target dead
             if (target.health <= 0){
               target.dead = true;
+              kill++;
               target.X = 1995;
             }
 
@@ -82,23 +86,12 @@ function hitProj(projectile, target){
         //right to left
         else if (target.name === "eRanged" || target.name === "eMelee"){
           if (projectile.x <= target.X+target.width){
+            target.health -= 30;
             //check if target dead
             if (target.health <= 0){
               target.dead = true;
-
-              //arrow kill melee
-              if (countM == false && target.name == "eMelee"){
-                  countM = true;
-                  rekt += 1;
-              }
-            //arrow kill ranged
-              if (countR == false && target.name == "eRanged"){
-                  countR = true;
-                  rekt += 1;
-              }
               target.X = -1995;
             }
-            target.health -= 30;
             projectile.reset();
           }
         }
@@ -109,8 +102,7 @@ function hitProj(projectile, target){
 //passes in enemy and then checks coordinates
 function takeWater(waterCont, enemy){
   if(((waterCont.X)>=(enemy.X+enemy.width)&&(enemy.X+enemy.width)>=(waterCont.X))){
-      water -= 50;
-      enemy.X = 2000;
+
   }
 }
 
