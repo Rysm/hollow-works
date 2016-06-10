@@ -64,6 +64,15 @@ Game = {
         weapon.type  = opt.type;
         
         return weapon;
+    },
+
+    entity: function (unit) {
+
+        function toInt(unit) {
+            var Int;
+            
+
+        }
     }
 };
 
