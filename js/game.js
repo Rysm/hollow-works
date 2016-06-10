@@ -61,7 +61,6 @@ Game = {
         
         var weapon = {};
         
-        weapon.owner = opt.owner;
         weapon.type  = opt.type;
         
         return weapon;

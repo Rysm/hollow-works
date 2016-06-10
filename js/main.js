@@ -654,7 +654,6 @@ rangedSprt = Game.createSprite({
 });
 
 ALLY.RANGED.weapon = Game.createWeapon({
-	owner: ALLY.RANGED,
 	type: createArrow(ALLY.RANGED, ENEMY.MELEE, ENEMY.RANGED, 70, 10, 12)
 });
 
@@ -714,7 +713,6 @@ rEnemySprt = Game.createSprite({
 });
 
 ENEMY.RANGED.weapon = Game.createWeapon({
-	owner: ENEMY.RANGED,
 	type: createArrow(ENEMY.RANGED, ALLY.MELEE, ALLY.RANGED, 70, 10, -7)
 });
 
