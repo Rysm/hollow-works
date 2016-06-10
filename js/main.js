@@ -664,7 +664,6 @@ ENEMY.RANGED.weapon = Game.createWeapon({
 });
 // ^^^ UNITS END HERE
 
-
 /*
 Menu STUFF
 */
