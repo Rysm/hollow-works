@@ -1,12 +1,17 @@
-
+// Game
 Game = {
     
     createImage: function (url, opt) {
         
-        var image = new Image();
+        var image = {};
+
+        image.pic    = new Image();
+        image.width  = opt.width;
+        image.height = opt.height;
+        image.dx     = opt.dx;
+        image.dy     = opt.dy;
         
-        
-        image.src = url;
+        image.pic.src = url;
         return image;
     },
 
@@ -19,9 +24,9 @@ Game = {
             numFrames = opt.numFrames || 1;
     
         self.context = opt.context;
-        self.width = opt.width;
-        self.height = opt.height;
-        self.image = opt.image;
+        self.width   = opt.width;
+        self.height  = opt.height;
+        self.image   = opt.image;
     
         self.update = function() {
     
@@ -38,17 +43,37 @@ Game = {
         self.draw = function() {
             
             self.context.drawImage(
-                self.image,
+                self.image.pic,
                 index * self.width / numFrames,
                 0,
                 self.width / numFrames,
                 self.height,
-                self.image.X,
-                self.image.Y,
+                self.image.dx,
+                self.image.dy,
                 self.image.width,
                 self.image.height);
         };
     
         return self;
+    },
+    
+    createWeapon: function (opt) {
+        
+        var weapon = {};
+        
+        weapon.owner = opt.owner;
+        weapon.type  = opt.type;
+        
+        return weapon;
+    }
+};
+
+// Tools
+Tools = {
+
+    search: function (id, arr) {
+        for (var i=0; i < arr.length; i++) 
+            if (arr[i].id === id) 
+                return i;
     }
 };

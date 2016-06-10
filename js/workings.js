@@ -29,16 +29,16 @@ var Bullet = function(velocity, rectangle) {
 //check collisions to see if people are fighting
 function checkCombat(friendly, enemy){
 
-  if((friendly.X)<=(enemy.X + enemy.width) && friendly.act == true){
+  if((friendly.img.dx)<=(enemy.img.dx + enemy.img.width) && friendly.state !== 'dead'){
 
     //check if friendly dead
     if (friendly.health <= 0){
-      friendly.dead = true;
+      friendly.state = 'dead';
     }
 
     //check if enemy dead
     if (enemy.health <= 0){
-            enemy.dead = true;
+            enemy.state = 'dead';
 
             //kill melee
             if (countM == false && enemy.name == "eMelee"){
@@ -64,13 +64,13 @@ function hitProj(projectile, target){
 
   //conditions for hitting friendlies
   //enemy projectile left to right
-  if (target.act){
+  if (target.state !== 'dead' || target.state !== 'inactive'){
         if (target.name === "pRanged" || target.name === "pMelee"){
-          if (projectile.x >= target.X){
+          if (projectile.x >= target.img.dx){
             //check if target dead
             if (target.health <= 0){
-              target.dead = true;
-              target.X = 1995;
+              target.state = 'dead';
+              target.img.dx = 1995;
             }
 
             target.health -= 30;
@@ -81,10 +81,10 @@ function hitProj(projectile, target){
         //conditions for hitting enemies
         //right to left
         else if (target.name === "eRanged" || target.name === "eMelee"){
-          if (projectile.x <= target.X+target.width){
+          if (projectile.x <= target.img.dx + target.img.width){
             //check if target dead
             if (target.health <= 0){
-              target.dead = true;
+              target.state = 'dead';
 
               //arrow kill melee
               if (countM == false && target.name == "eMelee"){
@@ -96,7 +96,7 @@ function hitProj(projectile, target){
                   countR = true;
                   rekt += 1;
               }
-              target.X = -1995;
+              target.img.dx = -1995;
             }
             target.health -= 30;
             projectile.reset();
@@ -108,9 +108,9 @@ function hitProj(projectile, target){
 //check if enemies are taking water
 //passes in enemy and then checks coordinates
 function takeWater(waterCont, enemy){
-  if(((waterCont.X)>=(enemy.X+enemy.width)&&(enemy.X+enemy.width)>=(waterCont.X))){
+  if(((waterCont.X)>=(enemy.img.dx + enemy.img.width)&&(enemy.img.dx + enemy.img.width)>=(waterCont.X))){
       water -= 50;
-      enemy.X = 2000;
+      enemy.img.dx = 2000;
   }
 }
 
@@ -118,21 +118,21 @@ function takeWater(waterCont, enemy){
 //pass in unit to check forward range
 //(unit attacking, target getting hit)
 function checkEnemyRange(unit, target){
-  if (unit.x+400 >= target.x && target.act){
-     unit.advance = false;
+  if (unit.img.dx + 400 >= target.img.dx && target.state !== 'dead'){
+     unit.state = 'attacking';
   }
   else {
-    unit.advance = true;
+    unit.state = 'walking';
   }
 }
 
 //Gatherers can now pick up water
 function gatherWater(unit){
 
-  if (unit.X < -20 && unit.act){
-    console.log("we here");
+  if (unit.img.dx < -20 && unit.state !== 'dead'){
+    //console.log("we here");
     water+= Math.floor( (Math.random()*50) +1);
-    unit.act = false;
+    unit.state = 'inactive';
   }
 }
 

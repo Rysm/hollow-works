@@ -29,6 +29,7 @@ var cfg = {
 		{ id: 'charBtnM', 	  url: "art/swordicon.png"                   	 		},
 		{ id: 'charBtnR', 	  url: "art/bowicon.png"                   	     		},
 		{ id: 'charBtnG', 	  url: "art/gatherericon.png"                    		},
+		{ id: 'gWlk',         url: "art/a_g_f_UpdatedSheet.png"                     },
 		{ id: 'mWlk',         url: "art/walkTest.png"                        		},
 		{ id: 'mAtk', 		  url: "art/ally_melee_female_attack_spritesheet.png"	},
 		{ id: 'rWlk', 		  url: "art/a_r_f_UpdatedSheet.png"                  	},
@@ -46,10 +47,21 @@ var cfg = {
 	]
 };
 
-function loadContent() {
-
+ALLY = {
+	MELEE:    { img: {}, frames: 4, tpf: FPS/15, health: 100, speed: 200/FPS, damage: 50/FPS, armor: 3, state: 'inactive', weapon: { speed: 600/FPS, reload: 0.40*FPS, damage: 4, active: false }, sex: "female", name: "pMelee"    },
+	RANGED:   { img: {}, frames: 4, tpf: FPS/15, health:  70, speed: 220/FPS, damage: 40/FPS, armor: 2, state: 'inactive', weapon: {}, 															   sex: "male",   name: "pRanged"   },
+	GATHERER: { img: {}, frames: 4, tpf: FPS/15, health:   0, speed: 260/FPS, damage:      0, armor: 0, state: 'inactive',                                                                         sex: "female", name: "pGatherer" }
+};
+ENEMY = {
+	MELEE:    { img: {}, frames: 4, tpf: FPS/15, health: 100, speed: 200/FPS, damage: 50/FPS, armor: 3, state: 'inactive', weapon: { speed: 600/FPS, reload: 0.40*FPS, damage: 4, active: false }, sex: "female", name: "eMelee"    },
+	RANGED:   { img: {}, frames: 4, tpf: FPS/15, health:  70, speed: 220/FPS, damage: 40/FPS, armor: 2, state: 'inactive', weapon: {}, 															   sex: "male",   name: "eRanged"   }
 };
 
+/*
+function loadContent() {
+
+}
+*/
 /*
 Initiate canvas
 */
@@ -103,10 +115,10 @@ var particles = [];
 
 function Particle(x, y, speed, lifetime){
 	this.x = x;
-  this.y = y;
-  this.speed = Math.random()*speed+2;
-  this.lifetime = lifetime;
-  this.radius = Math.random()*10+2;
+    this.y = y;
+    this.speed = Math.random()*speed+2;
+    this.lifetime = lifetime;
+    this.radius = Math.random()*10+2;
 }
 
 function particle_system(numParticles){
@@ -225,11 +237,11 @@ function handleClick(eventParams){
 
 			  //spawn gatherer dude
 			  if(checkBounds(bGatherer, eventParams.clientX, eventParams.clientY)){
-			      pGatherer.X = 1300;
-			      pGatherer.Y = 275;
-			      pGatherer.width = 40;
-			      pGatherer.height = 80;
-			      pGatherer.act = true;
+			      ALLY.GATHERER.img.dx = 1300;
+				  ALLY.GATHERER.img.dy = 275;
+				  ALLY.GATHERER.img.width = 40;
+				  ALLY.GATHERER.img.height = 80;
+				  ALLY.GATHERER.state = 'walking';
 			      if(bGatherer.count > 0){
 			        bGatherer.count-=1;
 			      }
@@ -240,10 +252,10 @@ function handleClick(eventParams){
 			  if(checkBounds(bMelee, eventParams.clientX, eventParams.clientY)){
 			      //character activate location
 			      //turns on a switch to enable player object/particle movement
-			      pMelee.Y = canvas.height-waterCont.height-50;
-			      eMelee.Y = canvas.height-waterCont.height-50;
-			      eRanged.Y = canvas.height-waterCont.height-50;
-			      pMelee.act=true;
+				  ALLY.MELEE.img.dy = canvas.height-waterCont.height-50;
+			      ENEMY.MELEE.img.dy = canvas.height-waterCont.height-50;
+			      ENEMY.RANGED.img.dy = canvas.height-waterCont.height-50;
+				  ALLY.MELEE.state = 'walking';
 			      if(bMelee.count > 0){
 			        bMelee.count-=1;
 			      }
@@ -253,19 +265,19 @@ function handleClick(eventParams){
 			  if (checkBounds(bRanged, eventParams.clientX, eventParams.clientY)){
 			      //character activate location
 			      //turns on a switch to enable player object/particle movement
-			      pRanged.Y = canvas.height-waterCont.height-50;
-			      eMelee.Y = canvas.height-waterCont.height-50;
-			      eRanged.Y = canvas.height-waterCont.height-50;
-			      pRanged.act=true;
+				  ALLY.RANGED.img.dy = canvas.height-waterCont.height-50;
+				  ENEMY.MELEE.img.dy = canvas.height-waterCont.height-50;
+				  ENEMY.RANGED.img.dy = canvas.height-waterCont.height-50;
+				  ALLY.RANGED.state = 'walking';
 			      if(bRanged.count > 0){
 			        bRanged.count-=1;
 			      }
 			  }
 			  //open ui
 			  if (checkBounds(uiIcon, eventParams.clientX, eventParams.clientY)){
-			    if(uiActive == false){
+			    if(!uiActive)
 			      uiActive = true;
-			    }else{
+			    else{
 			      uiActive = false;
 			    }
 
@@ -273,7 +285,7 @@ function handleClick(eventParams){
 
 				//open recruitment
 				if (checkBounds(recruitmentButton, eventParams.clientX, eventParams.clientY)){
-			    if(recruitmentActive == false){
+			    if(!recruitmentActive){
 			      recruitmentActive = true;
 			    }else{
 			      recruitmentActive = false;
@@ -305,7 +317,7 @@ function handleClick(eventParams){
 			  */
 			  if (checkBounds(playBut, eventParams.clientX, eventParams.clientY)){
 			    menu = false;
-			    hero=false;
+			    hero = false;
 			  }
 
 }
@@ -372,7 +384,7 @@ function choose(e){
 			//select melee
 			if ( (e.clientX >= 90 && e.clientX <= 405) && (e.clientY>=49 && e.clientY<=689) ){
 				selectHero = "melee";
-				hero=true;
+				hero = true;
 			}
 			//select gatherer
 			else if ( (e.clientX >= 488 && e.clientX <= 832) && (e.clientY>=100 && e.clientY<=670) ){
@@ -541,7 +553,7 @@ var bRanged = new Image();
 bRanged.src = "art/bowicon.png";
 bRanged.width = 100;
 bRanged.height = 100;
-bRanged.X = 1110
+bRanged.X = 1110;
 bRanged.Y = 10;
 bRanged.act = false;
 bRanged.dead = false;
@@ -559,14 +571,25 @@ bGatherer.count = 1;
 
 
 //UNITS BEGIN HERE
-ALLY = {
-	MELEE:    { sx: 0, sy: 0, frames: 4, tpf: FPS/15, health: 500, speed: 200/FPS, damage: 50/FPS, armor: 3, state: "walking", weapon: { speed: 600/FPS, reload: 0.40*FPS, damage: 4, active: false }, sex: "female", name: "melee"    },
-	RANGED:   { sx: 0, sy: 0, frames: 4, tpf: FPS/15, health: 500, speed: 220/FPS, damage: 40/FPS, armor: 2, state: "walking", weapon: { speed: 620/FPS, reload: 0.35*FPS, damage: 4, active: false }, sex: "male",   name: "ranged"   },
-	GATHERER: { sx: 0, sy: 0, frames: 4, tpf: FPS/15, health: 0,   speed: 260/FPS, damage: 0,      armor: 0, state: "walking",                                                                         sex: "female", name: "gatherer" }
-};
-
-
 //playerGather
+ALLY.GATHERER.img = Game.createImage(
+	cfg.images[Tools.search('gWlk', cfg.images)].url, {
+		width: 90,
+		height: 160,
+		dx: 920,
+		dy: 200
+	}
+);
+
+gathererSprt = Game.createSprite({
+	context: ctx,
+	width: 2600,
+	height: 1000,
+	image: ALLY.GATHERER.img,
+	numFrames: ALLY.GATHERER.frames,
+	ticksPerFrame: ALLY.GATHERER.tpf
+});
+/*
 var pGatherer = new Image();
 pGatherer.X = 920;
 pGatherer.Y = 200;
@@ -576,30 +599,66 @@ pGatherer.name = "pGatherer";
 pGatherer.src = "art/ally_gatherer_female.png";
 pGatherer.act = false;
 pGatherer.state = "go";
+*/
 
 //Named as playerMelee
-var pMelee = new Image();
-pMelee.src = "art/walkTest.png";
-pMelee.name = "pMelee";
-pMelee.health = 100;
-pMelee.dmg = 15;
-pMelee.width = 80;
-pMelee.height = 160;
-pMelee.X = 1000;
-pMelee.Y = 1000;
-pMelee.act = false;
-pMelee.dead = false;
+ALLY.MELEE.img = Game.createImage(
+	cfg.images[Tools.search('mWlk', cfg.images)].url, {
+		width: 90,
+		height: 160,
+		dx: 1000,
+		dy: 1000
+	}
+);
 
-meleeObj = Game.createSprite({
+meleeSprt = Game.createSprite({
 	context: ctx,
 	width: 2600,
 	height: 1000,
-	image: pMelee,
-	numFrames: 4,
-	ticksPerFrame: 4
+	image: ALLY.MELEE.img,
+	numFrames: ALLY.MELEE.frames,
+	ticksPerFrame: ALLY.MELEE.tpf
 });
 
+/*
+ var pMelee = new Image();
+ pMelee.src = "art/walkTest.png";
+ pMelee.name = "pMelee";
+ pMelee.health = 100;
+ pMelee.dmg = 15;
+ pMelee.width = 80;
+ pMelee.height = 160;
+ pMelee.X = 1000;
+ pMelee.Y = 1000;
+ pMelee.act = false;
+ pMelee.dead = false;
+ */
+
 //player ranged
+ALLY.RANGED.img = Game.createImage(
+	cfg.images[Tools.search('rWlk', cfg.images)].url, {
+		width: 90,
+		height: 160,
+		dx: 1000,
+		dy: 1000
+	}
+);
+
+rangedSprt = Game.createSprite({
+	context: ctx,
+	width: 2600,
+	height: 1000,
+	image: ALLY.RANGED.img,
+	numFrames: ALLY.RANGED.frames,
+	ticksPerFrame: ALLY.RANGED.tpf
+});
+
+ALLY.RANGED.weapon = Game.createWeapon({
+	owner: ALLY.RANGED,
+	type: createArrow(ALLY.RANGED, ENEMY.MELEE, ENEMY.RANGED, 70, 10, 12)
+});
+
+/*
 var pRanged = new Image();
 pRanged.src = "art/a_r_f_UpdatedSheet.png";
 pRanged.name = "pRanged";
@@ -608,22 +667,58 @@ pRanged.dmg = 30;
 pRanged.width = 90;
 pRanged.height = 160;
 pRanged.X = 1000 + pRanged.width;
-pRanged.Y = pMelee.Y;
+pRanged.Y = ALLY.MELEE.img.dy;
 pRanged.act = false;
 pRanged.dead = false;
 pRanged.createArrow = function() {
-    return new Arrow(pRanged, eMelee, eRanged, 20, 5, 12);
+    return new Arrow(pRanged, eMelee, eRanged, 70, 10, 12);
 }
+*/
 
-rangedObj = Game.createSprite({
+// enemy melee
+ENEMY.MELEE.img = Game.createImage(
+	cfg.images[Tools.search('eMWlk', cfg.images)].url, {
+		width: 90,
+		height: 160,
+		dx: 110,
+		dy: canvas.height-waterCont.height-50
+	}
+);
+
+mEnemySprt = Game.createSprite({
 	context: ctx,
 	width: 2600,
 	height: 1000,
-	image: pRanged,
-	numFrames: 4,
-	ticksPerFrame: 4
+	image: ENEMY.MELEE.img,
+	numFrames: ENEMY.MELEE.frames,
+	ticksPerFrame: ENEMY.MELEE.tpf
 });
 
+// enemy ranged
+ENEMY.RANGED.img = Game.createImage(
+	cfg.images[Tools.search('eRWlk', cfg.images)].url, {
+		width: 90,
+		height: 160,
+		dx: 0,
+		dy: canvas.height-waterCont.height-50
+	}
+);
+
+rEnemySprt = Game.createSprite({
+	context: ctx,
+	width: 2600,
+	height: 1000,
+	image: ENEMY.RANGED.img,
+	numFrames: ENEMY.RANGED.frames,
+	ticksPerFrame: ENEMY.RANGED.tpf
+});
+
+ENEMY.RANGED.weapon = Game.createWeapon({
+	owner: ENEMY.RANGED,
+	type: createArrow(ENEMY.RANGED, ALLY.MELEE, ALLY.RANGED, 70, 10, -7)
+});
+
+/*
 var eMelee = new Image();
 eMelee.name = "eMelee";
 eMelee.src = "art/badmeleeF.png";
@@ -641,7 +736,7 @@ var eRanged = new Image();
 eRanged.name = "eRanged";
 eRanged.src = "art/badrangeF.png";
 eRanged.health = 70;
-pRanged.dmg = 30;
+ALLY.RANGED.damage = 30;
 eRanged.width = 90;
 eRanged.height = 160;
 eRanged.X = 0;
@@ -650,9 +745,9 @@ eRanged.act = false;
 eRanged.dead = false;
 eRanged.advance = true;
 eRanged.createArrow = function() {
-    return new Arrow(eRanged, pMelee, pRanged, 20, 5, -7);
+    return new Arrow(eRanged, ALLY.MELEE, ALLY.RANGED, 70, 10, -7);
 }
-
+*/
 // ^^^ UNITS END HERE
 
 
@@ -674,7 +769,7 @@ selectBG.src = "art/heroscreen.png";
 var selectBut = new Image();
 
 var winImg = new Image();
-winImg.src = "art/winscreen.png"
+winImg.src = "art/winscreen.png";
 
 var loseImg = new Image();
 loseImg.src = "art/gameover.png";
@@ -682,8 +777,8 @@ loseImg.src = "art/gameover.png";
 //bullet
 function Arrow(from, enemy, enemy2, width, height, xSpeed) {
 
-    this.x = from.X + from.width/2;
-    this.y = from.Y + from.height/2;
+    this.x = from.img.dx - from.img.width;
+    this.y = from.img.dy + from.img.height/4 + 13;
     this.width = width;
     this.height = height;
     this.xSpeed = xSpeed;
@@ -693,11 +788,11 @@ function Arrow(from, enemy, enemy2, width, height, xSpeed) {
     var arrowcounter=0; //arrow pew pew counter
     var arrowpewPlayed = false;
 
-    if (from == pRanged){
+    if (from == ALLY.RANGED){
       var bulletImg = new Image();
       bulletImg.src = "art/arrow.png";
     }
-    if (from == eRanged){
+    if (from == ENEMY.RANGED){
       var bulletImg = new Image();
       bulletImg.src = "art/fliprow.png";
     }
@@ -718,39 +813,35 @@ function Arrow(from, enemy, enemy2, width, height, xSpeed) {
             arrowcounter=0;
           }
         }
-//
-
         ctx.drawImage(bulletImg, this.x, this.y, this.width, this.height);
-
-		return true;
     };
 
     this.reset = function() {
         arrowpewPlayed = false;
-        this.x = from.X + from.width/2;
-        this.y = from.Y + from.height/2;
+        this.x = from.img.dx + from.img.width/2;
+        this.y = from.img.dy + from.img.height/2;
         this.width = width;
         this.height = height;
     };
 
     this.update = function() {
       //if fired from friendly unit
-      if (from == pRanged){
-        if (this.x < 0 || this.x < enemy.X + enemy.width ||
-            this.x < enemy2.X + enemy2.width) {
-            this.x = from.X + from.width / 2;
-            this.y = from.Y + from.height / 2;
+      if (from == ALLY.RANGED){
+        if (this.x < 0 || this.x < enemy.img.dx + enemy.img.width ||
+            this.x < enemy2.img.dx + enemy2.img.width) {
+            this.x = from.img.dx + from.img.width / 2;
+            this.y = from.img.dy + from.img.height / 2;
         }
         else {
             this.x -= this.xSpeed;
         }
       }
       //if fired from hostile enemy
-      if (from == eRanged){
-        if (this.x > canvas.width || this.x > enemy.X+ enemy.width ||
-            this.x > enemy2.X+enemy2.width) {
-            this.x = from.X + from.width / 2;
-            this.y = from.Y + from.height / 2;
+      if (from == ENEMY.RANGED){
+        if (this.x > canvas.width || this.x > enemy.img.dx + enemy.img.width ||
+            this.x > enemy2.img.dx + enemy2.img.width) {
+            this.x = from.img.dx + from.img.width / 2;
+            this.y = from.img.dy + from.img.height / 2;
         }
         else {
             this.x -= this.xSpeed;
@@ -760,9 +851,13 @@ function Arrow(from, enemy, enemy2, width, height, xSpeed) {
     };
 }
 
+function createArrow(owner, enemy1, enemy2, w, h, vx) {
+	return new Arrow(owner, enemy1, enemy2, w, h, vx);
+};
+
 //Should call stuff from the working.js to grab functions that calculate damage and resource.
-var pArrow = pRanged.createArrow();
-var eArrow = eRanged.createArrow();
+//var pArrow = ALLY.RANGED.createArrow();
+//var eArrow = ENEMY.RANGED.createArrow();
 
 function update(){
 
@@ -801,9 +896,9 @@ function update(){
 						//Spawn the first wave!
 						//Once timer reaches 0
 						if (nowtime <= 0){
-								nowtime = 0;
-								eMelee.act = true;
-								eRanged.act = true;
+							nowtime = 0;
+							ENEMY.MELEE.state = 'walking';
+							ENEMY.RANGED.state = 'walking';
 						}
 
 						//update player playerPortrait
@@ -818,86 +913,87 @@ function update(){
 						}
 
 		        //call this to check if we're losing water
-		        takeWater(waterCont, eMelee);
-		        takeWater(waterCont, eRanged);
+		        takeWater(waterCont, ENEMY.MELEE);
+		        takeWater(waterCont, ENEMY.RANGED);
 
 		        //combat
 		        //call these to check if arrows are hitting
 		        //hitProj(bullet, target dood)
-		        hitProj(eArrow, pRanged);
-		        hitProj(eArrow, pMelee);
-		        hitProj(pArrow, eMelee);
-		        hitProj(pArrow, eRanged);
+		        hitProj(ENEMY.RANGED.weapon.type, ALLY.RANGED);
+		        hitProj(ENEMY.RANGED.weapon.type, ALLY.MELEE);
+		        hitProj(ALLY.RANGED.weapon.type,  ENEMY.MELEE);
+		        hitProj(ALLY.RANGED.weapon.type,  ENEMY.RANGED);
 
 		        //call this to get water with gatherer
 		        //gatherWater(pGatherer);
 
-		        if (pRanged.dead == false && pRanged.act){
-		          pArrow.y = pRanged.Y + pRanged.height/2;
-		          pArrow.update();
+		        if (ALLY.RANGED.state !== 'dead' && ALLY.RANGED.state !== 'inactive'){
+					ALLY.RANGED.weapon.type.update();
 		        }
 
-		        if (eRanged.dead == false && eRanged.act){
-		          eArrow.update();
+		        if (ENEMY.RANGED.state !== 'dead' && ENEMY.RANGED.state !== 'inactive'){
+					ENEMY.RANGED.weapon.type.update();
 		        }
 
 		        //friendly unit movement
-		        if(pGatherer.act){
-							    if (pGatherer.state == "go"){
-					            	pGatherer.X -= 5;
+		        if(ALLY.GATHERER.state !== 'inactive'){
+							    if (ALLY.GATHERER.state === 'walking'){
+									ALLY.GATHERER.img.dx -= 5;
 					            	//call this to get water with gatherer
-					            	gatherWater(pGatherer);
+					            	gatherWater(ALLY.GATHERER);
 
 					            //forward
-					            if (pGatherer.X < -20){
-					                pGatherer.state = "back";
+					            if (ALLY.GATHERER.img.dx < -20){
+									ALLY.GATHERER.state = 'back';
 					            }
 					        }
-					        else if (pGatherer.state == "back"){
-					            pGatherer.X += 5;
+					        else if (ALLY.GATHERER.state === 'back'){
+									ALLY.GATHERER.img.dx += 5;
 					            //state management
-					            if (pGatherer.X > canvas.width + 20){
-					                pGatherer.state = "go";
+					            if (ALLY.GATHERER.img.dx > canvas.width + 20){
+									ALLY.GATHERER.state = 'walking';
 					            }
 					        }
 		        }
 
-		        if (pMelee.act && pMelee.dead == false){
-		            pMelee.X-=5;
-					meleeObj.update();
+		        if (ALLY.MELEE.state !== 'dead'){
+					ALLY.MELEE.img.dx -= 5;
+					meleeSprt.update();
 		        }
 
-		        if (pRanged.act && pRanged.X > 700 && pRanged.dead == false){
-		          	pRanged.X-=5;
-					rangedObj.update();
+		        if (ALLY.RANGED.state !== 'inactive' && ALLY.RANGED.img.dx > 700 && ALLY.RANGED.state !== 'dead'){
+					ALLY.RANGED.img.dx -= 5;
+					rangedSprt.update();
 		        }
 
 		        //enemy unit movement
-		        if (eMelee.act && eMelee.dead == false){
-		          eMelee.X+=5;
+		        if (ENEMY.MELEE.state !== 'inactive' && ENEMY.MELEE.state !== 'dead'){
+					ENEMY.MELEE.img.dx += 5;
+					mEnemySprt.update();
 		        }
 
-		        if (eRanged.act && eRanged.dead == false){
-		          checkEnemyRange(eRanged,pMelee);
-		          checkEnemyRange(eRanged,pRanged);
-		          if (eRanged.advance){
-		            eRanged.X+=5;
+		        if (ENEMY.RANGED.state !== 'inactive' && ENEMY.RANGED.state !== 'dead'){
+		          checkEnemyRange(ENEMY.RANGED, ALLY.MELEE);
+		          checkEnemyRange(ENEMY.RANGED, ALLY.RANGED);
+		          if (ENEMY.RANGED.state === 'walking'){
+					  ENEMY.RANGED.img.dx += 5;
+					  rEnemySprt.update();
 		          }
 		        }
 
 		        //melee combat
 		        //checkCombat (friendly, enemy)
-		        if (pMelee.act && eRanged.act){
-		          checkCombat(pMelee, eRanged); //melee vs ranged
+		        if (ALLY.MELEE.state !== 'dead' && ENEMY.RANGED.state !== 'inactive'){
+		          checkCombat(ALLY.MELEE, ENEMY.RANGED); //melee vs ranged
 		        }
-		        if (pMelee.act && eMelee.act){
-		          checkCombat(pMelee, eMelee); //melee vs melee
+		        if (ALLY.MELEE.state !== 'dead' && ENEMY.MELEE.state !== 'inactive'){
+		          checkCombat(ALLY.MELEE, ENEMY.MELEE); //melee vs melee
 		        }
-		        if (pRanged.act && eMelee.act){
-		          checkCombat(pRanged, eMelee); //ranged vs melee
+		        if (ALLY.RANGED.state !== 'inactive' && ENEMY.MELEE.state !== 'inactive'){
+		          checkCombat(ALLY.RANGED, ENEMY.MELEE); //ranged vs melee
 		        }
-		        if (pRanged.act && eRanged.act){
-		          checkCombat(pRanged, eRanged); //ranged vs ranged
+		        if (ALLY.RANGED.state !== 'inactive' && ENEMY.RANGED.state !== 'inactive'){
+		          checkCombat(ALLY.RANGED, ENEMY.RANGED); //ranged vs ranged
 		        }
 
 						//win condition
@@ -972,77 +1068,76 @@ function update(){
 		      ctx.fillText(bRanged.count, bRanged.X+73, bRanged.Y+91);
 
 		      //Melee image and health
-		      if (pMelee.dead == false && pMelee.act){
-				  meleeObj.draw();
-		        ctx.drawImage(pMelee, pMelee.X, pMelee.Y, pMelee.width, pMelee.height);
+		      if (ALLY.MELEE.state !== 'dead'){
+			  	meleeSprt.draw();
+		        //ctx.drawImage(pMelee, pMelee.X, pMelee.Y, pMelee.width, pMelee.height);
 		        ctx.fillStyle = "red";
-		        ctx.fillRect(pMelee.X, pMelee.Y+pMelee.height, pMelee.health*0.75, 15);
+		        ctx.fillRect(ALLY.MELEE.img.dx, ALLY.MELEE.img.dy + ALLY.MELEE.img.height, ALLY.MELEE.health*0.75, 15);
 		      }
 
 		      //Ranged image and health
-		      if (pRanged.dead == false && pRanged.act){
-				  rangedObj.draw();
-		        //ctx.drawImage(pRanged, pRanged.X, pRanged.Y, pRanged.width, pRanged.height);
-		        pArrow.y = pRanged.Y + pRanged.height/4 + 10;
-		        if (pArrow.draw()) {
-					pRanged.src = "art/ally_range_female_attack_spritesheet.png";
-					rangedObj.numFrames = 5;
-					rangedObj.ticksPerFrame = 8;
-				}
-		        ctx.fillStyle = "red";
-		        ctx.fillRect(pRanged.X, pRanged.Y+pRanged.height, pRanged.health*0.75, 15);
+		      if (ALLY.RANGED.state !== 'dead' && ALLY.RANGED.state !== 'inactive'){
+				  rangedSprt.draw();
+				  //ctx.drawImage(pRanged, pRanged.X, pRanged.Y, pRanged.width, pRanged.height);
+				  ALLY.RANGED.weapon.type.y = ALLY.RANGED.img.dy + ALLY.RANGED.img.height/4 + 14;
+				  ALLY.RANGED.weapon.type.draw();
+				  ctx.fillStyle = "red";
+				  ctx.fillRect(ALLY.RANGED.img.dx, ALLY.RANGED.img.dy + ALLY.RANGED.img.height, ALLY.RANGED.health*0.75, 15);
 		      }
 
-		      if (pGatherer.act){
-		        //Gatherer image
-		        ctx.drawImage(pGatherer, pGatherer.X, pGatherer.Y, pGatherer.width, pGatherer.height);
+		      if (ALLY.GATHERER.state !== 'inactive'){
+		          //Gatherer image
+				  gathererSprt.draw();
+				  //ctx.drawImage(ALLY.GATHERER, ALLY.GATHERER.img.dx, ALLY.GATHERER.img.dy, ALLY.GATHERER.img.width, ALLY.GATHERER.img.height);
 		      }
 
 		      //Enemy melee image and health
-		      if (eMelee.dead == false && eMelee.act){
-		        ctx.drawImage(eMelee, eMelee.X, eMelee.Y, eMelee.width, eMelee.height);
-		        ctx.fillStyle = "red";
-		        ctx.fillRect(eMelee.X, eMelee.Y+eMelee.height, eMelee.health*0.75, 15);
+		      if (ENEMY.MELEE.state !== 'dead' && ENEMY.MELEE.state !== 'inactive'){
+				  mEnemySprt.draw();
+		          //ctx.drawImage(eMelee, eMelee.X, eMelee.Y, eMelee.width, eMelee.height);
+		          ctx.fillStyle = "red";
+		          ctx.fillRect(ENEMY.MELEE.img.dx, ENEMY.MELEE.img.dy + ENEMY.MELEE.img.height, ENEMY.MELEE.health*0.75, 15);
 		      }
 
 		      //Enemy ranged image and health
-		      if (eRanged.dead == false && eRanged.act){
-		        ctx.drawImage(eRanged, eRanged.X, eRanged.Y, eRanged.width, eRanged.height);
-		        eArrow.draw();
-		        ctx.fillStyle = "red";
-		        ctx.fillRect(eRanged.X, eRanged.Y+eRanged.height, eRanged.health*0.75, 15);
+		      if (ENEMY.RANGED.state !== 'dead' && ENEMY.RANGED.state !== 'inactive'){
+				  rEnemySprt.draw();
+				  //ctx.drawImage(eRanged, eRanged.X, eRanged.Y, eRanged.width, eRanged.height);
+				  ENEMY.RANGED.weapon.type.draw();
+				  ctx.fillStyle = "red";
+				  ctx.fillRect(ENEMY.RANGED.img.dx, ENEMY.RANGED.img.dy + ENEMY.RANGED.img.height, ENEMY.RANGED.health*0.75, 15);
 		      }
 					//recruitment
-								if(recruitmentActive == true){
-									ctx.drawImage(recruitment, recruitment.X, recruitment.Y, recruitment.width, recruitment.height);
+					if(recruitmentActive == true){
+						ctx.drawImage(recruitment, recruitment.X, recruitment.Y, recruitment.width, recruitment.height);
 
-									ctx.drawImage(recruitmentOne, recruitmentOne.X, recruitmentOne.Y, recruitmentOne.width, recruitmentOne.height);
-									ctx.drawImage(recruitmentTwo, recruitmentTwo.X, recruitmentTwo.Y, recruitmentTwo.width, recruitmentTwo.height);
-									ctx.drawImage(recruitmentThree, recruitmentThree.X, recruitmentThree.Y, recruitmentThree.width, recruitmentThree.height);
+						ctx.drawImage(recruitmentOne, recruitmentOne.X, recruitmentOne.Y, recruitmentOne.width, recruitmentOne.height);
+						ctx.drawImage(recruitmentTwo, recruitmentTwo.X, recruitmentTwo.Y, recruitmentTwo.width, recruitmentTwo.height);
+						ctx.drawImage(recruitmentThree, recruitmentThree.X, recruitmentThree.Y, recruitmentThree.width, recruitmentThree.height);
 
-									ctx.fillStyle = "green";
-									ctx.fillRect(recruitGatherer.X, recruitGatherer.Y, recruitGatherer.width, recruitGatherer.height);
-									ctx.fillRect(recruitMelee.X, recruitMelee.Y, recruitMelee.width, recruitMelee.height);
-									ctx.fillRect(recruitRange.X, recruitRange.Y, recruitRange.width, recruitRange.height);
-									ctx.font="14px Georgia"
-									ctx.fillStyle="black";
-									ctx.fillText("New", recruitGatherer.X+10, recruitGatherer.Y+20);
-									ctx.fillText("New", recruitMelee.X+10, recruitMelee.Y+20);
-									ctx.fillText("New", recruitRange.X+10, recruitRange.Y+20);
+						ctx.fillStyle = "green";
+						ctx.fillRect(recruitGatherer.X, recruitGatherer.Y, recruitGatherer.width, recruitGatherer.height);
+						ctx.fillRect(recruitMelee.X, recruitMelee.Y, recruitMelee.width, recruitMelee.height);
+						ctx.fillRect(recruitRange.X, recruitRange.Y, recruitRange.width, recruitRange.height);
+						ctx.font="14px Georgia"
+						ctx.fillStyle="black";
+						ctx.fillText("New", recruitGatherer.X+10, recruitGatherer.Y+20);
+						ctx.fillText("New", recruitMelee.X+10, recruitMelee.Y+20);
+						ctx.fillText("New", recruitRange.X+10, recruitRange.Y+20);
 
-									ctx.fillText("Gatherer", recruitGatherer.X+10, recruitGatherer.Y+38);
-									ctx.fillText("Melee", recruitMelee.X+10, recruitMelee.Y+38);
-									ctx.fillText("Ranged", recruitRange.X+10, recruitRange.Y+38);
+						ctx.fillText("Gatherer", recruitGatherer.X+10, recruitGatherer.Y+38);
+						ctx.fillText("Melee", recruitMelee.X+10, recruitMelee.Y+38);
+						ctx.fillText("Ranged", recruitRange.X+10, recruitRange.Y+38);
 
-									ctx.font = "12px Georgia";
-									ctx.fillText("Cost: 20 Water", recruitGatherer.X+10, recruitGatherer.Y+55);
-									ctx.fillText("Cost: 10 Water", recruitMelee.X+10, recruitMelee.Y+55);
-									ctx.fillText("Cost: 10 Water", recruitRange.X+10, recruitRange.Y+55);
+						ctx.font = "12px Georgia";
+						ctx.fillText("Cost: 20 Water", recruitGatherer.X+10, recruitGatherer.Y+55);
+						ctx.fillText("Cost: 10 Water", recruitMelee.X+10, recruitMelee.Y+55);
+						ctx.fillText("Cost: 10 Water", recruitRange.X+10, recruitRange.Y+55);
 
-								}
+					}
 
-								//open UI
-								ctx.drawImage(recruitmentButton, recruitmentButton.X,recruitmentButton.Y,recruitmentButton.width,recruitmentButton.height);
+					//open UI
+					ctx.drawImage(recruitmentButton, recruitmentButton.X,recruitmentButton.Y,recruitmentButton.width,recruitmentButton.height);
 
 
 
