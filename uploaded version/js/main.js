@@ -531,6 +531,7 @@ function update(){
 									else {
 											//give 30 seconds for next wave.
 											currentCountDown =  makeTimer(30000);
+											realInd++;
 											waveNum++; //go on to next wave
 									}
 						}
