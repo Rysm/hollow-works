@@ -13,6 +13,7 @@ var waveNum = 1;
 var indexC = 0;
 var startWave = false;
 var waves = new Array(); //2d array incoming
+var realInd = waveNum-1;
 
 //gonna use this to get to next wave
 var kills = 0;

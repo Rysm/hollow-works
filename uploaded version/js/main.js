@@ -248,8 +248,13 @@ pGatherer.src = "art/allygathererF.png";
 
 //Named as playerMelee
 var pMelee = new Image();
-pMelee.src = "art/walkTest.png";
+pMelee.src = "art/allymeleeF.png";
 
+//player ranged
+var pRanged = new Image();
+pRanged.src = "art/allyrangeM.png";
+
+/*
 //Instantiates and animates sprite sheet
 meleeObj = Sprite({
 	context: ctx,
@@ -260,9 +265,6 @@ meleeObj = Sprite({
 	ticksPerFrame: 4
 });
 
-//player ranged
-var pRanged = new Image();
-pRanged.src = "art/a_r_f_UpdatedSheet.png";
 
 //Instantiates and animates sprite sheet
 rangedObj = Sprite({
@@ -273,6 +275,9 @@ rangedObj = Sprite({
 	numFrames: 4,
 	ticksPerFrame: 4
 });
+
+*/
+
 
 var eMelee = new Image();
 eMelee.src = "art/badmeleeF.png";
@@ -467,7 +472,7 @@ function update(){
 						for (a = 0; a < friendlyMelees.length; a++){
 				        if (friendlyMelees[a].act && friendlyMelees[a].dead == false){
 				            friendlyMelees[a].X-= (5+spdUi);
-										meleeObj.update();
+										//meleeObj.update();
 		          			checkCombat(friendlyMelees[a], waves[realInd][a]);
 				        }
 							//	hitProj(eArrow, friendlyMelees[a]);
@@ -481,7 +486,7 @@ function update(){
 										}
 		          			checkCombat(friendlyRanged[b], waves[realInd][b]);
 						      	friendlyArrows[b].update();
-									  rangedObj.update();
+									  //rangedObj.update();
 										//update arrows
 						        friendlyArrows[b].y = friendlyRanged[b].Y + friendlyRanged[b].height/2;
 				        }
@@ -605,7 +610,7 @@ else if (menu == false && hero==true && state == null){
 						for (d = 0; d < friendlyMelees.length; d++){
 						      //Melee image and health
 						      if (friendlyMelees[d]!= null && friendlyMelees[d].dead == false && friendlyMelees[d].act){
-								  	meleeObj.draw();
+								  	//meleeObj.draw();
 						        ctx.drawImage(pMelee, friendlyMelees[d].X, friendlyMelees[d].Y, friendlyMelees[d].width, friendlyMelees[d].height);
 						        ctx.fillStyle = "red";
 						        ctx.fillRect(friendlyMelees[d].X, friendlyMelees[d].Y+friendlyMelees[d].height, friendlyMelees[d].health*0.75, 15);
@@ -617,14 +622,14 @@ else if (menu == false && hero==true && state == null){
 
 						      //Ranged image and health
 						      if (friendlyRanged[e]!= null && friendlyRanged[e].dead == false && friendlyRanged[e].act){
-												  	rangedObj.draw();
+												  	//rangedObj.draw();
 										        ctx.drawImage(pRanged, friendlyRanged[e].X, friendlyRanged[e].Y, friendlyRanged[e].width, friendlyRanged[e].height);
 										        friendlyArrows[e].y = friendlyRanged[e].Y + friendlyRanged[e].height/4 + 10;
 
 										        if (friendlyArrows[e].draw()) {
 															friendlyRanged[e].src = "art/ally_range_female_attack_spritesheet.png";
-															rangedObj.numFrames = 5;
-															rangedObj.ticksPerFrame = 8;
+															//rangedObj.numFrames = 5;
+															//rangedObj.ticksPerFrame = 8;
 														}
 
 										        ctx.fillStyle = "red";
