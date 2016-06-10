@@ -935,23 +935,24 @@ function update(){
 
 		        //friendly unit movement
 		        if(ALLY.GATHERER.state !== 'inactive'){
-							    if (ALLY.GATHERER.state === 'walking'){
-									ALLY.GATHERER.img.dx -= 5;
-					            	//call this to get water with gatherer
-					            	gatherWater(ALLY.GATHERER);
+					if (ALLY.GATHERER.state === 'walking'){
+						ALLY.GATHERER.img.dx -= 5;
+						gathererSprt.update();
+						//call this to get water with gatherer
+						gatherWater(ALLY.GATHERER);
 
-					            //forward
-					            if (ALLY.GATHERER.img.dx < -20){
-									ALLY.GATHERER.state = 'back';
-					            }
-					        }
-					        else if (ALLY.GATHERER.state === 'back'){
-									ALLY.GATHERER.img.dx += 5;
-					            //state management
-					            if (ALLY.GATHERER.img.dx > canvas.width + 20){
-									ALLY.GATHERER.state = 'walking';
-					            }
-					        }
+						//forward
+						if (ALLY.GATHERER.img.dx < -20){
+							ALLY.GATHERER.state = 'back';
+						}
+					}
+					else if (ALLY.GATHERER.state === 'back'){
+						ALLY.GATHERER.img.dx += 5;
+						//state management
+						if (ALLY.GATHERER.img.dx > canvas.width + 20){
+							ALLY.GATHERER.state = 'walking';
+						}
+					}
 		        }
 
 		        if (ALLY.MELEE.state !== 'dead'){
