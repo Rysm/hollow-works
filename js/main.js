@@ -62,6 +62,7 @@ function loadContent() {
 
 }
 */
+
 /*
 Initiate canvas
 */
@@ -122,9 +123,8 @@ function Particle(x, y, speed, lifetime){
 }
 
 function particle_system(numParticles){
-	for(var i =0; i < numParticles; i++){
-  	particles.push(new Particle(Math.random() * canvas.width, -40, 15, canvas.height));
-  }
+	for(var i =0; i < numParticles; i++)
+  		particles.push(new Particle(Math.random() * canvas.width, -40, 15, canvas.height));
 }
 
 particle_system(100);
@@ -234,101 +234,91 @@ successMusic.play(); //success music
 
 //button is the object we specificy
 function handleClick(eventParams){
+	//spawn gatherer dude
+	if(checkBounds(bGatherer, eventParams.clientX, eventParams.clientY)){
+		ALLY.GATHERER.img.dx = 1300;
+	    ALLY.GATHERER.img.dy = 275;
+	    ALLY.GATHERER.img.width = 40;
+	    ALLY.GATHERER.img.height = 80;
+	    ALLY.GATHERER.state = 'walking';
+	    if(bGatherer.count > 0)
+			bGatherer.count-=1;
+	}
 
-			  //spawn gatherer dude
-			  if(checkBounds(bGatherer, eventParams.clientX, eventParams.clientY)){
-			      ALLY.GATHERER.img.dx = 1300;
-				  ALLY.GATHERER.img.dy = 275;
-				  ALLY.GATHERER.img.width = 40;
-				  ALLY.GATHERER.img.height = 80;
-				  ALLY.GATHERER.state = 'walking';
-			      if(bGatherer.count > 0){
-			        bGatherer.count-=1;
-			      }
+	//spawn melee dude
+	if(checkBounds(bMelee, eventParams.clientX, eventParams.clientY)){
+	    //character activate location
+	    //turns on a switch to enable player object/particle movement
+	    ALLY.MELEE.img.dy = canvas.height-waterCont.height-50;
+	    ENEMY.MELEE.img.dy = canvas.height-waterCont.height-50;
+	    ENEMY.RANGED.img.dy = canvas.height-waterCont.height-50;
+	    ALLY.MELEE.state = 'walking';
+	    if(bMelee.count > 0)
+			bMelee.count-=1;
+	}
 
-			  }
+	//spawn ranged dude
+	if (checkBounds(bRanged, eventParams.clientX, eventParams.clientY)){
+	    //character activate location
+	    //turns on a switch to enable player object/particle movement
+	    ALLY.RANGED.img.dy = canvas.height-waterCont.height-50;
+	    ENEMY.MELEE.img.dy = canvas.height-waterCont.height-50;
+	    ENEMY.RANGED.img.dy = canvas.height-waterCont.height-50;
+	    ALLY.RANGED.state = 'walking';
+	    if(bRanged.count > 0)
+			bRanged.count-=1;
+	}
 
-			  //spawn melee dude
-			  if(checkBounds(bMelee, eventParams.clientX, eventParams.clientY)){
-			      //character activate location
-			      //turns on a switch to enable player object/particle movement
-				  ALLY.MELEE.img.dy = canvas.height-waterCont.height-50;
-			      ENEMY.MELEE.img.dy = canvas.height-waterCont.height-50;
-			      ENEMY.RANGED.img.dy = canvas.height-waterCont.height-50;
-				  ALLY.MELEE.state = 'walking';
-			      if(bMelee.count > 0){
-			        bMelee.count-=1;
-			      }
-			  }
+	//open ui
+	if (checkBounds(uiIcon, eventParams.clientX, eventParams.clientY)){
+		if(!uiActive)
+			uiActive = true;
+		else
+			uiActive = false;
 
-			  //spawn ranged dude
-			  if (checkBounds(bRanged, eventParams.clientX, eventParams.clientY)){
-			      //character activate location
-			      //turns on a switch to enable player object/particle movement
-				  ALLY.RANGED.img.dy = canvas.height-waterCont.height-50;
-				  ENEMY.MELEE.img.dy = canvas.height-waterCont.height-50;
-				  ENEMY.RANGED.img.dy = canvas.height-waterCont.height-50;
-				  ALLY.RANGED.state = 'walking';
-			      if(bRanged.count > 0){
-			        bRanged.count-=1;
-			      }
-			  }
-			  //open ui
-			  if (checkBounds(uiIcon, eventParams.clientX, eventParams.clientY)){
-			    if(!uiActive)
-			      uiActive = true;
-			    else{
-			      uiActive = false;
-			    }
 
-			  }
+	}
 
-				//open recruitment
-				if (checkBounds(recruitmentButton, eventParams.clientX, eventParams.clientY)){
-			    if(!recruitmentActive){
-			      recruitmentActive = true;
-			    }else{
-			      recruitmentActive = false;
-			    }
+	//open recruitment
+	if (checkBounds(recruitmentButton, eventParams.clientX, eventParams.clientY)){
+		if(!recruitmentActive)
+			recruitmentActive = true;
+		else
+		  	recruitmentActive = false;
 
-			  }
 
-			  //upgrade attack
-			  if (checkBounds(uiButtonOne, eventParams.clientX, eventParams.clientY)){
-			    if(uiActive){
-			      atkUi+=1;
-			    }
-			  }
-			  //upgrade defense
-			  if (checkBounds(uiButtonTwo, eventParams.clientX, eventParams.clientY)){
-			    if(uiActive){
-			      defUi+=1;
-			    }
-			  }
-			//upgrade speed
-			if (checkBounds(uiButtonThree, eventParams.clientX, eventParams.clientY)){
-			  if(uiActive){
-			    spdUi+=1;
-			  }
-			}
+	}
 
-			  /*
-			  Playbutton stuff
-			  */
-			  if (checkBounds(playBut, eventParams.clientX, eventParams.clientY)){
-			    menu = false;
-			    hero = false;
-			  }
+	//upgrade attack
+	if (checkBounds(uiButtonOne, eventParams.clientX, eventParams.clientY))
+		if(uiActive)
+			atkUi+=1;
 
+	//upgrade defense
+	if (checkBounds(uiButtonTwo, eventParams.clientX, eventParams.clientY))
+		if(uiActive)
+			defUi+=1;
+
+	//upgrade speed
+	if (checkBounds(uiButtonThree, eventParams.clientX, eventParams.clientY))
+		if(uiActive)
+			spdUi+=1;
+
+	/*
+	 Playbutton stuff
+	 */
+	if ( checkBounds(playBut, eventParams.clientX, eventParams.clientY) ){
+		menu = false;
+		hero = false;
+	}
 }
 
 //checkboundsfunction for handleclick
 function checkBounds(button, clickX, clickY){
-	if(((button.width+button.X)>=(clickX)&&(clickX)>=(button.X))&&((button.height+button.Y)>=(clickY)&&(clickY)>=(button.Y))){
-  	return true;
-  }else{
-  	return false;
-  }
+	if(((button.width+button.X)>=(clickX)&&(clickX)>=(button.X))&&((button.height+button.Y)>=(clickY)&&(clickY)>=(button.Y)))
+  		return true;
+  	else
+  		return false;
 }
 
 
@@ -340,39 +330,39 @@ HERO
 
 //Added something to help make menu look sick
 function handleHover(e){
-			/* x-y coord I recorded for self reference
-			left
-			90 - 49
-			405 - 689
+	/* x-y coord I recorded for self reference
+	left
+	90 - 49
+	405 - 689
 
-			mid
-			488 - 100
-			832 - 670
+	mid
+	488 - 100
+	832 - 670
 
-			right
-			876 - 56
-			1217 - 680
-			*/
-			if (menu == false){
-					//Hovering over melee hero
-					if ( (e.clientX >= 90 && e.clientX <= 405) && (e.clientY>=49 && e.clientY<=689) ){
-						selectBG.src = "art/heroscreenM.png";
-					}
+	right
+	876 - 56
+	1217 - 680
+	*/
+	if (menu == false){
+		//Hovering over melee hero
+		if ( (e.clientX >= 90 && e.clientX <= 405) && (e.clientY>=49 && e.clientY<=689) ){
+			selectBG.src = "art/heroscreenM.png";
+		}
 
-					//Hovering over gatherer hero
-					else if ( (e.clientX >= 488 && e.clientX <= 832) && (e.clientY>=100 && e.clientY<=670) ){
-						selectBG.src = "art/heroscreenG.png";
-					}
+		//Hovering over gatherer hero
+		else if ( (e.clientX >= 488 && e.clientX <= 832) && (e.clientY>=100 && e.clientY<=670) ){
+			selectBG.src = "art/heroscreenG.png";
+		}
 
-					//Hovering over ranged hero
-					else if ( (e.clientX >= 876 && e.clientX <= 1217) && (e.clientY>=56 && e.clientY<=680) ){
-						selectBG.src = "art/heroscreenR.png";
-					}
+		//Hovering over ranged hero
+		else if ( (e.clientX >= 876 && e.clientX <= 1217) && (e.clientY>=56 && e.clientY<=680) ){
+			selectBG.src = "art/heroscreenR.png";
+		}
 
-					else{
-						selectBG.src = "art/heroscreen.png";
-					}
-			}
+		else{
+			selectBG.src = "art/heroscreen.png";
+		}
+	}
 }
 
 function choose(e){
@@ -381,23 +371,22 @@ function choose(e){
 	hero false means it hasn't been selected
 	*/
 	if (menu==false && hero==false){
-			//select melee
-			if ( (e.clientX >= 90 && e.clientX <= 405) && (e.clientY>=49 && e.clientY<=689) ){
-				selectHero = "melee";
-				hero = true;
-			}
-			//select gatherer
-			else if ( (e.clientX >= 488 && e.clientX <= 832) && (e.clientY>=100 && e.clientY<=670) ){
-				selectHero = "gatherer";
-				hero = true;
-			}
+		//select melee
+		if ( (e.clientX >= 90 && e.clientX <= 405) && (e.clientY>=49 && e.clientY<=689) ){
+			selectHero = "melee";
+			hero = true;
+		}
+		//select gatherer
+		else if ( (e.clientX >= 488 && e.clientX <= 832) && (e.clientY>=100 && e.clientY<=670) ){
+			selectHero = "gatherer";
+			hero = true;
+		}
 
-			//Hovering over ranged hero
-			else if ( (e.clientX >= 876 && e.clientX <= 1217) && (e.clientY>=56 && e.clientY<=680) ){
-				selectHero = "ranged";
-				hero = true;
-			}
-
+		//Hovering over ranged hero
+		else if ( (e.clientX >= 876 && e.clientX <= 1217) && (e.clientY>=56 && e.clientY<=680) ){
+			selectHero = "ranged";
+			hero = true;
+		}
 	}
 }
 
@@ -589,17 +578,6 @@ gathererSprt = Game.createSprite({
 	numFrames: ALLY.GATHERER.frames,
 	ticksPerFrame: ALLY.GATHERER.tpf
 });
-/*
-var pGatherer = new Image();
-pGatherer.X = 920;
-pGatherer.Y = 200;
-pGatherer.width = 80;
-pGatherer.height = 160;
-pGatherer.name = "pGatherer";
-pGatherer.src = "art/ally_gatherer_female.png";
-pGatherer.act = false;
-pGatherer.state = "go";
-*/
 
 //Named as playerMelee
 ALLY.MELEE.img = Game.createImage(
@@ -619,20 +597,6 @@ meleeSprt = Game.createSprite({
 	numFrames: ALLY.MELEE.frames,
 	ticksPerFrame: ALLY.MELEE.tpf
 });
-
-/*
- var pMelee = new Image();
- pMelee.src = "art/walkTest.png";
- pMelee.name = "pMelee";
- pMelee.health = 100;
- pMelee.dmg = 15;
- pMelee.width = 80;
- pMelee.height = 160;
- pMelee.X = 1000;
- pMelee.Y = 1000;
- pMelee.act = false;
- pMelee.dead = false;
- */
 
 //player ranged
 ALLY.RANGED.img = Game.createImage(
@@ -656,23 +620,6 @@ rangedSprt = Game.createSprite({
 ALLY.RANGED.weapon = Game.createWeapon({
 	type: createArrow(ALLY.RANGED, ENEMY.MELEE, ENEMY.RANGED, 70, 10, 12)
 });
-
-/*
-var pRanged = new Image();
-pRanged.src = "art/a_r_f_UpdatedSheet.png";
-pRanged.name = "pRanged";
-pRanged.health = 70;
-pRanged.dmg = 30;
-pRanged.width = 90;
-pRanged.height = 160;
-pRanged.X = 1000 + pRanged.width;
-pRanged.Y = ALLY.MELEE.img.dy;
-pRanged.act = false;
-pRanged.dead = false;
-pRanged.createArrow = function() {
-    return new Arrow(pRanged, eMelee, eRanged, 70, 10, 12);
-}
-*/
 
 // enemy melee
 ENEMY.MELEE.img = Game.createImage(
@@ -715,37 +662,6 @@ rEnemySprt = Game.createSprite({
 ENEMY.RANGED.weapon = Game.createWeapon({
 	type: createArrow(ENEMY.RANGED, ALLY.MELEE, ALLY.RANGED, 70, 10, -7)
 });
-
-/*
-var eMelee = new Image();
-eMelee.name = "eMelee";
-eMelee.src = "art/badmeleeF.png";
-eMelee.dmg = 15;
-eMelee.health = 100;
-eMelee.width = 80;
-eMelee.height = 160;
-eMelee.X = 110;
-eMelee.Y = canvas.height-waterCont.height-50;
-eMelee.act = false;
-eMelee.dead = false;
-
-//enemy ranged
-var eRanged = new Image();
-eRanged.name = "eRanged";
-eRanged.src = "art/badrangeF.png";
-eRanged.health = 70;
-ALLY.RANGED.damage = 30;
-eRanged.width = 90;
-eRanged.height = 160;
-eRanged.X = 0;
-eRanged.Y = canvas.height-waterCont.height-50;
-eRanged.act = false;
-eRanged.dead = false;
-eRanged.advance = true;
-eRanged.createArrow = function() {
-    return new Arrow(eRanged, ALLY.MELEE, ALLY.RANGED, 70, 10, -7);
-}
-*/
 // ^^^ UNITS END HERE
 
 
@@ -781,35 +697,35 @@ function Arrow(from, enemy, enemy2, width, height, xSpeed) {
     this.height = height;
     this.xSpeed = xSpeed;
 
-//arrow sound effects
+	//arrow sound effects
     var arrowpew=document.getElementById('arrowpew'); //input arrow pew sounds
     var arrowcounter=0; //arrow pew pew counter
     var arrowpewPlayed = false;
 
     if (from == ALLY.RANGED){
-      var bulletImg = new Image();
-      bulletImg.src = "art/arrow.png";
+		var bulletImg = new Image();
+      	bulletImg.src = "art/arrow.png";
     }
     if (from == ENEMY.RANGED){
-      var bulletImg = new Image();
-      bulletImg.src = "art/fliprow.png";
+      	var bulletImg = new Image();
+      	bulletImg.src = "art/fliprow.png";
     }
 
     this.draw = function() {
 
-//arrow shooting sounds in action//
+		//arrow shooting sounds in action//
         if(!arrowpewPlayed){ //plays it if it isn't played just in case
-          arrowpew.currentTime = 0;
-          arrowpew.play();
-          arrowpewPlayed = true;
+			arrowpew.currentTime = 0;
+          	arrowpew.play();
+          	arrowpewPlayed = true;
         }
 
         if (arrowpew.ended){
-          arrowcounter+=0.05;
-          if(arrowcounter>=4){ //timer for the arrows to come out
-            arrowpew.play();
-            arrowcounter=0;
-          }
+          	arrowcounter+=0.05;
+          	if(arrowcounter>=4){ //timer for the arrows to come out
+            	arrowpew.play();
+            	arrowcounter=0;
+          	}
         }
         ctx.drawImage(bulletImg, this.x, this.y, this.width, this.height);
     };
@@ -823,391 +739,380 @@ function Arrow(from, enemy, enemy2, width, height, xSpeed) {
     };
 
     this.update = function() {
-      //if fired from friendly unit
-      if (from == ALLY.RANGED){
-        if (this.x < 0 || this.x < enemy.img.dx + enemy.img.width ||
-            this.x < enemy2.img.dx + enemy2.img.width) {
-            this.x = from.img.dx + from.img.width / 2;
-            this.y = from.img.dy + from.img.height / 2;
-        }
-        else {
-            this.x -= this.xSpeed;
-        }
-      }
-      //if fired from hostile enemy
-      if (from == ENEMY.RANGED){
-        if (this.x > canvas.width || this.x > enemy.img.dx + enemy.img.width ||
-            this.x > enemy2.img.dx + enemy2.img.width) {
-            this.x = from.img.dx + from.img.width / 2;
-            this.y = from.img.dy + from.img.height / 2;
-        }
-        else {
-            this.x -= this.xSpeed;
-        }
-      }
-
-    };
+      	//if fired from friendly unit
+      	if (from == ALLY.RANGED){
+        	if (this.x < 0 || this.x < enemy.img.dx + enemy.img.width ||
+            						this.x < enemy2.img.dx + enemy2.img.width){
+            	this.x = from.img.dx + from.img.width / 2;
+            	this.y = from.img.dy + from.img.height / 2;
+        	}
+        	else
+				this.x -= this.xSpeed;
+		}
+      	//if fired from hostile enemy
+      	if (from == ENEMY.RANGED) {
+			if (this.x > canvas.width || this.x > enemy.img.dx + enemy.img.width ||
+				this.x > enemy2.img.dx + enemy2.img.width) {
+				this.x = from.img.dx + from.img.width / 2;
+				this.y = from.img.dy + from.img.height / 2;
+			}
+			else
+				this.x -= this.xSpeed;
+		}
+    }
 }
 
 function createArrow(owner, enemy1, enemy2, w, h, vx) {
 	return new Arrow(owner, enemy1, enemy2, w, h, vx);
-};
-
-//Should call stuff from the working.js to grab functions that calculate damage and resource.
-//var pArrow = ALLY.RANGED.createArrow();
-//var eArrow = ENEMY.RANGED.createArrow();
+}
 
 function update(){
 
 	for(var i = 0; i < particles.length; i++){
-  	var particle = particles[i];
-    particle.y = particle.y+particle.speed;
+		var particle = particles[i];
+		particle.y = particle.y+particle.speed;
 
-    if(particle.y > canvas.height){
-    	particle.y = 0;
-      particle.x = Math.random()*canvas.width;
-    }
-    particle.y += particle.radius*0.3;
-  }
-
-		//water stuck lowest as 0
-		if (water <= 0){
-			state = "lose";
-			water = 0;
+		if(particle.y > canvas.height) {
+			particle.y = 0;
+		  	particle.x = Math.random()*canvas.width;
 		}
+		particle.y += particle.radius*0.3;
+	}
 
-		//filler
-		if (menu == true){
+	//water stuck lowest as 0
+	if (water <= 0){
+		state = "lose";
+		water = 0;
+	}
+
+	//filler
+	if (menu == true){
 		//console.log(mouseYpos);
 		//console.log(mouseXpos);
+	}
+
+	//game state disabled from messing with menu
+	if (menu == false){
+		//timer thing
+		countDownValue = currentCountDown();
+
+		//get time in ms and convert to seconds
+		//floor it too
+		nowtime = Math.floor( ((countDownValue/1000) % 60) );
+
+		//Spawn the first wave!
+		//Once timer reaches 0
+		if (nowtime <= 0){
+			nowtime = 0;
+			ENEMY.MELEE.state = 'walking';
+			ENEMY.RANGED.state = 'walking';
 		}
 
-		//game state disabled from messing with menu
-		if (menu == false){
-						//timer thing
-						countDownValue = currentCountDown();
-
-						//get time in ms and convert to seconds
-						//floor it too
-						nowtime = Math.floor( ((countDownValue/1000) % 60) );
-
-						//Spawn the first wave!
-						//Once timer reaches 0
-						if (nowtime <= 0){
-							nowtime = 0;
-							ENEMY.MELEE.state = 'walking';
-							ENEMY.RANGED.state = 'walking';
-						}
-
-						//update player playerPortrait
-						if (selectHero == "melee"){
-								playerPortrait.src = "art/meleePortrait.png";
-						}
-						if (selectHero == "gatherer"){
-								playerPortrait.src = "art/gathererPortrait.png";
-						}
-						if (selectHero == "ranged"){
-								playerPortrait.src = "art/rangedPortrait.png";
-						}
-
-		        //call this to check if we're losing water
-		        takeWater(waterCont, ENEMY.MELEE);
-		        takeWater(waterCont, ENEMY.RANGED);
-
-		        //combat
-		        //call these to check if arrows are hitting
-		        //hitProj(bullet, target dood)
-		        hitProj(ENEMY.RANGED.weapon.type, ALLY.RANGED);
-		        hitProj(ENEMY.RANGED.weapon.type, ALLY.MELEE);
-		        hitProj(ALLY.RANGED.weapon.type,  ENEMY.MELEE);
-		        hitProj(ALLY.RANGED.weapon.type,  ENEMY.RANGED);
-
-		        //call this to get water with gatherer
-		        //gatherWater(pGatherer);
-
-		        if (ALLY.RANGED.state !== 'dead' && ALLY.RANGED.state !== 'inactive'){
-					ALLY.RANGED.weapon.type.update();
-		        }
-
-		        if (ENEMY.RANGED.state !== 'dead' && ENEMY.RANGED.state !== 'inactive'){
-					ENEMY.RANGED.weapon.type.update();
-		        }
-
-		        //friendly unit movement
-		        if(ALLY.GATHERER.state !== 'inactive'){
-					if (ALLY.GATHERER.state === 'walking'){
-						ALLY.GATHERER.img.dx -= 5;
-						gathererSprt.update();
-						//call this to get water with gatherer
-						gatherWater(ALLY.GATHERER);
-
-						//forward
-						if (ALLY.GATHERER.img.dx < -20){
-							ALLY.GATHERER.state = 'back';
-						}
-					}
-					else if (ALLY.GATHERER.state === 'back'){
-						ALLY.GATHERER.img.dx += 5;
-						//state management
-						if (ALLY.GATHERER.img.dx > canvas.width + 20){
-							ALLY.GATHERER.state = 'walking';
-						}
-					}
-		        }
-
-		        if (ALLY.MELEE.state !== 'dead'){
-					ALLY.MELEE.img.dx -= 5;
-					meleeSprt.update();
-		        }
-
-		        if (ALLY.RANGED.state !== 'inactive' && ALLY.RANGED.img.dx > 700 && ALLY.RANGED.state !== 'dead'){
-					ALLY.RANGED.img.dx -= 5;
-					rangedSprt.update();
-		        }
-
-		        //enemy unit movement
-		        if (ENEMY.MELEE.state !== 'inactive' && ENEMY.MELEE.state !== 'dead'){
-					ENEMY.MELEE.img.dx += 5;
-					mEnemySprt.update();
-		        }
-
-		        if (ENEMY.RANGED.state !== 'inactive' && ENEMY.RANGED.state !== 'dead'){
-		          checkEnemyRange(ENEMY.RANGED, ALLY.MELEE);
-		          checkEnemyRange(ENEMY.RANGED, ALLY.RANGED);
-		          if (ENEMY.RANGED.state === 'walking'){
-					  ENEMY.RANGED.img.dx += 5;
-					  rEnemySprt.update();
-		          }
-		        }
-
-		        //melee combat
-		        //checkCombat (friendly, enemy)
-		        if (ALLY.MELEE.state !== 'dead' && ENEMY.RANGED.state !== 'inactive'){
-		          checkCombat(ALLY.MELEE, ENEMY.RANGED); //melee vs ranged
-		        }
-		        if (ALLY.MELEE.state !== 'dead' && ENEMY.MELEE.state !== 'inactive'){
-		          checkCombat(ALLY.MELEE, ENEMY.MELEE); //melee vs melee
-		        }
-		        if (ALLY.RANGED.state !== 'inactive' && ENEMY.MELEE.state !== 'inactive'){
-		          checkCombat(ALLY.RANGED, ENEMY.MELEE); //ranged vs melee
-		        }
-		        if (ALLY.RANGED.state !== 'inactive' && ENEMY.RANGED.state !== 'inactive'){
-		          checkCombat(ALLY.RANGED, ENEMY.RANGED); //ranged vs ranged
-		        }
-
-						//win condition
-						if (rekt == winNum){
-								state = "win";
-						}
-		  }
-
-		backgroundbattle.play(); //repeats song
-
+		//update player playerPortrait
+		if (selectHero == "melee"){
+			playerPortrait.src = "art/meleePortrait.png";
+		}
+		if (selectHero == "gatherer"){
+			playerPortrait.src = "art/gathererPortrait.png";
+		}
+		if (selectHero == "ranged"){
+			playerPortrait.src = "art/rangedPortrait.png";
 		}
 
-		//Show the player what they need to see
-		function draw(){
+		//call this to check if we're losing water
+		takeWater(waterCont, ENEMY.MELEE);
+		takeWater(waterCont, ENEMY.RANGED);
 
-		//clear the canvas
-		if (menu == true && hero==false){
-			canvas.width = canvas.width;
-		  //draw menu background
-		  //current placeholder a rectangle
-		  ctx.drawImage(titleBG, 0,0,canvas.width,canvas.height);
+		//combat
+		//call these to check if arrows are hitting
+		//hitProj(bullet, target dood)
+		hitProj(ENEMY.RANGED.weapon.type, ALLY.RANGED);
+		hitProj(ENEMY.RANGED.weapon.type, ALLY.MELEE);
+		hitProj(ALLY.RANGED.weapon.type,  ENEMY.MELEE);
+		hitProj(ALLY.RANGED.weapon.type,  ENEMY.RANGED);
 
-			//water drop
-			for(var i = 0; i < particles.length; i++){
-		  	var particle = particles[i];
-		    ctx.drawImage(teardropbloop, particle.x, particle.y, 25, 50);
-		  }
+		//call this to get water with gatherer
+		//gatherWater(pGatherer);
 
-		  //Play
-		  ctx.font="50px Georgia";
-		  ctx.fillStyle = "white";
-		  ctx.fillText("Play", canvas.width/2-80, canvas.height/2+180);
-		  ctx.fillText("Options", canvas.width/2-80, canvas.height/2+250);
-		  ctx.fillText("Exit", canvas.width/2-80, canvas.height/2+320);
+		if (ALLY.RANGED.state !== 'dead' && ALLY.RANGED.state !== 'inactive'){
+			ALLY.RANGED.weapon.type.update();
 		}
 
-		if (menu == false && hero==false){
-
-			ctx.drawImage(selectBG, 0,0,canvas.width,canvas.height);
+		if (ENEMY.RANGED.state !== 'dead' && ENEMY.RANGED.state !== 'inactive'){
+			ENEMY.RANGED.weapon.type.update();
 		}
 
-		/*
-		Updates are in progress at the moment
-		*/
-		else if (menu == false && hero==true && state == null){
-					canvas.width = canvas.width;
+		//friendly unit movement
+		if(ALLY.GATHERER.state !== 'inactive'){
+			if (ALLY.GATHERER.state === 'walking'){
+				ALLY.GATHERER.img.dx -= 5;
+				gathererSprt.update();
+				//call this to get water with gatherer
+				gatherWater(ALLY.GATHERER);
 
-		      //main background
-		      ctx.drawImage(bg,0,0, canvas.width, canvas.height);
+				//forward
+				if (ALLY.GATHERER.img.dx < -20){
+					ALLY.GATHERER.state = 'back';
+				}
+			}
+			else if (ALLY.GATHERER.state === 'back'){
+				ALLY.GATHERER.img.dx += 5;
+				//state management
+				if (ALLY.GATHERER.img.dx > canvas.width + 20){
+					ALLY.GATHERER.state = 'walking';
+				}
+			}
+		}
 
-		      //Draw the amount of water the player has and playerPortrait
-		      ctx.drawImage(waterIcon, waterIcon.X, waterIcon.Y+10, waterIcon.width, waterIcon.height);
-		      ctx.drawImage(playerPortrait, playerPortrait.X, playerPortrait.Y, playerPortrait.width, playerPortrait.height);
+		if (ALLY.MELEE.state !== 'dead'){
+			ALLY.MELEE.img.dx -= 5;
+			meleeSprt.update();
+		}
 
-		      //amount of water rectangle
-		      ctx.fillStyle = "#33ccff";
-		      ctx.fillRect(waterIcon.X+waterIcon.width, waterIcon.Y+(waterIcon.height/2), water*2, 25);
+		if (ALLY.RANGED.state !== 'inactive' && ALLY.RANGED.img.dx > 700 && ALLY.RANGED.state !== 'dead'){
+			ALLY.RANGED.img.dx -= 5;
+			rangedSprt.update();
+		}
 
-		      //white text
-		      ctx.font="20px Georgia";
-		      ctx.fillStyle="white";
-		      ctx.fillText(water, waterIcon.X+170, waterIcon.Y+(waterIcon.height-30));
+		//enemy unit movement
+		if (ENEMY.MELEE.state !== 'inactive' && ENEMY.MELEE.state !== 'dead'){
+			ENEMY.MELEE.img.dx += 5;
+			mEnemySprt.update();
+		}
 
-		      //character icons
-		      ctx.drawImage(bGatherer, bGatherer.X, bGatherer.Y, bGatherer.width, bGatherer.height);
-		      ctx.drawImage(bMelee, bMelee.X, bMelee.Y, bMelee.width, bMelee.height);
-		      ctx.drawImage(bRanged, bRanged.X, bRanged.Y, bMelee.width, bMelee.height);
-		      ctx.font="32px Georgia";
-		      ctx.fillStyle="black";
-		      ctx.fillText(bGatherer.count, bGatherer.X+73, bGatherer.Y+91);
-		      ctx.fillText(bMelee.count, bMelee.X+73, bMelee.Y+91);
-		      ctx.fillText(bRanged.count, bRanged.X+73, bRanged.Y+91);
+		if (ENEMY.RANGED.state !== 'inactive' && ENEMY.RANGED.state !== 'dead'){
+			checkEnemyRange(ENEMY.RANGED, ALLY.MELEE);
+			checkEnemyRange(ENEMY.RANGED, ALLY.RANGED);
+			if (ENEMY.RANGED.state === 'walking'){
+				ENEMY.RANGED.img.dx += 5;
+				rEnemySprt.update();
+			}
+		}
 
-		      //Melee image and health
-		      if (ALLY.MELEE.state !== 'dead'){
-			  	meleeSprt.draw();
-		        //ctx.drawImage(pMelee, pMelee.X, pMelee.Y, pMelee.width, pMelee.height);
-		        ctx.fillStyle = "red";
-		        ctx.fillRect(ALLY.MELEE.img.dx, ALLY.MELEE.img.dy + ALLY.MELEE.img.height, ALLY.MELEE.health*0.75, 15);
-		      }
+		//melee combat
+		//checkCombat (friendly, enemy)
+		if (ALLY.MELEE.state !== 'dead' && ENEMY.RANGED.state !== 'inactive'){
+		  	checkCombat(ALLY.MELEE, ENEMY.RANGED); //melee vs ranged
+		}
+		if (ALLY.MELEE.state !== 'dead' && ENEMY.MELEE.state !== 'inactive'){
+		  	checkCombat(ALLY.MELEE, ENEMY.MELEE); //melee vs melee
+		}
+		if (ALLY.RANGED.state !== 'inactive' && ENEMY.MELEE.state !== 'inactive'){
+		  	checkCombat(ALLY.RANGED, ENEMY.MELEE); //ranged vs melee
+		}
+		if (ALLY.RANGED.state !== 'inactive' && ENEMY.RANGED.state !== 'inactive'){
+		  	checkCombat(ALLY.RANGED, ENEMY.RANGED); //ranged vs ranged
+		}
 
-		      //Ranged image and health
-		      if (ALLY.RANGED.state !== 'dead' && ALLY.RANGED.state !== 'inactive'){
-				  rangedSprt.draw();
-				  //ctx.drawImage(pRanged, pRanged.X, pRanged.Y, pRanged.width, pRanged.height);
-				  ALLY.RANGED.weapon.type.y = ALLY.RANGED.img.dy + ALLY.RANGED.img.height/4 + 14;
-				  ALLY.RANGED.weapon.type.draw();
-				  ctx.fillStyle = "red";
-				  ctx.fillRect(ALLY.RANGED.img.dx, ALLY.RANGED.img.dy + ALLY.RANGED.img.height, ALLY.RANGED.health*0.75, 15);
-		      }
+		//win condition
+		if (rekt == winNum){
+			state = "win";
+		}
+	}
+	backgroundbattle.play(); //repeats song
+}
 
-		      if (ALLY.GATHERER.state !== 'inactive'){
-		          //Gatherer image
-				  gathererSprt.draw();
-				  //ctx.drawImage(ALLY.GATHERER, ALLY.GATHERER.img.dx, ALLY.GATHERER.img.dy, ALLY.GATHERER.img.width, ALLY.GATHERER.img.height);
-		      }
+//Show the player what they need to see
+function draw(){
 
-		      //Enemy melee image and health
-		      if (ENEMY.MELEE.state !== 'dead' && ENEMY.MELEE.state !== 'inactive'){
-				  mEnemySprt.draw();
-		          //ctx.drawImage(eMelee, eMelee.X, eMelee.Y, eMelee.width, eMelee.height);
-		          ctx.fillStyle = "red";
-		          ctx.fillRect(ENEMY.MELEE.img.dx, ENEMY.MELEE.img.dy + ENEMY.MELEE.img.height, ENEMY.MELEE.health*0.75, 15);
-		      }
+	if (menu == true && hero == false){
 
-		      //Enemy ranged image and health
-		      if (ENEMY.RANGED.state !== 'dead' && ENEMY.RANGED.state !== 'inactive'){
-				  rEnemySprt.draw();
-				  //ctx.drawImage(eRanged, eRanged.X, eRanged.Y, eRanged.width, eRanged.height);
-				  ENEMY.RANGED.weapon.type.draw();
-				  ctx.fillStyle = "red";
-				  ctx.fillRect(ENEMY.RANGED.img.dx, ENEMY.RANGED.img.dy + ENEMY.RANGED.img.height, ENEMY.RANGED.health*0.75, 15);
-		      }
-					//recruitment
-					if(recruitmentActive == true){
-						ctx.drawImage(recruitment, recruitment.X, recruitment.Y, recruitment.width, recruitment.height);
+		canvas.width = canvas.width;
 
-						ctx.drawImage(recruitmentOne, recruitmentOne.X, recruitmentOne.Y, recruitmentOne.width, recruitmentOne.height);
-						ctx.drawImage(recruitmentTwo, recruitmentTwo.X, recruitmentTwo.Y, recruitmentTwo.width, recruitmentTwo.height);
-						ctx.drawImage(recruitmentThree, recruitmentThree.X, recruitmentThree.Y, recruitmentThree.width, recruitmentThree.height);
+	    //draw menu background
+	    //current placeholder a rectangle
+	    ctx.drawImage(titleBG, 0,0,canvas.width,canvas.height);
 
-						ctx.fillStyle = "green";
-						ctx.fillRect(recruitGatherer.X, recruitGatherer.Y, recruitGatherer.width, recruitGatherer.height);
-						ctx.fillRect(recruitMelee.X, recruitMelee.Y, recruitMelee.width, recruitMelee.height);
-						ctx.fillRect(recruitRange.X, recruitRange.Y, recruitRange.width, recruitRange.height);
-						ctx.font="14px Georgia"
-						ctx.fillStyle="black";
-						ctx.fillText("New", recruitGatherer.X+10, recruitGatherer.Y+20);
-						ctx.fillText("New", recruitMelee.X+10, recruitMelee.Y+20);
-						ctx.fillText("New", recruitRange.X+10, recruitRange.Y+20);
+		//water drop
+		for(var i = 0; i < particles.length; i++){
+			var particle = particles[i];
+			ctx.drawImage(teardropbloop, particle.x, particle.y, 25, 50);
+	  	}
 
-						ctx.fillText("Gatherer", recruitGatherer.X+10, recruitGatherer.Y+38);
-						ctx.fillText("Melee", recruitMelee.X+10, recruitMelee.Y+38);
-						ctx.fillText("Ranged", recruitRange.X+10, recruitRange.Y+38);
+	    //Play
+	    ctx.font="50px Georgia";
+	    ctx.fillStyle = "white";
+	    ctx.fillText("Play", canvas.width/2-80, canvas.height/2+180);
+	    ctx.fillText("Options", canvas.width/2-80, canvas.height/2+250);
+	    ctx.fillText("Exit", canvas.width/2-80, canvas.height/2+320);
+	}
 
-						ctx.font = "12px Georgia";
-						ctx.fillText("Cost: 20 Water", recruitGatherer.X+10, recruitGatherer.Y+55);
-						ctx.fillText("Cost: 10 Water", recruitMelee.X+10, recruitMelee.Y+55);
-						ctx.fillText("Cost: 10 Water", recruitRange.X+10, recruitRange.Y+55);
+	else if (menu == false && hero==false){
+		ctx.drawImage(selectBG, 0,0,canvas.width,canvas.height);
+	}
 
-					}
+	/*
+	Updates are in progress at the moment
+	*/
+	else if (menu == false && hero==true && state == null){
+		canvas.width = canvas.width;
 
-					//open UI
-					ctx.drawImage(recruitmentButton, recruitmentButton.X,recruitmentButton.Y,recruitmentButton.width,recruitmentButton.height);
+		//main background
+		ctx.drawImage(bg,0,0, canvas.width, canvas.height);
 
+		//Draw the amount of water the player has and playerPortrait
+		ctx.drawImage(waterIcon, waterIcon.X, waterIcon.Y+10, waterIcon.width, waterIcon.height);
+		ctx.drawImage(playerPortrait, playerPortrait.X, playerPortrait.Y, playerPortrait.width, playerPortrait.height);
 
+		//amount of water rectangle
+		ctx.fillStyle = "#33ccff";
+		ctx.fillRect(waterIcon.X+waterIcon.width, waterIcon.Y+(waterIcon.height/2), water*2, 25);
 
+		//white text
+		ctx.font="20px Georgia";
+		ctx.fillStyle="white";
+		ctx.fillText(water, waterIcon.X+170, waterIcon.Y+(waterIcon.height-30));
 
-		      //upgrade UI button
-		      ctx.font="18px Georgia";
-		      ctx.fillStyle="black";
+		//character icons
+		ctx.drawImage(bGatherer, bGatherer.X, bGatherer.Y, bGatherer.width, bGatherer.height);
+		ctx.drawImage(bMelee, bMelee.X, bMelee.Y, bMelee.width, bMelee.height);
+		ctx.drawImage(bRanged, bRanged.X, bRanged.Y, bMelee.width, bMelee.height);
+		ctx.font="32px Georgia";
+		ctx.fillStyle="black";
+		ctx.fillText(bGatherer.count, bGatherer.X+73, bGatherer.Y+91);
+		ctx.fillText(bMelee.count, bMelee.X+73, bMelee.Y+91);
+		ctx.fillText(bRanged.count, bRanged.X+73, bRanged.Y+91);
 
-					//Timer display
-					ctx.fillText("Wave 1 in " + nowtime + "s", uiIcon.X+12, uiIcon.Y-15 );
+		//Melee image and health
+		if (ALLY.MELEE.state !== 'dead'){
+			meleeSprt.draw();
+			//ctx.drawImage(pMelee, pMelee.X, pMelee.Y, pMelee.width, pMelee.height);
+			ctx.fillStyle = "red";
+			ctx.fillRect(ALLY.MELEE.img.dx, ALLY.MELEE.img.dy + ALLY.MELEE.img.height, ALLY.MELEE.health*0.75, 15);
+		}
 
-		      if(uiActive == false){
-		        ctx.fillText("Upgrade", uiIcon.X+15, uiIcon.Y+22);
-		      }else{
-		        ctx.fillText("Close", uiIcon.X+15, uiIcon.Y+22);
+		//Ranged image and health
+		if (ALLY.RANGED.state !== 'dead' && ALLY.RANGED.state !== 'inactive'){
+			rangedSprt.draw();
+			//ctx.drawImage(pRanged, pRanged.X, pRanged.Y, pRanged.width, pRanged.height);
+			ALLY.RANGED.weapon.type.y = ALLY.RANGED.img.dy + ALLY.RANGED.img.height/4 + 14;
+			ALLY.RANGED.weapon.type.draw();
+			ctx.fillStyle = "red";
+			ctx.fillRect(ALLY.RANGED.img.dx, ALLY.RANGED.img.dy + ALLY.RANGED.img.height, ALLY.RANGED.health*0.75, 15);
+		}
 
-		        ctx.drawImage(uiBackground, uiBackground.X, uiBackground.Y, uiBackground.width, uiBackground.height);
-		        //drawing the current attack skill level
-		        if(atkUi == 1){
-		        ctx.drawImage(uiButtonOne, 575, 235, uiButtonOne.width, uiButtonOne.height);
-		        }else if(atkUi == 2){
-		        ctx.drawImage(uiButtonTwo, 575, 235, uiButtonOne.width, uiButtonOne.height);
-		        }else if(atkUi == 3){
-		        ctx.drawImage(uiButtonThree, 575, 235, uiButtonOne.width, uiButtonOne.height);
-		        }else{
-		        ctx.drawImage(uiButtonFour, 575, 235, uiButtonOne.width, uiButtonOne.height);
-		        }
-		        //drawing the current def skill level
-		        if(defUi == 1){
-		        ctx.drawImage(uiButtonOne, 575, 345, uiButtonOne.width, uiButtonOne.height);
-		        }else if(defUi == 2){
-		        ctx.drawImage(uiButtonTwo, 575, 345, uiButtonOne.width, uiButtonOne.height);
-		        }else if(defUi == 3){
-		        ctx.drawImage(uiButtonThree, 575, 345, uiButtonOne.width, uiButtonOne.height);
-		        }else{
-		        ctx.drawImage(uiButtonFour, 575, 345, uiButtonOne.width, uiButtonOne.height);
-		        }
-		        //drawing the current spd skill level
-		        if(spdUi == 1){
-		        	ctx.drawImage(uiButtonOne, 575, 460, uiButtonOne.width, uiButtonOne.height);
-		        }
-						else if(spdUi == 2){
-		        	ctx.drawImage(uiButtonTwo, 575, 460, uiButtonOne.width, uiButtonOne.height);
-		        }
-						else if(spdUi == 3){
-		        	ctx.drawImage(uiButtonThree, 575, 460, uiButtonOne.width, uiButtonOne.height);
-		        }
-						else{
-		        	ctx.drawImage(uiButtonFour, 575, 460, uiButtonOne.width, uiButtonOne.height);
-		        }
-		        //draw in tier
-		        ctx.font="72px Georgia";
-		        ctx.fillStyle="black";
-		        ctx.fillText(" "+tierUi, 510, 125);
-		      }
+		if (ALLY.GATHERER.state !== 'inactive'){
+			//Gatherer image
+			gathererSprt.draw();
+			//ctx.drawImage(ALLY.GATHERER, ALLY.GATHERER.img.dx, ALLY.GATHERER.img.dy, ALLY.GATHERER.img.width, ALLY.GATHERER.img.height);
+		}
 
-		      //water container
-		      ctx.drawImage(waterCont, waterCont.X, waterCont.Y, waterCont.width, waterCont.height);
+		//Enemy melee image and health
+		if (ENEMY.MELEE.state !== 'dead' && ENEMY.MELEE.state !== 'inactive'){
+			mEnemySprt.draw();
+			//ctx.drawImage(eMelee, eMelee.X, eMelee.Y, eMelee.width, eMelee.height);
+			ctx.fillStyle = "red";
+			ctx.fillRect(ENEMY.MELEE.img.dx, ENEMY.MELEE.img.dy + ENEMY.MELEE.img.height, ENEMY.MELEE.health*0.75, 15);
+		}
+
+		//Enemy ranged image and health
+		if (ENEMY.RANGED.state !== 'dead' && ENEMY.RANGED.state !== 'inactive'){
+			rEnemySprt.draw();
+			//ctx.drawImage(eRanged, eRanged.X, eRanged.Y, eRanged.width, eRanged.height);
+			ENEMY.RANGED.weapon.type.draw();
+			ctx.fillStyle = "red";
+			ctx.fillRect(ENEMY.RANGED.img.dx, ENEMY.RANGED.img.dy + ENEMY.RANGED.img.height, ENEMY.RANGED.health*0.75, 15);
+		}
+		//recruitment
+		if(recruitmentActive == true){
+			ctx.drawImage(recruitment, recruitment.X, recruitment.Y, recruitment.width, recruitment.height);
+
+			ctx.drawImage(recruitmentOne, recruitmentOne.X, recruitmentOne.Y, recruitmentOne.width, recruitmentOne.height);
+			ctx.drawImage(recruitmentTwo, recruitmentTwo.X, recruitmentTwo.Y, recruitmentTwo.width, recruitmentTwo.height);
+			ctx.drawImage(recruitmentThree, recruitmentThree.X, recruitmentThree.Y, recruitmentThree.width, recruitmentThree.height);
+
+			ctx.fillStyle = "green";
+			ctx.fillRect(recruitGatherer.X, recruitGatherer.Y, recruitGatherer.width, recruitGatherer.height);
+			ctx.fillRect(recruitMelee.X, recruitMelee.Y, recruitMelee.width, recruitMelee.height);
+			ctx.fillRect(recruitRange.X, recruitRange.Y, recruitRange.width, recruitRange.height);
+			ctx.font="14px Georgia"
+			ctx.fillStyle="black";
+			ctx.fillText("New", recruitGatherer.X+10, recruitGatherer.Y+20);
+			ctx.fillText("New", recruitMelee.X+10, recruitMelee.Y+20);
+			ctx.fillText("New", recruitRange.X+10, recruitRange.Y+20);
+
+			ctx.fillText("Gatherer", recruitGatherer.X+10, recruitGatherer.Y+38);
+			ctx.fillText("Melee", recruitMelee.X+10, recruitMelee.Y+38);
+			ctx.fillText("Ranged", recruitRange.X+10, recruitRange.Y+38);
+
+			ctx.font = "12px Georgia";
+			ctx.fillText("Cost: 20 Water", recruitGatherer.X+10, recruitGatherer.Y+55);
+			ctx.fillText("Cost: 10 Water", recruitMelee.X+10, recruitMelee.Y+55);
+			ctx.fillText("Cost: 10 Water", recruitRange.X+10, recruitRange.Y+55);
 
 		}
 
-			//draw win screen
-			else if (state == "win"){
-					ctx.drawImage(winImg, 0,0,canvas.width,canvas.height);
+		//open UI
+		ctx.drawImage(recruitmentButton, recruitmentButton.X,recruitmentButton.Y,recruitmentButton.width,recruitmentButton.height);
+
+		//upgrade UI button
+		ctx.font="18px Georgia";
+		ctx.fillStyle="black";
+
+		//Timer display
+		ctx.fillText("Wave 1 in " + nowtime + "s", uiIcon.X+12, uiIcon.Y-15 );
+
+		if(uiActive == false){
+			ctx.fillText("Upgrade", uiIcon.X+15, uiIcon.Y+22);
+		}else{
+			ctx.fillText("Close", uiIcon.X+15, uiIcon.Y+22);
+
+			ctx.drawImage(uiBackground, uiBackground.X, uiBackground.Y, uiBackground.width, uiBackground.height);
+			//drawing the current attack skill level
+			if(atkUi == 1){
+				ctx.drawImage(uiButtonOne, 575, 235, uiButtonOne.width, uiButtonOne.height);
+			}else if(atkUi == 2){
+				ctx.drawImage(uiButtonTwo, 575, 235, uiButtonOne.width, uiButtonOne.height);
+			}else if(atkUi == 3){
+				ctx.drawImage(uiButtonThree, 575, 235, uiButtonOne.width, uiButtonOne.height);
+			}else{
+				ctx.drawImage(uiButtonFour, 575, 235, uiButtonOne.width, uiButtonOne.height);
 			}
 
-			//draw lose screen
-			else if (state == "lose"){
-					ctx.drawImage(loseImg, 0,0,canvas.width,canvas.height);
+			//drawing the current def skill level
+			if(defUi == 1){
+				ctx.drawImage(uiButtonOne, 575, 345, uiButtonOne.width, uiButtonOne.height);
+			}else if(defUi == 2){
+				ctx.drawImage(uiButtonTwo, 575, 345, uiButtonOne.width, uiButtonOne.height);
+			}else if(defUi == 3){
+				ctx.drawImage(uiButtonThree, 575, 345, uiButtonOne.width, uiButtonOne.height);
+			}else{
+				ctx.drawImage(uiButtonFour, 575, 345, uiButtonOne.width, uiButtonOne.height);
 			}
 
+			//drawing the current spd skill level
+			if(spdUi == 1){
+				ctx.drawImage(uiButtonOne, 575, 460, uiButtonOne.width, uiButtonOne.height);
+			}
+			else if(spdUi == 2){
+				ctx.drawImage(uiButtonTwo, 575, 460, uiButtonOne.width, uiButtonOne.height);
+			}
+			else if(spdUi == 3){
+				ctx.drawImage(uiButtonThree, 575, 460, uiButtonOne.width, uiButtonOne.height);
+			}
+			else{
+				ctx.drawImage(uiButtonFour, 575, 460, uiButtonOne.width, uiButtonOne.height);
+			}
+
+			//draw in tier
+			ctx.font="72px Georgia";
+			ctx.fillStyle="black";
+			ctx.fillText(" "+tierUi, 510, 125);
+		}
+
+		//water container
+		ctx.drawImage(waterCont, waterCont.X, waterCont.Y, waterCont.width, waterCont.height);
+	}
+
+	//draw win screen
+	else if (state == "win"){
+		ctx.drawImage(winImg, 0,0,canvas.width,canvas.height);
+	}
+
+	//draw lose screen
+	else if (state == "lose"){
+		ctx.drawImage(loseImg, 0,0,canvas.width,canvas.height);
+	}
 }
 
 function main(){
